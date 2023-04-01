@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:falatu/modules/auth/auth_module.dart';
 import 'package:falatu/modules/chat/chat_module.dart';
 import 'package:falatu/shared/config/auth_routes.dart';
@@ -16,6 +17,7 @@ class AppModule extends Module {
   List<Bind> get binds => [
         // Put here yours EXTERNAL DEPENDENCIES
         Bind.factory<ImagePicker>((i) => ImagePicker()),
+    Bind.factory<FirebaseFirestore>((i) => FirebaseFirestore.instance),
       ];
 
   @override

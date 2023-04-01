@@ -1,5 +1,6 @@
+import 'package:falatu/modules/auth/ui/blocs/register_user_controller.dart';
 import 'package:falatu/shared/config/auth_routes.dart';
-import 'package:falatu/modules/auth/ui/controller/sign_up_controller.dart';
+import 'package:falatu/modules/auth/ui/blocs/sign_up_controller.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
@@ -8,12 +9,8 @@ class SignUpPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final firstNameController = TextEditingController();
-    final lastNameController = TextEditingController();
-    final emailController = TextEditingController();
-    final emailConfirmController = TextEditingController();
-    final passwodController = TextEditingController();
-    final passwodConfirmController = TextEditingController();
+    final register = context.watch<RegisterUserController>();
+
     return Scaffold(
       body: Center(
         child: Padding(
@@ -22,7 +19,7 @@ class SignUpPage extends StatelessWidget {
             mainAxisAlignment: MainAxisAlignment.center,
             children: [
               TextField(
-                controller: firstNameController,
+                controller: register.firstNameController,
               ),
               // //fist name
               // TextField(
@@ -34,7 +31,7 @@ class SignUpPage extends StatelessWidget {
               // ),
               //email
               TextField(
-                controller: emailConfirmController,
+                controller: register.emailConfirmController,
               ),
               // confirm email
               // TextField(
@@ -42,20 +39,24 @@ class SignUpPage extends StatelessWidget {
               // ),
               //password
               TextField(
-                controller: passwodConfirmController,
+                controller: register.passwodConfirmController,
               ),
 
               ElevatedButton(
-                onPressed: ()
-                { SignUpController().registerUser(
-                    emailConfirmController.text,
-                    passwodConfirmController.text,
-                    firstNameController.text);
+                onPressed: () {
+                  register(
+                    register.emailConfirmController.text,
+                    register.passwodConfirmController.text,
+                    register.firstNameController.text,
+                    register.lastNameController.text,
+                    register.userPhoto,
+                  );
 
                   //Push and replacement n funcionou os argumentos
-                  Modular.to.popAndPushNamed('${AuthRoutes.root}${AuthRoutes.login}', arguments: true);
+                  Modular.to.popAndPushNamed(
+                      '${AuthRoutes.root}${AuthRoutes.login}',
+                      arguments: true);
                 },
-
                 child: const Text('Registrar'),
               )
               //confirm password

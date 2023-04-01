@@ -105,6 +105,15 @@ packages:
       url: "https://pub.dev"
     source: hosted
     version: "1.3.1"
+  falatu_design_system:
+    dependency: "direct main"
+    description:
+      path: "."
+      ref: "0.0.1"
+      resolved-ref: "03216ab6afe16b8abb3b839987c3659368ef833f"
+      url: "https://github.com/LucasMonteir0/falatu_design_system.git"
+    source: git
+    version: "0.0.1"
   firebase_auth:
     dependency: "direct main"
     description:

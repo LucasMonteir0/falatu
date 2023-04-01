@@ -1,5 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
-import 'package:falatu/modules/auth/ui/controller/isign_up_controller.dart';
+import 'package:falatu/modules/auth/ui/blocs/isign_up_controller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class SignUpController implements ISignUpController {
@@ -16,6 +16,7 @@ class SignUpController implements ISignUpController {
       if (userCredential.user != null) {
         // Envia a verificacao de email
         userCredential.user!.sendEmailVerification();
+
 
         // Salve o usuário no Firestore
         await FirebaseFirestore.instance

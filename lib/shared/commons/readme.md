@@ -1,0 +1,1 @@
+módulo de arquivos comuns entre os outros modulos. Ex: UserModel e UserEntity
