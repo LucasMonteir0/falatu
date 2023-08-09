@@ -1,5 +1,5 @@
-import 'package:falatu/modules/app/app_module.dart';
-import 'package:falatu/modules/app/init_app.dart';
+import 'package:falatu/app/app_module.dart';
+import 'package:falatu/app/init_app.dart';
 import 'package:falatu/firebase_options.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
@@ -10,5 +10,10 @@ void main() async {
   await Firebase.initializeApp(
     options: DefaultFirebaseOptions.currentPlatform,
   );
-  runApp(ModularApp(module: AppModule(), child: const App()));
+  runApp(
+    ModularApp(
+      module: AppModule(),
+      child: const App(),
+    ),
+  );
 }

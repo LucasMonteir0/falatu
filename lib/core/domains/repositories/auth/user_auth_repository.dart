@@ -1,0 +1,6 @@
+abstract class AuthRepository<T> {
+
+  Future<String?> registerUser(String email, String password, String firstName, String lastName, String pictureUrl);
+  Future<bool> login(String email, String password);
+  Future<void> signOut();
+}
