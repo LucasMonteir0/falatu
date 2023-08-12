@@ -41,6 +41,7 @@ dependencies:
   flutter_modular: ^5.0.3
 
   #Utils Dependencies
+  intl: ^0.18.1
   equatable: ^2.0.5
   image_picker: ^1.0.2
   falatu_design_system:

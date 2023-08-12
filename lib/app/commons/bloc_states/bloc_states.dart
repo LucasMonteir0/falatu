@@ -3,12 +3,8 @@ import 'package:equatable/equatable.dart';
 abstract class BaseState extends Equatable {}
 
 class EmptyState extends BaseState {
-  final String? message;
-
-  EmptyState({this.message});
-
   @override
-  List<Object?> get props => [message];
+  List<Object?> get props => [];
 }
 
 class LoadingState extends BaseState {

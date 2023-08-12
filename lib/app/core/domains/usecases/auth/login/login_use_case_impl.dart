@@ -7,7 +7,7 @@ class LoginUseCaseImpl implements LoginUseCase{
   LoginUseCaseImpl(this._repository);
 
   @override
-  Future<bool> login(String email, String password) {
+  Future<String> login(String email, String password) {
     return _repository.login(email, password);
   }
 }

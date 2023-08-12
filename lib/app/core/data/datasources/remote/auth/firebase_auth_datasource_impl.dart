@@ -53,17 +53,15 @@ class FirebaseAuthDatasourceImpl implements AuthDatasource {
   }
 
   @override
-  Future<bool> login(String email, String password) async {
+  Future<String> login(String email, String password) async {
     try {
-      UserCredential userCredential = await _firebaseAuth
+     await _firebaseAuth
           .signInWithEmailAndPassword(email: email, password: password);
-      if (userCredential.user != null) {
-        return true;
-      }
-      return false;
+
+     return 'Usuário logado com sucesso';
     } on FirebaseAuthException catch (e) {
       print(e.code.toString());
-      return false;
+      return 'Email ou senha incorretos';
     }
   }
 

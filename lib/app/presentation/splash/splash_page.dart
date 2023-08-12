@@ -13,19 +13,19 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
-  late VerifyAuthUserBloc verifyAuthUserBloc;
+  late VerifyAuthUserBloc _verifyAuthUserBloc;
 
   @override
   void initState() {
     super.initState();
-    verifyAuthUserBloc = Modular.get<VerifyAuthUserBloc>();
-    verifyAuthUserBloc();
+    _verifyAuthUserBloc = Modular.get<VerifyAuthUserBloc>();
+    _verifyAuthUserBloc();
   }
 
   @override
   Widget build(BuildContext context) {
     return BlocListener<VerifyAuthUserBloc, BaseState>(
-      bloc: verifyAuthUserBloc,
+      bloc: _verifyAuthUserBloc,
       listener: (context, state) {
         if (state is SuccessState<bool>) {
           String route = '';
@@ -38,7 +38,7 @@ class _SplashScreenState extends State<SplashScreen> {
         }
       },
       child: const Scaffold(
-        backgroundColor: Colors.white,
+        backgroundColor: Colors.blue,
       ),
     );
   }
