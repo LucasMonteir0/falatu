@@ -1,33 +1,21 @@
 import 'package:falatu/app/commons/bloc_states/bloc_states.dart';
 import 'package:falatu/app/commons/blocs/get_user_bloc.dart';
 import 'package:falatu/app/commons/config/app_routes.dart';
-import 'package:falatu/app/core/domains/entities/chat/chat_entity.dart';
-import 'package:falatu/app/core/domains/entities/user/user_entity.dart';
 import 'package:falatu/app/presentation/chat/blocs/chats_events.dart';
 import 'package:falatu/app/presentation/chat/blocs/private_chats/get_private_chats_bloc.dart';
+import 'package:falatu/app/presentation/chat/view/components/chats_component.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
 
-class ChatPageParams {
-  final UserEntity user;
-  final List<ChatEntity> chats;
-  final List<UserEntity> users;
-
-  ChatPageParams({required this.user, required this.chats, required this.users});
-
-}
-
-class ChatHomePage extends StatefulWidget {
-  const ChatHomePage({Key? key, required this.params}) : super(key: key);
-
-  final ChatPageParams params;
+class HomePage extends StatefulWidget {
+  const HomePage({Key? key}) : super(key: key);
 
   @override
-  State<ChatHomePage> createState() => _ChatHomePageState();
+  State<HomePage> createState() => _HomePageState();
 }
 
-class _ChatHomePageState extends State<ChatHomePage> {
+class _HomePageState extends State<HomePage> {
   late GetUserBloc _getUserBloc;
   late GetPrivateChatsBloc _getPrivateChatsBloc;
 
@@ -57,42 +45,23 @@ class _ChatHomePageState extends State<ChatHomePage> {
             BlocConsumer<GetUserBloc, BaseState>(
                 bloc: _getUserBloc,
                 listener: (context, state) {
-                  if (state is SuccessState<UserEntity>) {
-                    _getPrivateChatsBloc.add(LoadPrivateChats(state.data.id));
+                  if (state is SuccessState<UsersReturn>) {
+                    _getPrivateChatsBloc
+                        .add(LoadPrivateChats(state.data.currentUser.id));
                   }
                 },
                 builder: (context, state) {
                   if (state is ErrorState) {
                     return const Text('Erro');
                   }
-                  if (state is SuccessState<UserEntity>) {
+                  if (state is SuccessState<UsersReturn>) {
                     return Column(
                       children: [
-                        Text(state.data.firstName),
+                        Text(state.data.currentUser.firstName),
                         const SizedBox(height: 50),
-                        BlocBuilder<GetPrivateChatsBloc, BaseState>(
-                          bloc: _getPrivateChatsBloc,
-                          builder: (context, chatState) {
-                            if (chatState is SuccessState<List<ChatEntity>>) {
-                              return SizedBox(
-                                height: 500,
-                                width: double.infinity,
-                                child: ListView.builder(
-                                  itemCount: chatState.data.length,
-                                  itemBuilder: (context, index) {
-                                    final ChatEntity chat =
-                                        chatState.data[index];
-                                    return Text(chat.lastMessage!);
-                                  },
-                                ),
-                              );
-                            }
-                            return const SizedBox.square(
-                              dimension: 20,
-                              child: CircularProgressIndicator.adaptive(),
-                            );
-                          },
-                        ),
+                        ChatsComponent(
+                            users: state.data.users,
+                            currentUser: state.data.currentUser),
                       ],
                     );
                   }

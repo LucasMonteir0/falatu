@@ -1,8 +1,7 @@
 import 'dart:async';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
-class Teste {
-  static StreamTransformer<QuerySnapshot<Map<String, dynamic>>, List<T>>
+ StreamTransformer<QuerySnapshot<Map<String, dynamic>>, List<T>>
       transformer<T>(T Function(Map<String, dynamic> json) fromJson) =>
           StreamTransformer<QuerySnapshot<Map<String, dynamic>>,
               List<T>>.fromHandlers(
@@ -13,4 +12,4 @@ class Teste {
               sink.add(dataModel);
             },
           );
-}
+

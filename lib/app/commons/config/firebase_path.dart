@@ -1,10 +1,7 @@
 class FirebasePath {
-
-
-  // Colletctions
+  // root collections
   static const String chats = 'chats';
   static const String users = 'users';
 
-  //Documents
-
+  //documents and collections
 }

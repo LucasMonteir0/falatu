@@ -16,4 +16,9 @@ class UserUseCaseImpl implements UserUseCase {
   Future<bool> verifyAuthUser() async {
     return await repository.verifyAuthUser();
   }
+
+  @override
+  Future<List<UserEntity>> getAllUsers() async {
+    return await repository.getAllUsers();
+  }
 }
