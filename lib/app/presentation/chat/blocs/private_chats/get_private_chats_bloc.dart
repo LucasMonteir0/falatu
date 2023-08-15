@@ -15,7 +15,7 @@ class GetPrivateChatsBloc extends Bloc<ChatEvents, BaseState> {
       return emit
           .forEach(chatStream, onData: (data) => SuccessState(data))
           .onError((error, stackTrace) =>
-              ErrorState('Conversas não foram carregadas corretamente'));
+              ErrorState('Conversas não foram carregadas corretamente: ${error.toString()}'));
     });
   }
 }

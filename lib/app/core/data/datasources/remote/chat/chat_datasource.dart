@@ -5,5 +5,6 @@ abstract class ChatDatasource{
 
   Stream<List<ChatModel>> getPrivateChats(String userId);
   Stream<List<MessageModel>> getChatMessages(String chatId);
+  Future<void> sendChatMessage(ChatModel chat, MessageModel message);
 
 }

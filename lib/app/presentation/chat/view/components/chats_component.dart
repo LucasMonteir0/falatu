@@ -6,6 +6,7 @@ import 'package:falatu/app/commons/widgets/chat_card.dart';
 import 'package:falatu/app/core/domains/entities/chat/chat_entity.dart';
 import 'package:falatu/app/core/domains/entities/user/user_entity.dart';
 import 'package:falatu/app/presentation/chat/blocs/private_chats/get_private_chats_bloc.dart';
+import 'package:falatu/app/presentation/chat/view/private_chat_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -49,8 +50,11 @@ class _ChatsComponentState extends State<ChatsComponent> {
                       chat.users, widget.currentUser.id, widget.users);
 
                   return ChatCard(
-                    onTap: () =>
-                        Modular.to.pushNamed(AppRoutes.chat, arguments: chat),
+                    onTap: () {
+                      PrivateChatPageParams params = PrivateChatPageParams(
+                          chat: chat, user: widget.currentUser);
+                      Modular.to.pushNamed(AppRoutes.chat, arguments: params);
+                    },
                     otherUser: otherUser,
                     chat: chat,
                   );

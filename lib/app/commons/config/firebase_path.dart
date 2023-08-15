@@ -4,4 +4,5 @@ class FirebasePath {
   static const String users = 'users';
 
   //documents and collections
+  static const String messages = 'messages';
 }

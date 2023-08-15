@@ -12,6 +12,8 @@ import 'package:falatu/app/core/domains/usecases/chat/get_chat_messages_use_case
 import 'package:falatu/app/core/domains/usecases/chat/get_chat_messages_use_case_impl.dart';
 import 'package:falatu/app/core/domains/usecases/chat/get_private_chats_use_case.dart';
 import 'package:falatu/app/core/domains/usecases/chat/get_private_chats_use_case_impl.dart';
+import 'package:falatu/app/core/domains/usecases/chat/messages/send_chat_message_use_case.dart';
+import 'package:falatu/app/core/domains/usecases/chat/messages/send_chat_message_use_case_impl.dart';
 import 'package:falatu/app/presentation/auth/view/sign_up/sign_up_page.dart';
 import 'package:falatu/app/core/data/datasources/remote/user/user_datasource.dart';
 import 'package:falatu/app/core/data/repositories/auth/user_auth_repository_impl.dart';
@@ -29,6 +31,7 @@ import 'package:falatu/app/presentation/auth/blocs/register_user_bloc.dart';
 import 'package:falatu/app/presentation/auth/blocs/sign_out_bloc.dart';
 import 'package:falatu/app/presentation/auth/view/login/login_page.dart';
 import 'package:falatu/app/presentation/chat/blocs/messages/get_chat_messages_bloc.dart';
+import 'package:falatu/app/presentation/chat/blocs/messages/send_chat_message_bloc.dart';
 import 'package:falatu/app/presentation/chat/blocs/private_chats/get_private_chats_bloc.dart';
 import 'package:falatu/app/presentation/chat/view/chat_home_page.dart';
 import 'package:falatu/app/commons/blocs/get_user_bloc.dart';
@@ -68,6 +71,8 @@ class AppModule extends Module {
             (i) => GetPrivateChatsUseCaseImpl(i())),
         Bind.factory<GetChatMessagesUseCase>(
             (i) => GetChatMessagesUseCaseImpl(i())),
+        Bind.factory<SendChatMessageUseCase>(
+            (i) => SendChatMessageUseCaseImpl(i())),
 
         // Put here your BLOCS
         Bind.factory<VerifyAuthUserBloc>((i) => VerifyAuthUserBloc(i())),
@@ -75,6 +80,7 @@ class AppModule extends Module {
         Bind.factory<RegisterUserBloc>((i) => RegisterUserBloc(i())),
         Bind.factory<LoginBloc>((i) => LoginBloc(i())),
         Bind.factory<SignOutBloc>((i) => SignOutBloc(i())),
+        Bind.factory<SendChatMessageBloc>((i) => SendChatMessageBloc(i())),
         Bind.lazySingleton<GetPrivateChatsBloc>(
             (i) => GetPrivateChatsBloc(i())),
         Bind.lazySingleton<GetChatMessagesBloc>(
@@ -99,7 +105,7 @@ class AppModule extends Module {
         ),
         ChildRoute(
           AppRoutes.chat,
-          child: (context, args) => PrivateChatPage(chat: args.data),
+          child: (context, args) => PrivateChatPage(params: args.data),
         ),
       ];
 }

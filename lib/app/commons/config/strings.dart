@@ -1,8 +1,8 @@
 class Strings {
   // Message Type
   static const String textType = 'text';
-  static const String image = 'image';
-  static const String video = 'video';
-  static const String document = 'document';
-  static const String audio = 'audio';
+  static const String imageType = 'image';
+  static const String videoType = 'video';
+  static const String documentType = 'document';
+  static const String audioType = 'audio';
 }

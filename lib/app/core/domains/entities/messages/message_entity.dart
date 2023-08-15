@@ -1,7 +1,7 @@
 class MessageEntity {
   final String message;
   final String senderId;
-  final String timestamp;
+  final DateTime timestamp;
   final String type;
   final List<String> viewed;
   final String? extension;

@@ -1,9 +1,14 @@
 import 'package:falatu/app/core/domains/entities/chat/chat_entity.dart';
 import 'package:falatu/app/core/domains/entities/user/user_entity.dart';
 import 'package:flutter/material.dart';
+import 'package:intl/intl.dart';
 
 class ChatCard extends StatelessWidget {
-  const ChatCard({Key? key, required this.otherUser, required this.chat, required this.onTap})
+  const ChatCard(
+      {Key? key,
+      required this.otherUser,
+      required this.chat,
+      required this.onTap})
       : super(key: key);
 
   final UserEntity? otherUser;
@@ -12,6 +17,7 @@ class ChatCard extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final String time = DateFormat.Hm().format(chat.lastMessageTime!);
     if (otherUser != null) {
       return GestureDetector(
         onTap: onTap,
@@ -44,9 +50,9 @@ class ChatCard extends StatelessWidget {
                   ],
                 ),
                 const Spacer(),
-                Align(
-                    alignment: Alignment.bottomLeft,
-                    child: Text(chat.lastMessageTime!)),
+                chat.lastMessage != null
+                    ? Align(alignment: Alignment.bottomLeft, child: Text(time))
+                    : const SizedBox.shrink(),
               ],
             ),
           ),

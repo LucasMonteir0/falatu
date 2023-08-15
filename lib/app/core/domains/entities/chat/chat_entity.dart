@@ -2,7 +2,7 @@
 class ChatEntity {
   final String id;
   final String? lastMessage;
-  final String? lastMessageTime;
+  final DateTime? lastMessageTime;
   final String type;
   final List<String> users;
 

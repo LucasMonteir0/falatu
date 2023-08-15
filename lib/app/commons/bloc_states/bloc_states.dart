@@ -1,4 +1,5 @@
 import 'package:equatable/equatable.dart';
+import 'package:flutter/cupertino.dart';
 
 abstract class BaseState extends Equatable {}
 
@@ -24,7 +25,9 @@ class SuccessState<T> extends BaseState {
 class ErrorState extends BaseState {
   final String message;
 
-  ErrorState(this.message);
+  ErrorState(this.message) {
+    debugPrint(message);
+  }
 
   @override
   List<Object?> get props => [message];
