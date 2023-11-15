@@ -3,7 +3,7 @@ import 'package:falatu/app/commons/blocs/get_user_bloc.dart';
 import 'package:falatu/app/commons/config/app_routes.dart';
 import 'package:falatu/app/presentation/chat/blocs/chats_events.dart';
 import 'package:falatu/app/presentation/chat/blocs/private_chats/get_private_chats_bloc.dart';
-import 'package:falatu/app/presentation/chat/view/components/chats_component.dart';
+import 'package:falatu/app/presentation/chat/view/components/chat/chats_component.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_modular/flutter_modular.dart';
@@ -65,11 +65,16 @@ class _HomePageState extends State<HomePage> {
                       ],
                     );
                   }
-                  return const CircularProgressIndicator();
+                  return const CircularProgressIndicator.adaptive();
                 }),
           ],
         ),
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
   }
 }

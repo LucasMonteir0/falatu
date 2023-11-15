@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:falatu/app/core/data/models/messages/message_viewers_model.dart';
 import 'package:falatu/app/core/domains/entities/messages/message_entity.dart';
 
 class MessageModel extends MessageEntity {
@@ -28,28 +29,36 @@ class MessageModel extends MessageEntity {
 
   factory MessageModel.fromMap(Map<String, dynamic> map) {
     final DateTime time = map['timestamp'].toDate();
-    final List<String> viewed = map['viewed'].toList().cast<String>();
-
+    final List<MessageViewersModel> viewedList = map['viewed']
+        .map<MessageViewersModel>((e) => MessageViewersModel.fromMap(e))
+        .toList();
     return MessageModel(
       message: map['message'],
       senderId: map['senderId'],
       timestamp: time,
       type: map['type'],
-      viewed: viewed,
+      viewed: viewedList,
       extension: map['extension'],
       documentUrl: map['documentUrl'],
       size: map['size'],
     );
   }
 
-  Map<String, dynamic> toMap() => {
-        'message': message,
-        'senderId': senderId,
-        'timestamp': Timestamp.fromDate(timestamp),
-        'type': type,
-        'viewed': viewed,
-        'extension': extension,
-        'documentUrl': documentUrl,
-        'size': size,
-      };
+  Map<String, dynamic> toMap() {
+    final List<Map<String, dynamic>> viewedList = viewed.map<Map<String, dynamic>>((e) {
+      final data = MessageViewersModel.fromEntity(e);
+      return data.toMap();
+    } ).toList();
+
+    return {
+      'message': message,
+      'senderId': senderId,
+      'timestamp': Timestamp.fromDate(timestamp),
+      'type': type,
+      'viewed': viewedList,
+      'extension': extension,
+      'documentUrl': documentUrl,
+      'size': size,
+    };
+  }
 }

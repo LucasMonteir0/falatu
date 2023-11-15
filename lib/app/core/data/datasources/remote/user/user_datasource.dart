@@ -1,4 +1,4 @@
-import 'package:falatu/app/core/data/models/user_model.dart';
+import 'package:falatu/app/core/data/models/user/user_model.dart';
 
 abstract class UserDatasource {
   Future<UserModel> getUser();

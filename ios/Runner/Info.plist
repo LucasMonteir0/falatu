@@ -47,5 +47,9 @@
 	<true/>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
+	<key>UISupportsDocumentBrowser</key>
+    <true/>
+    <key>NSPhotoLibraryUsageDescription</key>
+    <string>O app precisa de acesso à sua biblioteca</string>
 </dict>
 </plist>

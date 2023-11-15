@@ -1,7 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:falatu/app/commons/config/firebase_path.dart';
 import 'package:falatu/app/core/data/datasources/remote/user/user_datasource.dart';
-import 'package:falatu/app/core/data/models/user_model.dart';
+import 'package:falatu/app/core/data/models/user/user_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 class UserDatasourceImpl implements UserDatasource {

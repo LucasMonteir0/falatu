@@ -1,4 +1,5 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:falatu/app/commons/blocs/get_files_bloc.dart';
 import 'package:falatu/app/core/data/datasources/remote/auth/auth_datasource.dart';
 import 'package:falatu/app/core/data/datasources/remote/auth/firebase_auth_datasource_impl.dart';
 import 'package:falatu/app/core/data/datasources/remote/chat/chat_datasource.dart';
@@ -33,29 +34,31 @@ import 'package:falatu/app/presentation/auth/view/login/login_page.dart';
 import 'package:falatu/app/presentation/chat/blocs/messages/get_chat_messages_bloc.dart';
 import 'package:falatu/app/presentation/chat/blocs/messages/send_chat_message_bloc.dart';
 import 'package:falatu/app/presentation/chat/blocs/private_chats/get_private_chats_bloc.dart';
-import 'package:falatu/app/presentation/chat/view/chat_home_page.dart';
+import 'package:falatu/app/presentation/chat/view/home_page.dart';
 import 'package:falatu/app/commons/blocs/get_user_bloc.dart';
 import 'package:falatu/app/presentation/chat/view/private_chat_page.dart';
 import 'package:falatu/app/presentation/splash/blocs/verify_auth_user_bloc.dart';
 import 'package:falatu/app/presentation/splash/splash_page.dart';
 import 'package:falatu/app/commons/config/app_routes.dart';
+import 'package:file_picker/file_picker.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter_modular/flutter_modular.dart';
-import 'package:image_picker/image_picker.dart';
 
 class AppModule extends Module {
   @override
   List<Bind> get binds => [
         // Put here your EXTERNAL DEPENDENCIES
-        Bind.instance<ImagePicker>(ImagePicker()),
+        Bind.instance<FilePicker>(FilePicker.platform),
         Bind.instance<FirebaseFirestore>(FirebaseFirestore.instance),
         Bind.instance<FirebaseAuth>(FirebaseAuth.instance),
+        Bind.instance<FirebaseStorage>(FirebaseStorage.instance),
 
         // Put here your DATASOURCES
         Bind.factory<UserDatasource>((i) => UserDatasourceImpl(i(), i())),
         Bind.factory<AuthDatasource>(
             (i) => FirebaseAuthDatasourceImpl(i(), i())),
-        Bind.factory<ChatDatasource>((i) => FirebaseChatDatasourceImpl(i())),
+        Bind.factory<ChatDatasource>((i) => FirebaseChatDatasourceImpl(i(), i())),
 
         // Put here your REPOSITORIES
         Bind.factory<UserRepository>((i) => UserRepositoryImpl(i())),
@@ -81,27 +84,26 @@ class AppModule extends Module {
         Bind.factory<LoginBloc>((i) => LoginBloc(i())),
         Bind.factory<SignOutBloc>((i) => SignOutBloc(i())),
         Bind.factory<SendChatMessageBloc>((i) => SendChatMessageBloc(i())),
-        Bind.lazySingleton<GetPrivateChatsBloc>(
-            (i) => GetPrivateChatsBloc(i())),
-        Bind.lazySingleton<GetChatMessagesBloc>(
-            (i) => GetChatMessagesBloc(i())),
+        Bind.lazySingleton<GetPrivateChatsBloc>((i) => GetPrivateChatsBloc(i())),
+        Bind.factory<GetChatMessagesBloc>((i) => GetChatMessagesBloc(i())),
+        Bind.factory<GetFilesBloc>((i) => GetFilesBloc(i())),
       ];
 
   @override
   List<ModularRoute> get routes => [
         ChildRoute(AppRoutes.root,
-            child: (context, args) => const SplashScreen()),
+            child: (context, _) => const SplashScreen()),
         ChildRoute(
           AppRoutes.login,
           child: (context, args) => LoginPage(isSignOut: args.data),
         ),
         ChildRoute(
           AppRoutes.signUp,
-          child: (context, args) => const SignUpPage(),
+          child: (context, _) => const SignUpPage(),
         ),
         ChildRoute(
           AppRoutes.home,
-          child: (context, args) => const HomePage(),
+          child: (context, _) => const HomePage(),
         ),
         ChildRoute(
           AppRoutes.chat,
@@ -109,3 +111,4 @@ class AppModule extends Module {
         ),
       ];
 }
+

@@ -1,9 +1,11 @@
+import 'package:falatu/app/core/domains/entities/messages/message_viewers_entity.dart';
+
 class MessageEntity {
   final String message;
   final String senderId;
   final DateTime timestamp;
   final String type;
-  final List<String> viewed;
+  final List<MessageViewersEntity> viewed;
   final String? extension;
   final String? documentUrl;
   final String? size;
@@ -19,3 +21,5 @@ class MessageEntity {
     this.size,
   });
 }
+
+
