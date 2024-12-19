@@ -1,6 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.InternalError = exports.ConflictError = exports.NotFoundError = exports.ForbiddenError = exports.UnauthorizedError = exports.BadRequestError = exports.AppError = void 0;
+exports.UnknownError = exports.InternalError = exports.ConflictError = exports.NotFoundError = exports.ForbiddenError = exports.UnauthorizedError = exports.BadRequestError = exports.AppError = void 0;
 const common_1 = require("@nestjs/common");
 class AppError extends common_1.HttpException {
     constructor(message, status) {
@@ -15,6 +15,24 @@ class AppError extends common_1.HttpException {
             status: this.statusCode,
             message: this.message,
         };
+    }
+    static fromStatusCode(status, message) {
+        switch (status) {
+            case common_1.HttpStatus.BAD_REQUEST:
+                return new BadRequestError(message);
+            case common_1.HttpStatus.UNAUTHORIZED:
+                return new UnauthorizedError(message);
+            case common_1.HttpStatus.FORBIDDEN:
+                return new ForbiddenError(message);
+            case common_1.HttpStatus.NOT_FOUND:
+                return new NotFoundError(message);
+            case common_1.HttpStatus.CONFLICT:
+                return new ConflictError(message);
+            case common_1.HttpStatus.INTERNAL_SERVER_ERROR:
+                return new InternalError(message);
+            default:
+                return new UnknownError(message);
+        }
     }
 }
 exports.AppError = AppError;
@@ -54,4 +72,10 @@ class InternalError extends AppError {
     }
 }
 exports.InternalError = InternalError;
+class UnknownError extends AppError {
+    constructor(message) {
+        super(message, 0);
+    }
+}
+exports.UnknownError = UnknownError;
 //# sourceMappingURL=AppError.js.map

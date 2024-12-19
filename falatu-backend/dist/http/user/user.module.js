@@ -9,9 +9,9 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.UserModule = void 0;
 const common_1 = require("@nestjs/common");
 const commons_module_1 = require("../commons/commons.module");
-const user_controller_1 = require("./controllers/user.controller");
 const user_datasource_1 = require("./datasources/user.datasource");
 const prisma_user_datasource_1 = require("./datasources/prisma_user.datasource");
+const user_controller_1 = require("./user.controller");
 let UserModule = class UserModule {
 };
 exports.UserModule = UserModule;
