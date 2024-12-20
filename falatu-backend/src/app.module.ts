@@ -5,14 +5,15 @@ import { DatabaseModule } from "./config/database/database.module";
 import { AuthModule } from "./http/auth/auth.module";
 import { APP_GUARD } from "@nestjs/core";
 import { AuthGuard } from "./http/auth/auth.guard";
+import { ChatModule } from "./http/chat/chat.module";
 
 @Module({
-  imports: [UserModule, CommonsModule, DatabaseModule, AuthModule],
+  imports: [UserModule, CommonsModule, DatabaseModule, AuthModule, ChatModule],
   providers: [
     {
       provide: APP_GUARD,
       useClass: AuthGuard,
-    }
-  ]
+    },
+  ],
 })
 export class AppModule {}

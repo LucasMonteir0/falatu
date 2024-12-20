@@ -8,14 +8,20 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ChatModule = void 0;
 const common_1 = require("@nestjs/common");
+const chat_datasource_1 = require("./datasources/chat.datasource");
+const prisma_chat_datasource_1 = require("./datasources/prisma_chat.datasource");
+const chat_controller_1 = require("./chat.controller");
 let ChatModule = class ChatModule {
 };
 exports.ChatModule = ChatModule;
 exports.ChatModule = ChatModule = __decorate([
     (0, common_1.Module)({
         imports: [],
-        controllers: [],
-        providers: [],
+        controllers: [chat_controller_1.ChatController],
+        providers: [{
+                provide: chat_datasource_1.ChatDatasource,
+                useClass: prisma_chat_datasource_1.PrismaChatDatasourceImpl,
+            },],
     })
 ], ChatModule);
 //# sourceMappingURL=chat.module.js.map
