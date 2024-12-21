@@ -6,25 +6,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.AuthModule = void 0;
+exports.DatabaseModule = void 0;
 const common_1 = require("@nestjs/common");
-const auth_datasource_1 = require("./datasources/auth.datasource");
-const prisma_auth_datasource_1 = require("./datasources/prisma_auth.datasource");
-const auth_controller_1 = require("./auth.controller");
-let AuthModule = class AuthModule {
+const prisma_service_1 = require("./prisma.service");
+let DatabaseModule = class DatabaseModule {
 };
-exports.AuthModule = AuthModule;
-exports.AuthModule = AuthModule = __decorate([
+exports.DatabaseModule = DatabaseModule;
+exports.DatabaseModule = DatabaseModule = __decorate([
+    (0, common_1.Global)(),
     (0, common_1.Module)({
-        imports: [],
-        providers: [
-            {
-                provide: auth_datasource_1.AuthDatasource,
-                useClass: prisma_auth_datasource_1.PrismaAuthDatasourceImpl,
-            },
-        ],
-        controllers: [auth_controller_1.AuthController],
-        exports: [],
+        providers: [prisma_service_1.PrismaService],
+        exports: [prisma_service_1.PrismaService],
     })
-], AuthModule);
-//# sourceMappingURL=auth.module.js.map
+], DatabaseModule);
+//# sourceMappingURL=database.module.js.map

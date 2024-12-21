@@ -12,7 +12,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 exports.PrismaChatDatasourceImpl = void 0;
 const common_1 = require("@nestjs/common");
 const chat_entity_1 = require("../entities/chat.entity");
-const prisma_service_1 = require("../../../config/database/prisma.service");
+const prisma_service_1 = require("../../../utils/config/database/prisma.service");
 const AppError_1 = require("../../../utils/result/AppError");
 const user_entity_1 = require("../../commons/entities/user.entity");
 const ResultWrapper_1 = require("../../../utils/result/ResultWrapper");

@@ -6,23 +6,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
     return c > 3 && r && Object.defineProperty(target, key, r), r;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-exports.CommonsModule = void 0;
+exports.PrismaService = void 0;
 const common_1 = require("@nestjs/common");
-const constants_1 = require("./utils/constants");
-const jwt_1 = require("@nestjs/jwt");
-let CommonsModule = class CommonsModule {
+const client_1 = require("@prisma/client");
+let PrismaService = class PrismaService extends client_1.PrismaClient {
+    async onModuleInit() {
+        await this.$connect();
+    }
 };
-exports.CommonsModule = CommonsModule;
-exports.CommonsModule = CommonsModule = __decorate([
-    (0, common_1.Global)(),
-    (0, common_1.Module)({
-        imports: [
-            jwt_1.JwtModule.register({
-                global: true,
-                secret: constants_1.jwtSecret,
-                signOptions: { expiresIn: "1d" },
-            }),
-        ],
-    })
-], CommonsModule);
-//# sourceMappingURL=commons.module.js.map
+exports.PrismaService = PrismaService;
+exports.PrismaService = PrismaService = __decorate([
+    (0, common_1.Injectable)()
+], PrismaService);
+//# sourceMappingURL=prisma.service.js.map

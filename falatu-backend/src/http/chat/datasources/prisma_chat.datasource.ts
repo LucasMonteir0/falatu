@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { CreateChatDTO } from "../dtos/create_chat.dto";
 import { ChatEntity } from "../entities/chat.entity";
 import { ChatDatasource } from "./chat.datasource";
-import { PrismaService } from "src/config/database/prisma.service";
+import { PrismaService } from "src/utils/config/database/prisma.service";
 import {
   BadRequestError,
   ConflictError,

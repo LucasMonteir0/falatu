@@ -13,8 +13,8 @@ exports.AuthGuard = void 0;
 const common_1 = require("@nestjs/common");
 const core_1 = require("@nestjs/core");
 const jwt_1 = require("@nestjs/jwt");
-const AppError_1 = require("../../utils/result/AppError");
-const constants_1 = require("./utils/constants");
+const AppError_1 = require("../../../utils/result/AppError");
+const constants_1 = require("../utils/constants");
 let AuthGuard = class AuthGuard {
     constructor(jwtService, reflector) {
         this.jwtService = jwtService;
@@ -31,28 +31,28 @@ let AuthGuard = class AuthGuard {
         const request = context.switchToHttp().getRequest();
         const token = this.extractTokenFromHeader(request);
         if (!token) {
-            throw new AppError_1.UnauthorizedError('Permission denied');
+            throw new AppError_1.UnauthorizedError("Permission denied");
         }
         try {
             const payload = await this.jwtService.verifyAsync(token, {
                 secret: constants_1.jwtSecret,
             });
-            request['user'] = payload;
+            request["user"] = payload;
         }
         catch {
-            throw new AppError_1.UnauthorizedError('Permission denied');
+            throw new AppError_1.UnauthorizedError("Permission denied");
         }
         return true;
     }
     extractTokenFromHeader(request) {
-        const [type, token] = request.headers.authorization?.split(' ') ?? [];
-        return type === 'Bearer' ? token : undefined;
+        const [type, token] = request.headers.authorization?.split(" ") ?? [];
+        return type === "Bearer" ? token : undefined;
     }
 };
 exports.AuthGuard = AuthGuard;
 exports.AuthGuard = AuthGuard = __decorate([
     (0, common_1.Injectable)(),
-    (0, common_1.Injectable)(),
-    __metadata("design:paramtypes", [jwt_1.JwtService, core_1.Reflector])
+    __metadata("design:paramtypes", [jwt_1.JwtService,
+        core_1.Reflector])
 ], AuthGuard);
 //# sourceMappingURL=auth.guard.js.map

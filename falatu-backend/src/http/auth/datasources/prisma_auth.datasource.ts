@@ -9,9 +9,9 @@ import {
 import { Injectable } from "@nestjs/common";
 import { AuthDatasource } from "./auth.datasource";
 import { SignInDTO } from "../dtos/sign_in.dto";
-import { PrismaService } from "src/config/database/prisma.service";
+import { PrismaService } from "src/utils/config/database/prisma.service";
 import { JwtService } from "@nestjs/jwt";
-import { jwtSecret } from "../utils/constants";
+import { jwtSecret } from "../../commons/utils/constants";
 
 @Injectable()
 export class PrismaAuthDatasourceImpl implements AuthDatasource {

@@ -1,7 +1,7 @@
 import { ResultWrapper } from "../../../utils/result/ResultWrapper";
 import { AuthDatasource } from "./auth.datasource";
 import { SignInDTO } from "../dtos/sign_in.dto";
-import { PrismaService } from "src/config/database/prisma.service";
+import { PrismaService } from "src/utils/config/database/prisma.service";
 import { JwtService } from "@nestjs/jwt";
 export declare class PrismaAuthDatasourceImpl implements AuthDatasource {
     private readonly jwtService;

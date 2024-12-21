@@ -2,7 +2,7 @@ import { UserDatasource } from "./user.datasource";
 import { hash } from "bcryptjs";
 import { ResultWrapper } from "../../../utils/result/ResultWrapper";
 import { ConflictError, NotFoundError } from "../../../utils/result/AppError";
-import { PrismaService } from "src/config/database/prisma.service";
+import { PrismaService } from "src/utils/config/database/prisma.service";
 import { UserEntity } from "src/http/commons/entities/user.entity";
 import { CreateUserDTO } from "../dtos/create_user.dto";
 import { Inject } from "@nestjs/common";

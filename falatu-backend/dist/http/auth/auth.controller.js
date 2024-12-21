@@ -16,7 +16,7 @@ exports.AuthController = void 0;
 const common_1 = require("@nestjs/common");
 const auth_datasource_1 = require("./datasources/auth.datasource");
 const sign_in_dto_1 = require("./dtos/sign_in.dto");
-const constants_1 = require("./utils/constants");
+const constants_1 = require("../commons/utils/constants");
 let AuthController = class AuthController {
     constructor(datasource) {
         this.datasource = datasource;

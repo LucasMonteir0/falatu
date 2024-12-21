@@ -3,13 +3,14 @@ import { Reflector } from "@nestjs/core";
 import { JwtService } from "@nestjs/jwt";
 import { Request } from "express";
 import { UnauthorizedError } from "src/utils/result/AppError";
-import { IS_PUBLIC_KEY, jwtSecret } from "./utils/constants";
-
-@Injectable()
+import { IS_PUBLIC_KEY, jwtSecret } from "../utils/constants";
 
 @Injectable()
 export class AuthGuard implements CanActivate {
-  constructor(private readonly jwtService: JwtService, private readonly reflector: Reflector) {}
+  constructor(
+    private readonly jwtService: JwtService,
+    private readonly reflector: Reflector
+  ) {}
 
   async canActivate(context: ExecutionContext): Promise<boolean> {
     const isPublic = this.reflector.getAllAndOverride<boolean>(IS_PUBLIC_KEY, [
@@ -17,27 +18,28 @@ export class AuthGuard implements CanActivate {
       context.getClass(),
     ]);
     if (isPublic) {
-      // 💡 See this condition
       return true;
     }
 
     const request = context.switchToHttp().getRequest();
     const token = this.extractTokenFromHeader(request);
     if (!token) {
-        throw new UnauthorizedError('Permission denied');    }
+      throw new UnauthorizedError("Permission denied");
+    }
     try {
       const payload = await this.jwtService.verifyAsync(token, {
         secret: jwtSecret,
       });
-   
-      request['user'] = payload;
+
+      request["user"] = payload;
     } catch {
-        throw new UnauthorizedError('Permission denied');    }
+      throw new UnauthorizedError("Permission denied");
+    }
     return true;
   }
 
   private extractTokenFromHeader(request: Request): string | undefined {
-    const [type, token] = request.headers.authorization?.split(' ') ?? [];
-    return type === 'Bearer' ? token : undefined;
+    const [type, token] = request.headers.authorization?.split(" ") ?? [];
+    return type === "Bearer" ? token : undefined;
   }
 }

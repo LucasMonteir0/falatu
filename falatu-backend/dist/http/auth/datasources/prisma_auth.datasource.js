@@ -14,9 +14,9 @@ const bcryptjs_1 = require("bcryptjs");
 const ResultWrapper_1 = require("../../../utils/result/ResultWrapper");
 const AppError_1 = require("../../../utils/result/AppError");
 const common_1 = require("@nestjs/common");
-const prisma_service_1 = require("../../../config/database/prisma.service");
+const prisma_service_1 = require("../../../utils/config/database/prisma.service");
 const jwt_1 = require("@nestjs/jwt");
-const constants_1 = require("../utils/constants");
+const constants_1 = require("../../commons/utils/constants");
 let PrismaAuthDatasourceImpl = class PrismaAuthDatasourceImpl {
     constructor(jwtService, database) {
         this.jwtService = jwtService;

@@ -13,7 +13,7 @@ exports.PrismaUserDatasourceImpl = void 0;
 const bcryptjs_1 = require("bcryptjs");
 const ResultWrapper_1 = require("../../../utils/result/ResultWrapper");
 const AppError_1 = require("../../../utils/result/AppError");
-const prisma_service_1 = require("../../../config/database/prisma.service");
+const prisma_service_1 = require("../../../utils/config/database/prisma.service");
 const user_entity_1 = require("../../commons/entities/user.entity");
 const common_1 = require("@nestjs/common");
 class PrismaUserDatasourceImpl {
