@@ -1,0 +1,13 @@
+import { ResultWrapper } from "../../../utils/result/ResultWrapper";
+import { UserEntity } from "src/modules/commons/entities/user.entity";
+import { CreateUserDTO } from "../dtos/create_user.dto";
+
+export abstract class UserDatasource {
+  abstract createUser(
+    params: CreateUserDTO
+  ): Promise<ResultWrapper<UserEntity>>;
+
+  abstract getUserById(id: string): Promise<ResultWrapper<UserEntity>>;
+
+  abstract getUsers(): Promise<ResultWrapper<Array<UserEntity>>>;
+}

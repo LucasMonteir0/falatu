@@ -1,0 +1,8 @@
+import { ResultWrapper } from "src/utils/result/ResultWrapper";
+import { CreateChatDTO } from "../../dtos/create_chat.dto";
+import { ChatEntity } from "../../entities/chat.entity";
+export declare abstract class ChatDatasource {
+    abstract createChat(params: CreateChatDTO): Promise<ResultWrapper<ChatEntity>>;
+    abstract getChatById(id: string): Promise<ResultWrapper<ChatEntity>>;
+    abstract getChatsByUser(id: string): Promise<ResultWrapper<ChatEntity[]>>;
+}

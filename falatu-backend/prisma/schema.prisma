@@ -19,7 +19,6 @@ model User {
   email       String     @unique
   password    String
   picture_url String?
-  pictureBytes Bytes?
   userChats   UserChat[]
   messages    Message[]
   createdAt   DateTime   @default(now())
@@ -41,10 +40,9 @@ model Chat {
 
 model Message {
   id           String        @id @default(uuid())
-  content      String
   senderId     String
   type         String
-  message      String?
+  text         String?
   media_url    String?
   sender       User          @relation(fields: [senderId], references: [id], onDelete: Cascade)
   chatMessages ChatMessage[]
