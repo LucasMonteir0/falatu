@@ -1,3 +1,0 @@
-type JwtPayload = {
-  userId: string;
-};
