@@ -1,11 +1,14 @@
+import 'package:falatu_mobile/app_module.dart';
 import 'package:falatu_mobile/commons/utils/extensions/context_extensions.dart';
 import 'package:falatu_mobile/commons/utils/resources/localizations/app_localizations.dart';
 import 'package:falatu_mobile/commons/utils/resources/theme/theme.dart';
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await MaterialTheme.loadTheme();
+  AppModule().dependencies();
   runApp(const MyApp());
 }
 
@@ -16,35 +19,24 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     MaterialTheme.loadTextTheme(context);
-    return MaterialApp(
+    return MaterialApp.router(
       title: context.i18n.appName,
       theme: MaterialTheme.light(),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      home: MyHomePage(title: context.i18n.appName),
+      routerConfig: GoRouter(routes: AppModule().routes),
     );
   }
 }
 
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({super.key, required this.title});
-
-  // This widget is the home page of your application. It is stateful, meaning
-  // that it has a State object (defined below) that contains fields that affect
-  // how it looks.
-
-  // This class is the configuration for the state. It holds the values (in this
-  // case the title) provided by the parent (in this case the App widget) and
-  // used by the build method of the State. Fields in a Widget subclass are
-  // always marked "final".
-
-  final String title;
+class SignInPage extends StatefulWidget {
+  const SignInPage({super.key});
 
   @override
-  State<MyHomePage> createState() => _MyHomePageState();
+  State<SignInPage> createState() => _SignInPageState();
 }
 
-class _MyHomePageState extends State<MyHomePage> {
+class _SignInPageState extends State<SignInPage> {
   int _counter = 0;
 
   void _incrementCounter() {
@@ -74,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
         backgroundColor: Theme.of(context).colorScheme.inversePrimary,
         // Here we take the value from the MyHomePage object that was created by
         // the App.build method, and use it to set our appbar title.
-        title: Text(widget.title),
+        title: Text(context.i18n.appName),
       ),
       body: Center(
         // Center is a layout widget. It takes a single child and positions it
@@ -111,5 +103,14 @@ class _MyHomePageState extends State<MyHomePage> {
         child: const Icon(Icons.add),
       ), // This trailing comma makes auto-formatting nicer for build methods.
     );
+  }
+}
+
+class ChatPage extends StatelessWidget {
+  const ChatPage({super.key});
+
+  @override
+  Widget build(BuildContext context) {
+    return const Placeholder();
   }
 }
