@@ -1,0 +1,5 @@
+arb-dir: lib/commons/utils/resources/localizations
+template-arb-file: app_pt.arb
+output-localization-file: app_localizations.dart
+
+synthetic-package: false
