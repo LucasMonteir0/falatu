@@ -5,7 +5,6 @@ CREATE TABLE "users" (
     "email" TEXT NOT NULL,
     "password" TEXT NOT NULL,
     "picture_url" TEXT,
-    "pictureBytes" BYTEA,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
     CONSTRAINT "users_pkey" PRIMARY KEY ("id")
@@ -25,10 +24,9 @@ CREATE TABLE "chats" (
 -- CreateTable
 CREATE TABLE "messages" (
     "id" TEXT NOT NULL,
-    "content" TEXT NOT NULL,
     "senderId" TEXT NOT NULL,
     "type" TEXT NOT NULL,
-    "message" TEXT,
+    "text" TEXT,
     "media_url" TEXT,
     "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
 
