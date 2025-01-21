@@ -1,4 +1,4 @@
-import { UserEntity } from "src/modules/commons/entities/user.entity";
+import { UserEntity } from "../../commons/entities/user.entity";
 import { ChatRole } from "../enums/chat_role.enum";
 import { User } from "@prisma/client";
 

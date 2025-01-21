@@ -8,7 +8,7 @@ class UrlHelpers {
   }
 
   static String getApiBaseUrl(
-      { required String moduleName, required String path}) {
+      { required String moduleName, String? path}) {
     String modulePath = '';
     if (moduleName.isNotEmpty) {
       modulePath = '/$moduleName';

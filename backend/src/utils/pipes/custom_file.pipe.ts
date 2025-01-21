@@ -8,6 +8,7 @@ import { BadRequestError, InternalError } from "../result/AppError";
 export interface CustomFilePipeOptions {
   maxSize: number;
   fileType: string | RegExp;
+  fileIsRequired?: boolean;
 }
 
 export class CustomFilePipe extends ParseFilePipe {
@@ -29,6 +30,7 @@ export class CustomFilePipe extends ParseFilePipe {
         new MaxFileSizeValidator({ maxSize: options.maxSize }),
         new FileTypeValidator({ fileType: options.fileType }),
       ],
+      fileIsRequired: options.fileIsRequired ?? true,
     });
   }
 }

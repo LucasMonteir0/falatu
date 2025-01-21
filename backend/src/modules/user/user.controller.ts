@@ -8,10 +8,11 @@ import {
   UploadedFile,
   UseInterceptors,
 } from "@nestjs/common";
-import { UserEntity } from "src/modules/commons/entities/user.entity";
+import { UserEntity } from "../commons/entities/user.entity";
 import { CustomFilePipe } from "src/utils/pipes/custom_file.pipe";
 import { UserDatasource } from "./datasources/user.datasource";
 import { CreateUserDTO } from "./dtos/create_user.dto";
+import { Public } from "src/utils/constants";
 
 const MAX_SIZE: number = 5 * 1024 * 1024;
 
@@ -19,6 +20,7 @@ const MAX_SIZE: number = 5 * 1024 * 1024;
 export class UserController {
   constructor(private readonly datasource: UserDatasource) {}
 
+  @Public()
   @Post()
   @UseInterceptors(FileInterceptor("picture"))
   public async createUser(
@@ -26,9 +28,10 @@ export class UserController {
       new CustomFilePipe({
         maxSize: MAX_SIZE,
         fileType: /image\/(jpeg|jpg|png)/,
+        fileIsRequired: false,
       })
     )
-    picture: Express.Multer.File,
+    picture: Express.Multer.File | null,
     @Body() body: CreateUserDTO
   ): Promise<UserEntity> {
     const user: CreateUserDTO = { ...body, picture };

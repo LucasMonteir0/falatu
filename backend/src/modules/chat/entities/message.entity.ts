@@ -1,6 +1,6 @@
 import { Message } from "@prisma/client";
 import { MessageType } from "../enums/message_type.enum";
-import { UserEntity } from "src/modules/commons/entities/user.entity";
+import { UserEntity } from "../../commons/entities/user.entity";
 import { MessageUtils } from "../utils/message.utils";
 
 export class MessageEntity {
@@ -34,12 +34,14 @@ export class MessageEntity {
     this.createdAt = createdAt;
   }
 
-  static fromPrisma(message: Message, sender: UserEntity): MessageEntity {return new MessageEntity({
-    id: message.id,
-    sender: sender,
-    type: MessageUtils.fromValue(message.type),
-    createdAt: message.createdAt,
-    text: message.text,
-    mediaUrl: message.media_url,
-  })};
+  static fromPrisma(message: Message, sender: UserEntity): MessageEntity {
+    return new MessageEntity({
+      id: message.id,
+      sender: sender,
+      type: MessageUtils.fromValue(message.type),
+      createdAt: message.createdAt,
+      text: message.text,
+      mediaUrl: message.media_url,
+    });
+  }
 }
