@@ -1,3 +1,4 @@
+import 'package:falatu_mobile/commons/core/data/models/user_model.dart';
 import 'package:falatu_mobile/commons/core/data/services/http_service/http_service.dart';
 import 'package:falatu_mobile/commons/core/domain/entities/api_result.dart';
 import 'package:falatu_mobile/commons/utils/errors/errors.dart';
@@ -12,12 +13,13 @@ class OnboardDatasourceImpl implements OnboardDatasource {
   OnboardDatasourceImpl(this.client);
 
   @override
-  Future<ApiResult> createUser(CreateUserModel params) async {
+  Future<ApiResult<UserModel>> createUser(CreateUserModel params) async {
     try {
       final url = UrlHelpers.getApiBaseUrl(moduleName: 'users', path: '');
       final json = params.toJson();
-      final result = await client.post(url, data: json);
-      return ApiResult.success(result.data);
+      final response = await client.post(url, data: json);
+      final user = UserModel.fromJson(response.data);
+      return ApiResult.success(user);
     } on ApiError catch (e) {
       final error = handleError(e.statusCode, message: e.message);
       return ApiResult.error(error);

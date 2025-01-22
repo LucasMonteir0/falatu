@@ -1,18 +1,12 @@
-import 'dart:io';
+import 'package:falatu_mobile/onboard/core/domain/entities/create_user_entity.dart';
 
-class CreateUserModel {
-  final String name;
-  final String email;
-  final String password;
-  final String confirmPassword;
-  final File? picture;
-
+class CreateUserModel extends CreateUserEntity {
   CreateUserModel(
-      {required this.name,
-      required this.email,
-      required this.password,
-      required this.confirmPassword,
-      required this.picture});
+      {required super.name,
+      required super.email,
+      required super.password,
+      required super.confirmPassword,
+      required super.picture});
 
   Map<String, dynamic> toJson() => {
         'name': name,
