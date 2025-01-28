@@ -6,10 +6,17 @@ import { PrismaService } from "src/utils/config/database/prisma.service";
 import { UserEntity } from "../../commons/entities/user.entity";
 import { CreateUserDTO } from "../dtos/create_user.dto";
 import { Inject } from "@nestjs/common";
+import {
+  BucketOptions,
+  BucketService,
+} from "src/utils/config/bucket/bucket.service";
 
 export class PrismaUserDatasourceImpl implements UserDatasource {
   @Inject()
   private readonly database: PrismaService;
+
+  @Inject()
+  private readonly bucket: BucketService;
 
   async createUser(params: CreateUserDTO): Promise<ResultWrapper<UserEntity>> {
     try {
@@ -25,13 +32,41 @@ export class PrismaUserDatasourceImpl implements UserDatasource {
 
       const encryptedPassword = await hash(params.password, 8);
 
-      const user = await this.database.user.create({
-        data: {
-          name: params.name,
-          email: params.email,
-          picture_url: null, // TODO SAVE PICTURE
-          password: encryptedPassword,
-        },
+      let user = await this.database.$transaction(async (transaction) => {
+        let user = await transaction.user.create({
+          data: {
+            name: params.name,
+            email: params.email,
+            picture_url: null,
+            password: encryptedPassword,
+          },
+        });
+
+        if (params.picture) {
+          const fileParts = params.picture.originalname.split(".");
+          const extension = fileParts[fileParts.length - 1];
+          const now = new Date();
+
+          const bucketOptions: BucketOptions = {
+            path: `users/${user.id}`,
+            fileName: `profile_picture-${now.toISOString()}`,
+            extension: extension,
+            file: params.picture,
+          };
+
+          const pictureUrl = await this.bucket.uploadFile(bucketOptions);
+
+          user = await transaction.user.update({
+            where: {
+              email: params.email,
+            },
+            data: {
+              picture_url: pictureUrl,
+            },
+          });
+        }
+
+        return user;
       });
 
       return ResultWrapper.success(UserEntity.fromPrisma(user));
