@@ -60,10 +60,10 @@ export class PrismaAuthDatasourceImpl implements AuthDatasource {
         secret: jwtSecret,
       });
 
+      const { userId } = payload;
 
-
-      const access = await this.jwtService.signAsync(payload);
-      const refresh = await this.jwtService.signAsync(payload, {
+      const access = await this.jwtService.signAsync({ userId });
+      const refresh = await this.jwtService.signAsync({ userId }, {
         expiresIn: "7d",
       });
 
