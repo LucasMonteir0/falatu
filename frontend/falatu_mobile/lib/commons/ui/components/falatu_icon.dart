@@ -1,9 +1,9 @@
-import 'package:falatu_mobile/commons/utils/enums/icons_enum.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter_svg/flutter_svg.dart';
+import "package:falatu_mobile/commons/utils/enums/icons_enum.dart";
+import "package:flutter/material.dart";
+import "package:flutter_svg/flutter_svg.dart";
 
 class FalaTuIcon extends StatelessWidget {
-  static const String _iconsAssetsPath = 'assets/icons/';
+  static const String _iconsAssetsPath = "assets/icons/";
   final FalaTuIconsEnum icon;
   final Color? color;
   final double size;

@@ -21,6 +21,28 @@ linter:
   # `// ignore_for_file: name_of_lint` syntax on the line or in the file
   # producing the lint.
   rules:
+    - always_put_control_body_on_new_line
+    - always_put_required_named_parameters_first
+    - always_require_non_null_named_parameters
+    - avoid_empty_else
+    - avoid_init_to_null
+    - avoid_multiple_declarations_per_line
+    - avoid_redundant_argument_values
+    - avoid_renaming_method_parameters
+    - avoid_returning_null
+    - avoid_types_as_parameter_names
+    - avoid_unnecessary_containers
+    - await_only_futures
+    - control_flow_in_finally
+    - curly_braces_in_flow_control_structures
+    - directives_ordering
+    - empty_constructor_bodies
+    - empty_statements
+    - prefer_const_constructors
+    - prefer_const_constructors_in_immutables
+    - prefer_const_declarations
+    - prefer_const_literals_to_create_immutables
+    - prefer_double_quotes
     # avoid_print: false  # Uncomment to disable the `avoid_print` rule
     # prefer_single_quotes: true  # Uncomment to enable the `prefer_single_quotes` rule
 

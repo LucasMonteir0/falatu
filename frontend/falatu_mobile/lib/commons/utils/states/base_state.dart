@@ -1,6 +1,6 @@
-import 'package:equatable/equatable.dart';
-import 'package:falatu_mobile/commons/core/domain/entities/base_error.dart';
-import 'package:falatu_mobile/commons/utils/errors/errors.dart';
+import "package:equatable/equatable.dart";
+import "package:falatu_mobile/commons/core/domain/entities/base_error.dart";
+import "package:falatu_mobile/commons/utils/errors/errors.dart";
 
 abstract class BaseState extends Equatable {}
 

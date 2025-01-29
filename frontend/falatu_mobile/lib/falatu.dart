@@ -1,10 +1,10 @@
-import 'package:falatu_mobile/app_module.dart';
-import 'package:falatu_mobile/commons/utils/extensions/context_extensions.dart';
-import 'package:falatu_mobile/commons/utils/resources/localizations/app_localizations.dart';
-import 'package:falatu_mobile/commons/utils/resources/theme/theme.dart';
-import 'package:falatu_mobile/commons/utils/routes.dart';
-import 'package:flutter/material.dart';
-import 'package:go_router/go_router.dart';
+import "package:falatu_mobile/app/app_module.dart";
+import "package:falatu_mobile/commons/utils/extensions/context_extensions.dart";
+import "package:falatu_mobile/commons/utils/resources/localizations/app_localizations.dart";
+import "package:falatu_mobile/commons/utils/resources/theme/theme.dart";
+import "package:falatu_mobile/commons/utils/routes.dart";
+import "package:flutter/material.dart";
+import "package:go_router/go_router.dart";
 
 class FalaTu extends StatelessWidget {
   const FalaTu({super.key});

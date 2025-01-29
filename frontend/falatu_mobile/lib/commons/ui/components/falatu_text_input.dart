@@ -1,7 +1,7 @@
-import 'package:falatu_mobile/commons/ui/components/falatu_icon.dart';
-import 'package:falatu_mobile/commons/utils/enums/icons_enum.dart';
-import 'package:falatu_mobile/commons/utils/extensions/nullable_extensions.dart';
-import 'package:flutter/material.dart';
+import "package:falatu_mobile/commons/ui/components/falatu_icon.dart";
+import "package:falatu_mobile/commons/utils/enums/icons_enum.dart";
+import "package:falatu_mobile/commons/utils/extensions/nullable_extensions.dart";
+import "package:flutter/material.dart";
 
 class FalaTuTextInput extends StatelessWidget {
   final TextEditingController? controller;

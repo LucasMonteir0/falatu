@@ -1,9 +1,9 @@
-import 'dart:convert';
-import 'package:flutter/material.dart';
-import 'package:flutter/services.dart' show rootBundle;
-import 'package:google_fonts/google_fonts.dart';
+import "dart:convert";
+import "package:flutter/material.dart";
+import "package:flutter/services.dart" show rootBundle;
+import "package:google_fonts/google_fonts.dart";
 
-part 'typography.dart';
+part "typography.dart";
 
 class MaterialTheme {
   static late TextTheme _textTheme;
@@ -18,35 +18,35 @@ class MaterialTheme {
 
   static ColorScheme _parseColorScheme(Map<String, dynamic> colorMap) {
     return ColorScheme(
-      brightness: colorMap['brightness'] == 'light'
+      brightness: colorMap["brightness"] == "light"
           ? Brightness.light
           : Brightness.dark,
-      primary: _parseColor(colorMap['primary']),
-      onPrimary: _parseColor(colorMap['onPrimary']),
-      primaryContainer: _parseColor(colorMap['primaryContainer']),
-      onPrimaryContainer: _parseColor(colorMap['onPrimaryContainer']),
-      secondary: _parseColor(colorMap['secondary']),
-      onSecondary: _parseColor(colorMap['onSecondary']),
-      secondaryContainer: _parseColor(colorMap['secondaryContainer']),
-      onSecondaryContainer: _parseColor(colorMap['onSecondaryContainer']),
-      tertiary: _parseColor(colorMap['tertiary']),
-      onTertiary: _parseColor(colorMap['onTertiary']),
-      tertiaryContainer: _parseColor(colorMap['tertiaryContainer']),
-      onTertiaryContainer: _parseColor(colorMap['onTertiaryContainer']),
-      surface: _parseColor(colorMap['surface']),
-      onSurface: _parseColor(colorMap['onSurface']),
-      surfaceBright: _parseColor(colorMap['surfaceBright']),
-      surfaceContainerLowest: _parseColor(colorMap['surfaceContainerLowest']),
-      surfaceContainerLow: _parseColor(colorMap['surfaceContainerLow']),
-      surfaceContainer: _parseColor(colorMap['surfaceContainer']),
-      surfaceContainerHigh: _parseColor(colorMap['surfaceContainerHigh']),
-      surfaceContainerHighest: _parseColor(colorMap['surfaceContainerHighest']),
-      shadow: _parseColor(colorMap['shadow']),
-      outline: _parseColor(colorMap['outline']),
-      error: _parseColor(colorMap['error']),
-      onError: _parseColor(colorMap['onError']),
-      errorContainer: _parseColor(colorMap['errorContainer']),
-      onErrorContainer: _parseColor(colorMap['onErrorContainer']),
+      primary: _parseColor(colorMap["primary"]),
+      onPrimary: _parseColor(colorMap["onPrimary"]),
+      primaryContainer: _parseColor(colorMap["primaryContainer"]),
+      onPrimaryContainer: _parseColor(colorMap["onPrimaryContainer"]),
+      secondary: _parseColor(colorMap["secondary"]),
+      onSecondary: _parseColor(colorMap["onSecondary"]),
+      secondaryContainer: _parseColor(colorMap["secondaryContainer"]),
+      onSecondaryContainer: _parseColor(colorMap["onSecondaryContainer"]),
+      tertiary: _parseColor(colorMap["tertiary"]),
+      onTertiary: _parseColor(colorMap["onTertiary"]),
+      tertiaryContainer: _parseColor(colorMap["tertiaryContainer"]),
+      onTertiaryContainer: _parseColor(colorMap["onTertiaryContainer"]),
+      surface: _parseColor(colorMap["surface"]),
+      onSurface: _parseColor(colorMap["onSurface"]),
+      surfaceBright: _parseColor(colorMap["surfaceBright"]),
+      surfaceContainerLowest: _parseColor(colorMap["surfaceContainerLowest"]),
+      surfaceContainerLow: _parseColor(colorMap["surfaceContainerLow"]),
+      surfaceContainer: _parseColor(colorMap["surfaceContainer"]),
+      surfaceContainerHigh: _parseColor(colorMap["surfaceContainerHigh"]),
+      surfaceContainerHighest: _parseColor(colorMap["surfaceContainerHighest"]),
+      shadow: _parseColor(colorMap["shadow"]),
+      outline: _parseColor(colorMap["outline"]),
+      error: _parseColor(colorMap["error"]),
+      onError: _parseColor(colorMap["onError"]),
+      errorContainer: _parseColor(colorMap["errorContainer"]),
+      onErrorContainer: _parseColor(colorMap["onErrorContainer"]),
     );
   }
 
@@ -70,8 +70,8 @@ class MaterialTheme {
       );
 
   static Future<void> loadTheme() async {
-    _colorSchemeLight = await _loadColorScheme(_colorsPath, 'light');
-    _colorSchemeDark = await _loadColorScheme(_colorsPath, 'dark');
+    _colorSchemeLight = await _loadColorScheme(_colorsPath, "light");
+    _colorSchemeDark = await _loadColorScheme(_colorsPath, "dark");
   }
 
   static late ColorScheme _colorSchemeLight;

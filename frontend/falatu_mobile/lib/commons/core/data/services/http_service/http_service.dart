@@ -1,4 +1,4 @@
-import 'package:dio/dio.dart';
+import "package:dio/dio.dart";
 
 class ApiResponse<T> {
   final T? data;
@@ -38,7 +38,7 @@ class ApiError {
 
   factory ApiError.fromDioException(DioException dioException) {
     return ApiError(
-      message: dioException.message ?? '',
+      message: dioException.message ?? "",
       statusCode: dioException.response?.statusCode,
       errorType: dioException.type,
       errorData: dioException.response?.data,

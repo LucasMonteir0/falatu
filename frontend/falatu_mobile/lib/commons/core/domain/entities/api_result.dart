@@ -1,4 +1,4 @@
-import 'base_error.dart';
+import "base_error.dart";
 
 class ApiResult<T> {
   final bool success;

@@ -1,5 +1,5 @@
-import 'package:falatu_mobile/commons/core/data/services/shared_preferences_services/shared_preferences_services.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import "package:falatu_mobile/commons/core/data/services/shared_preferences_services/shared_preferences_services.dart";
+import "package:shared_preferences/shared_preferences.dart";
 
 
 class SharedPreferencesServiceImpl implements SharedPreferencesService {
@@ -19,7 +19,7 @@ class SharedPreferencesServiceImpl implements SharedPreferencesService {
     if (_prefs == null) {
       return null;
     }
-    final token = _prefs!.getString('accessToken');
+    final token = _prefs!.getString("accessToken");
     return token;
   }
 
@@ -28,7 +28,7 @@ class SharedPreferencesServiceImpl implements SharedPreferencesService {
     if (_prefs == null) {
       return null;
     }
-    final token = _prefs!.getString('refreshToken');
+    final token = _prefs!.getString("refreshToken");
     return token;
   }
 
@@ -37,7 +37,7 @@ class SharedPreferencesServiceImpl implements SharedPreferencesService {
     if (_prefs == null) {
       return false;
     }
-    final isSaved = await _prefs!.setString('accessToken', token);
+    final isSaved = await _prefs!.setString("accessToken", token);
     return isSaved;
   }
 
@@ -46,7 +46,7 @@ class SharedPreferencesServiceImpl implements SharedPreferencesService {
     if (_prefs == null) {
       return false;
     }
-    final isSaved = await _prefs!.setString('refreshToken', token);
+    final isSaved = await _prefs!.setString("refreshToken", token);
     return isSaved;
   }
 }

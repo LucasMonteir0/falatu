@@ -1,4 +1,4 @@
-part of 'theme.dart';
+part of "theme.dart";
 
 TextTheme _createTextTheme(BuildContext context) {
   TextTheme baseTextTheme = Theme.of(context).textTheme;

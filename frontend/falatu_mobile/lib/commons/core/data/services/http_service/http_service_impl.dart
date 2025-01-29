@@ -1,9 +1,9 @@
-import 'package:dio/dio.dart';
-import 'package:falatu_mobile/commons/core/data/services/http_service/http_service.dart';
-import 'package:falatu_mobile/commons/core/data/services/shared_preferences_services/shared_preferences_services.dart';
-import 'package:falatu_mobile/commons/utils/get_it.dart';
-import 'package:flutter/foundation.dart';
-import 'package:jwt_decoder/jwt_decoder.dart';
+import "package:dio/dio.dart";
+import "package:falatu_mobile/commons/core/data/services/http_service/http_service.dart";
+import "package:falatu_mobile/commons/core/data/services/shared_preferences_services/shared_preferences_services.dart";
+import "package:falatu_mobile/commons/utils/get_it.dart";
+import "package:flutter/foundation.dart";
+import "package:jwt_decoder/jwt_decoder.dart";
 
 class HttpServiceImpl extends HttpService {
   final Dio _dio = getIt.get<Dio>();
