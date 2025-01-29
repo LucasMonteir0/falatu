@@ -1,20 +1,17 @@
 import 'package:dio/dio.dart';
 import 'package:falatu_mobile/commons/core/data/services/http_service/http_service.dart';
 import 'package:falatu_mobile/commons/core/data/services/shared_preferences_services/shared_preferences_services.dart';
+import 'package:falatu_mobile/commons/utils/get_it.dart';
 import 'package:flutter/foundation.dart';
 import 'package:jwt_decoder/jwt_decoder.dart';
 
-
 class HttpServiceImpl extends HttpService {
-  final Dio _dio;
-  final SharedPreferencesService preferences;
+  final Dio _dio = getIt.get<Dio>();
+  final SharedPreferencesService preferences =
+      getIt.get<SharedPreferencesService>();
   final Future<void> Function()? onRefreshToken;
 
-  HttpServiceImpl({
-    required Dio dio,
-    required this.preferences,
-    this.onRefreshToken,
-  }) : _dio = dio {
+  HttpServiceImpl({this.onRefreshToken}) {
     _setupLogging();
     _setupInterceptors();
   }
@@ -26,7 +23,8 @@ class HttpServiceImpl extends HttpService {
           if (kDebugMode) {
             print("REQUEST[${options.method}] => PATH: ${options.path}");
             print("REQUEST[${options.method}] => BODY: ${options.data}");
-            print("REQUEST[${options.method}] => QUERY: ${options.queryParameters}");
+            print(
+                "REQUEST[${options.method}] => QUERY: ${options.queryParameters}");
           }
           handler.next(options);
         },
