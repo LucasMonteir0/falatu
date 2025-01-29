@@ -5,14 +5,14 @@ import "package:falatu_mobile/commons/utils/states/base_state.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 
 class SignInBloc extends Cubit<BaseState> {
-  final SignInUseCase useCase = getIt.get<SignInUseCase>();
+  final SignInUseCase _useCase = getIt.get<SignInUseCase>();
 
   SignInBloc() : super(const InitialState());
 
   void call(String email, String password) async {
     emit(LoadingState());
     final result =
-        await useCase.call(SignInEntity(email: email, password: password));
+        await _useCase.call(SignInEntity(email: email, password: password));
 
     if (result.success) {
       emit(SuccessState(result.data));
