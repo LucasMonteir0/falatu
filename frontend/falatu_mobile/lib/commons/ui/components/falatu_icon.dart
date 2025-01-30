@@ -25,19 +25,20 @@ class FalaTuIcon extends StatelessWidget {
   Widget build(BuildContext context) {
     return InkWell(
       onTap: onTap,
-      borderRadius:  padding != null ? BorderRadius.circular(4) : BorderRadius.zero,
+      borderRadius:
+          padding != null ? BorderRadius.circular(4) : BorderRadius.zero,
       splashFactory: InkSplash.splashFactory,
       child: Padding(
         padding: padding ?? EdgeInsets.zero,
         child: SizedBox.square(
           dimension: size,
           child: SvgPicture.asset(
-            '$_iconsAssetsPath${icon.value}',
+            "$_iconsAssetsPath${icon.value}",
             colorFilter: color != null
                 ? ColorFilter.mode(
-              color!,
-              BlendMode.srcIn,
-            )
+                    color!,
+                    BlendMode.srcIn,
+                  )
                 : null,
             fit: fit,
           ),

@@ -6,7 +6,8 @@ import "package:falatu_mobile/app/core/domain/repositories/auth/auth_repository.
 import "package:falatu_mobile/app/core/domain/usecases/sign_in/sign_in_use_case.dart";
 import "package:falatu_mobile/app/core/domain/usecases/sign_in/sign_in_use_case_impl.dart";
 import "package:falatu_mobile/app/ui/blocs/sign_in_bloc.dart";
-import "package:falatu_mobile/app/ui/pages/sign_in_page.dart";
+import "package:falatu_mobile/app/ui/pages/sign_in/sign_in_page.dart";
+import "package:falatu_mobile/app/ui/pages/sign_up/sign_up_page.dart";
 import "package:falatu_mobile/commons/core/data/services/http_service/http_service.dart";
 import "package:falatu_mobile/commons/core/data/services/http_service/http_service_impl.dart";
 import "package:falatu_mobile/commons/core/data/services/shared_preferences_services/shared_preferences_services.dart";
@@ -48,6 +49,10 @@ class AppModule implements Module {
     GoRoute(
       path: Routes.signIn,
       builder: (_, __) => const SignInPage(),
+    ),
+    GoRoute(
+      path: Routes.signUp,
+      builder: (_, __) => const SignUpPage(),
     ),
   ];
 
