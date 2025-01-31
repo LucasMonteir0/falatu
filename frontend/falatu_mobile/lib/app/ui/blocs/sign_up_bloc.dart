@@ -2,14 +2,13 @@ import "dart:io";
 
 import "package:falatu_mobile/app/core/domain/entities/sign_up_entity.dart";
 import "package:falatu_mobile/app/core/domain/usecases/sign_up/sign_up_use_case.dart";
-import "package:falatu_mobile/commons/utils/get_it.dart";
 import "package:falatu_mobile/commons/utils/states/base_state.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 
-class SignInBloc extends Cubit<BaseState> {
-  final SignUpUseCase _useCase = getIt.get<SignUpUseCase>();
+class SignUpBloc extends Cubit<BaseState> {
+  final SignUpUseCase _useCase;
 
-  SignInBloc() : super(const InitialState());
+  SignUpBloc(this._useCase) : super(const InitialState());
 
   void call({
     required String name,

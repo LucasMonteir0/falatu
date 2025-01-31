@@ -4,7 +4,7 @@ import "package:falatu_mobile/commons/utils/resources/localizations/app_localiza
 import "package:falatu_mobile/commons/utils/resources/theme/theme.dart";
 import "package:falatu_mobile/commons/utils/routes.dart";
 import "package:flutter/material.dart";
-import "package:go_router/go_router.dart";
+import "package:flutter_modular/flutter_modular.dart";
 
 class FalaTu extends StatelessWidget {
   const FalaTu({super.key});
@@ -17,7 +17,8 @@ class FalaTu extends StatelessWidget {
       theme: MaterialTheme.light(),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      routerConfig: GoRouter(initialLocation: Routes.signIn, routes: AppModule().routes),
+      routeInformationParser: Modular.routeInformationParser,
+      routerDelegate: Modular.routerDelegate,
     );
   }
 }

@@ -1,17 +1,16 @@
-import "package:falatu_mobile/commons/utils/routes.dart";
-import "package:flutter/material.dart";
-import "package:go_router/go_router.dart";
+import "dart:async";
 
-class AuthGuard {
-  static GoRouterRedirect call() {
-    return (BuildContext context, GoRouterState state) {
-      if (false) {
-        return Routes.signIn;
-      } else {
-        return null;
-      }
-    };
-  }
-}
+import "package:falatu_mobile/commons/utils/routes.dart";
+import "package:flutter_modular/flutter_modular.dart";
+
+// class AuthGuard extends RouteGuard {
+//   AuthGuard() : super(redirectTo: Routes.signIn)
+//
+//
+//   @override
+//   FutureOr<bool> canActivate(String path, ParallelRoute route) async {
+//     return true;
+//   }
+// }
 
 

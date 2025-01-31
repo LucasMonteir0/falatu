@@ -7,13 +7,12 @@ import "package:falatu_mobile/commons/core/data/services/http_service/http_servi
 import "package:falatu_mobile/commons/core/domain/entities/api_result.dart";
 import "package:falatu_mobile/commons/utils/errors/errors.dart";
 import "package:falatu_mobile/commons/utils/errors/handle_error.dart";
-import "package:falatu_mobile/commons/utils/get_it.dart";
 import "package:falatu_mobile/commons/utils/helpers/url_helpers.dart";
 
 class AuthDatasourceImpl implements AuthDatasource {
-  final HttpService _client = getIt.get<HttpService>();
+  final HttpService _client;
 
-  AuthDatasourceImpl();
+  AuthDatasourceImpl(this._client);
 
   @override
   Future<ApiResult<SignInResponseModel>> signIn(SignInModel params) async {
