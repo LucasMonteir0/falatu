@@ -1,4 +1,4 @@
-import { Chat, User } from "@prisma/client";
+import { Chat } from "@prisma/client";
 import { ChatType } from "../enums/chat_type.enum";
 import { ChatUtils } from "../utils/chat.utils";
 import { ChatUserEntity } from "./chat_user.entity";
