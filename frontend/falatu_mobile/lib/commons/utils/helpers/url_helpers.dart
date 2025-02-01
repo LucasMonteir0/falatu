@@ -7,12 +7,11 @@ class UrlHelpers {
     await dotenv.load();
   }
 
-  static String getApiBaseUrl(
-      { required String moduleName, String? path}) {
+  static String getApiBaseUrl({required String moduleName, String? path}) {
     String modulePath = "";
     if (moduleName.isNotEmpty) {
       modulePath = "/$moduleName";
     }
-    return '${dotenv.env['FALATU_URL'] ?? ''}$modulePath/$path';
+    return '${dotenv.env['FALATU_URL'] ?? ''}$modulePath${path != null ? "/$path" : ""}';
   }
 }

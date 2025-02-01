@@ -1,11 +1,11 @@
 import "package:equatable/equatable.dart";
 
-class SignInResponseEntity extends Equatable {
+class AuthCredentialsEntity extends Equatable {
   final String userId;
   final String accessToken;
   final String refreshToken;
 
-  const SignInResponseEntity(
+  const AuthCredentialsEntity(
       {required this.userId,
       required this.accessToken,
       required this.refreshToken});

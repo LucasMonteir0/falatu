@@ -11,6 +11,7 @@ class FalaTu extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    Modular.setInitialRoute(Routes.chats + Routes.root);
     MaterialTheme.loadTextTheme(context);
     return MaterialApp.router(
       onGenerateTitle: (context) => context.i18n.appName,

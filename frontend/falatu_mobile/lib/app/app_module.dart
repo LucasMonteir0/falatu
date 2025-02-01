@@ -7,7 +7,9 @@ import "package:falatu_mobile/app/core/domain/usecases/sign_in/sign_in_use_case_
 import "package:falatu_mobile/app/ui/blocs/sign_in_bloc.dart";
 import "package:falatu_mobile/app/ui/pages/sign_in/sign_in_page.dart";
 import "package:falatu_mobile/app/ui/pages/sign_up/sign_up_page.dart";
+import "package:falatu_mobile/chat/chat_module.dart";
 import "package:falatu_mobile/commons/commons_module.dart";
+import "package:falatu_mobile/commons/utils/guards/auth_guard.dart";
 import "package:falatu_mobile/commons/utils/routes.dart";
 import "package:flutter_modular/flutter_modular.dart";
 
@@ -20,11 +22,12 @@ class AppModule extends Module {
         Bind.factory<AuthDatasource>((i) => AuthDatasourceImpl(i())),
         Bind.factory<AuthRepository>((i) => AuthRepositoryImpl(i())),
         Bind.factory<SignInUseCase>((i) => SignInUseCaseImpl(i())),
-        Bind.factory<SignInBloc>((i) => SignInBloc(i())),
+        Bind.factory<SignInBloc>((i) => SignInBloc(i(), i())),
       ];
 
   @override
   List<ModularRoute> get routes => [
+        ModuleRoute(Routes.chats, module: ChatModule(), guards: [AuthGuard()]),
         ChildRoute(
           Routes.signIn,
           child: (_, __) => const SignInPage(),

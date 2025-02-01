@@ -1,6 +1,6 @@
 import "package:falatu_mobile/app/core/data/datasources/auth/auth_datasource.dart";
 import "package:falatu_mobile/app/core/data/models/sign_in_model.dart";
-import "package:falatu_mobile/app/core/data/models/sign_in_response_model.dart";
+import "package:falatu_mobile/commons/core/data/models/auth_credentials_model.dart";
 import "package:falatu_mobile/app/core/data/models/sign_up_model.dart";
 import "package:falatu_mobile/commons/core/data/models/user_model.dart";
 import "package:falatu_mobile/commons/core/data/services/http_service/http_service.dart";
@@ -15,11 +15,11 @@ class AuthDatasourceImpl implements AuthDatasource {
   AuthDatasourceImpl(this._client);
 
   @override
-  Future<ApiResult<SignInResponseModel>> signIn(SignInModel params) async {
+  Future<ApiResult<AuthCredentialsModel>> signIn(SignInModel params) async {
     try {
       final url = UrlHelpers.getApiBaseUrl(moduleName: "auth");
       final response = await _client.post(url, data: params.toJson());
-      return ApiResult.success(SignInResponseModel.fromJson(response.data));
+      return ApiResult.success(AuthCredentialsModel.fromJson(response.data));
     } on ApiError catch (e) {
       final error = handleError(e.statusCode, message: e.message);
       return ApiResult.error(error);

@@ -2,7 +2,7 @@ import "package:falatu_mobile/app/core/data/datasources/auth/auth_datasource.dar
 import "package:falatu_mobile/app/core/data/models/sign_in_model.dart";
 import "package:falatu_mobile/app/core/data/models/sign_up_model.dart";
 import "package:falatu_mobile/app/core/domain/entities/sign_in_entity.dart";
-import "package:falatu_mobile/app/core/domain/entities/sign_in_response_entity.dart";
+import "package:falatu_mobile/commons/core/domain/entities/auth_credentials_entity.dart";
 import "package:falatu_mobile/app/core/domain/entities/sign_up_entity.dart";
 import "package:falatu_mobile/app/core/domain/repositories/auth/auth_repository.dart";
 import "package:falatu_mobile/commons/core/domain/entities/api_result.dart";
@@ -14,7 +14,7 @@ class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl(this._datasource);
 
   @override
-  Future<ApiResult<SignInResponseEntity>> signIn(SignInEntity params) {
+  Future<ApiResult<AuthCredentialsEntity>> signIn(SignInEntity params) {
     return _datasource.signIn(SignInModel.fromObject(params));
   }
 

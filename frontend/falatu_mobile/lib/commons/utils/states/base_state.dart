@@ -47,11 +47,3 @@ class ErrorState<T> implements BaseState {
   @override
   bool get stringify => false;
 }
-
-class IdleState implements BaseState {
-  @override
-  List<Object?> get props => [];
-
-  @override
-  bool get stringify => false;
-}
