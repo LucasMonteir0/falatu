@@ -50,34 +50,41 @@ export class PrismaChatDatasourceImpl implements ChatDatasource {
 
   //BUSCAR CHATS DE UM USUÁRIO
   async getChatsByUserId(id: string): Promise<ResultWrapper<ChatEntity[]>> {
-    const chats = await this.database.chat.findMany({
-      where: {
-        userChats: {
-          none: {
-            userId: id,
+    if (!id) {
+      return ResultWrapper.error(new BadRequestError("userId is missing."));
+    }
+    try {
+      const chats = await this.database.chat.findMany({
+        where: {
+          userChats: {
+            some: {
+              userId: id,
+            },
           },
         },
-      },
-      include: {
-        userChats: {
-          include: {
-            user: true,
+        include: {
+          userChats: {
+            include: {
+              user: true,
+            },
           },
         },
-      },
-    });
+      });
 
-    const result = chats.map((c) =>
-      ChatEntity.fromPrisma(
-        c,
-        c.userChats.map((u) =>
-          ChatUserEntity.fromPrisma(u.user, ChatUtils.roleFromValue(u.role))
+      const result = chats.map((c) =>
+        ChatEntity.fromPrisma(
+          c,
+          c.userChats.map((u) =>
+            ChatUserEntity.fromPrisma(u.user, ChatUtils.roleFromValue(u.role))
+          )
         )
-      )
-    );
-    return ResultWrapper.success(result);
+      );
+      return ResultWrapper.success(result);
+    } catch (e) {
+      return ResultWrapper.error(new UnknownError(e));
+    }
   }
-  
+
   //BUSCAR UM CHAT POR ID
   async getChatById(id: string): Promise<ResultWrapper<ChatEntity>> {
     try {
@@ -92,7 +99,7 @@ export class PrismaChatDatasourceImpl implements ChatDatasource {
         },
       });
 
-      if (chat) {
+      if (!chat) {
         return ResultWrapper.error(
           new NotFoundError("This chat doen't exists.")
         );

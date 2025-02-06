@@ -16,13 +16,10 @@ export class ChatController {
     throw result.error;
   }
   @Get()
-  async getChatsByUserId(@Query("userId") userId?: string) {
+  async getChatsByUserId(@Query("userId") userId: string) {
     const result = await this.datasource.getChatsByUserId(userId);
     if (result.isSuccess) {
-      if (!userId) {
-        return result.data;
-      }
-      return result.data[0];
+      return result.data;
     }
     throw result.error;
   }

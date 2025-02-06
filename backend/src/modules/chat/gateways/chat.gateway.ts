@@ -47,6 +47,7 @@ export class ChatGateway
     const sockets = this.userSockets.get(userId) || new Set();
     sockets.add(client);
     this.userSockets.set(userId, sockets);
+    this.emitChatsToUser(userId);
   }
 
   async handleDisconnect(client: Socket) {
