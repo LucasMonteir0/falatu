@@ -1,6 +1,5 @@
 import "package:falatu_mobile/app/ui/blocs/sign_in_bloc.dart";
 import "package:falatu_mobile/commons/core/domain/entities/auth_credentials_entity.dart";
-import "package:falatu_mobile/commons/core/domain/entities/user_entity.dart";
 import "package:falatu_mobile/commons/ui/components/curved_image.dart";
 import "package:falatu_mobile/commons/ui/components/falatu_button.dart";
 import "package:falatu_mobile/commons/ui/components/falatu_text_input.dart";
