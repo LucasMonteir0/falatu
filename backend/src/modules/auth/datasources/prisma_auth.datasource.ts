@@ -27,16 +27,12 @@ export class PrismaAuthDatasourceImpl implements AuthDatasource {
       where: { email: credentials.email },
     });
 
-    if (!user) {
-      const e = new NotFoundError("invalid e-mail or password");
-      return ResultWrapper.error(e);
-    }
 
     const { password, id } = user;
     const isPasswordValid = await compare(credentials.password, password);
 
-    if (!isPasswordValid) {
-      const e = new UnauthorizedError("invalid e-mail or password");
+    if (!user || !isPasswordValid) {
+      const e = new NotFoundError("invalid e-mail or password");
       return ResultWrapper.error(e);
     }
 
