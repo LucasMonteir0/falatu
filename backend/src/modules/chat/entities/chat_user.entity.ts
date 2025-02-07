@@ -1,17 +1,38 @@
-import { UserEntity } from "../../commons/entities/user.entity";
 import { ChatRole } from "../enums/chat_role.enum";
 import { User } from "@prisma/client";
 
 export class ChatUserEntity {
-  user: UserEntity;
+  id: string;
+  name: string;
+  email: string;
   role: ChatRole;
+  pictureUrl?: string;
+  createdAt: Date;
 
-  constructor(user: UserEntity, role: ChatRole) {
-    this.user = user;
+  constructor(
+    id: string,
+    name: string,
+    email: string,
+    role: ChatRole,
+    pictureUrl?: string,
+    createdAt: Date = new Date()
+  ) {
+    this.id = id;
+    this.name = name;
+    this.email = email;
+    this.pictureUrl = pictureUrl;
+    this.createdAt = createdAt;
     this.role = role;
   }
 
   static fromPrisma(user: User, role: ChatRole): ChatUserEntity {
-    return new ChatUserEntity(UserEntity.fromPrisma(user), role);
+    return new ChatUserEntity(
+      user.id,
+      user.name,
+      user.email,
+      role,
+      user.picture_url,
+      user.createdAt
+    );
   }
 }

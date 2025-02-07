@@ -121,7 +121,7 @@ export class ChatGateway
 
       const participants = await this.chatDatasource.getUsersByChatId(chatId);
       participants.data.forEach((participant) => {
-        this.emitChatsToUser(participant.user.id);
+        this.emitChatsToUser(participant.id);
       });
     } else {
       return newMessage.error;
