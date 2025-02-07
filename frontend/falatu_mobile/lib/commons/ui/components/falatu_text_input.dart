@@ -3,6 +3,7 @@ import "package:falatu_mobile/commons/utils/enums/icons_enum.dart";
 import "package:falatu_mobile/commons/utils/extensions/nullable_extensions.dart";
 import "package:falatu_mobile/commons/utils/extensions/num_extensions.dart";
 import "package:flutter/material.dart";
+import "package:flutter/services.dart";
 
 class FalaTuTextInput extends StatefulWidget {
   final TextEditingController? controller;
@@ -15,6 +16,9 @@ class FalaTuTextInput extends StatefulWidget {
   final bool obscureText;
   final FalaTuIconsEnum? prefixIcon;
   final bool enabled;
+  final TextInputType? keyboardType;
+  final String? Function(String?)? validator;
+  final List<TextInputFormatter>? inputFormatters;
 
   const FalaTuTextInput({
     super.key,
@@ -28,6 +32,9 @@ class FalaTuTextInput extends StatefulWidget {
     this.prefixIcon,
     this.focusNode,
     this.enabled = true,
+    this.keyboardType,
+    this.validator,
+    this.inputFormatters,
   });
 
   @override
@@ -66,6 +73,9 @@ class _FalaTuTextInputState extends State<FalaTuTextInput> {
       decoration: _decoration(context),
       readOnly: widget.readOnly,
       obscureText: showText,
+      keyboardType: widget.keyboardType,
+      validator: widget.validator,
+      inputFormatters: widget.inputFormatters,
     );
   }
 
@@ -99,8 +109,7 @@ class _FalaTuTextInputState extends State<FalaTuTextInput> {
       suffix: widget.obscureText ? 8.pw : null,
       prefixIconConstraints:
           const BoxConstraints(maxWidth: iconSize, maxHeight: iconSize),
-      suffixIconConstraints:
-          const BoxConstraints(maxWidth: 40, maxHeight: 40),
+      suffixIconConstraints: const BoxConstraints(maxWidth: 40, maxHeight: 40),
       prefixIcon: widget.prefixIcon.let(
         (icon) => Padding(
             padding: const EdgeInsets.only(left: 8.0),
@@ -113,8 +122,8 @@ class _FalaTuTextInputState extends State<FalaTuTextInput> {
       ),
       suffixIcon: widget.obscureText
           ? Padding(
-            padding: const EdgeInsets.only(right: 16.0),
-            child: FalaTuIcon(
+              padding: const EdgeInsets.only(right: 16.0),
+              child: FalaTuIcon(
                 icon: showText
                     ? FalaTuIconsEnum.visibilityOnFilled
                     : FalaTuIconsEnum.visibilityOffFilled,
@@ -122,7 +131,7 @@ class _FalaTuTextInputState extends State<FalaTuTextInput> {
                 size: 36,
                 onTap: () => setState(() => showText = !showText),
               ),
-          )
+            )
           : null,
       label: widget.label.let(
         (label) => Padding(

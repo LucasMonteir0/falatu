@@ -1,14 +1,16 @@
 import "package:flutter/material.dart";
 
-enum ButtonType { filled, outlined, text }
+enum ButtonType { filled, outlined, text, link }
 
 class FalaTuButton extends StatelessWidget {
   final String label;
   final ButtonType type;
   final VoidCallback? onTap;
+  final bool isLoading;
 
   const FalaTuButton(
       {required this.label,
+      this.isLoading = false,
       super.key,
       this.type = ButtonType.filled,
       this.onTap});
@@ -19,19 +21,38 @@ class FalaTuButton extends StatelessWidget {
     switch (type) {
       case ButtonType.filled:
         return FilledButton(
-          onPressed: onTap,
-          child: _Text(label, color: Colors.white),
+          onPressed: isLoading ? null : onTap,
+          child: isLoading
+              ? const SizedBox.square(
+                  dimension: 18,
+                  child: CircularProgressIndicator(
+                      color: Colors.white, strokeWidth: 2))
+              : _Text(label, color: Colors.white),
         );
       case ButtonType.outlined:
         return OutlinedButton(
-          onPressed: onTap,
+          onPressed: isLoading ? null : onTap,
           style: OutlinedButton.styleFrom(
               side: BorderSide(color: colors.primary, width: 2)),
-          child: _Text(label, color: colors.primary),
+          child: isLoading
+              ? SizedBox.square(
+                  dimension: 18,
+                  child: CircularProgressIndicator(
+                      color: colors.primary, strokeWidth: 2))
+              : _Text(label, color: colors.primary),
         );
       case ButtonType.text:
         return TextButton(
           onPressed: onTap,
+          style: TextButton.styleFrom(
+              visualDensity: VisualDensity.compact,
+              padding: const EdgeInsets.symmetric(horizontal: 8)),
+          child: _Text(label, color: colors.primary),
+        );
+      case ButtonType.link:
+        return TextButton(
+          onPressed: onTap,
+          style: TextButton.styleFrom(visualDensity: VisualDensity.compact),
           child: _Text(label, color: colors.primary, hasUnderline: true),
         );
     }

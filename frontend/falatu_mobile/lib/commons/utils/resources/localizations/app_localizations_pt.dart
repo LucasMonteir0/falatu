@@ -8,4 +8,34 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get appName => 'FalaTu';
+
+  @override
+  String get appSubtitle => 'Converse com seus amigos de qualquer lugar';
+
+  @override
+  String get signIn => 'Entrar';
+
+  @override
+  String get email => 'E-mail';
+
+  @override
+  String get password => 'Senha';
+
+  @override
+  String get forgotPassword => 'Esqueceu a senha?';
+
+  @override
+  String get clickHere => 'Clique aqui';
+
+  @override
+  String get hasAccount => 'Ainda não tem conta?';
+
+  @override
+  String get invalidEmailOrPassword => 'Email ou senha inválido.';
+
+  @override
+  String get requiredField => 'Campo obrigatório.';
+
+  @override
+  String get invalidEmail => 'Email inválido.';
 }

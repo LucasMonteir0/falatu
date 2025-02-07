@@ -98,6 +98,66 @@ abstract class AppLocalizations {
   /// In pt, this message translates to:
   /// **'FalaTu'**
   String get appName;
+
+  /// No description provided for @appSubtitle.
+  ///
+  /// In pt, this message translates to:
+  /// **'Converse com seus amigos de qualquer lugar'**
+  String get appSubtitle;
+
+  /// No description provided for @signIn.
+  ///
+  /// In pt, this message translates to:
+  /// **'Entrar'**
+  String get signIn;
+
+  /// No description provided for @email.
+  ///
+  /// In pt, this message translates to:
+  /// **'E-mail'**
+  String get email;
+
+  /// No description provided for @password.
+  ///
+  /// In pt, this message translates to:
+  /// **'Senha'**
+  String get password;
+
+  /// No description provided for @forgotPassword.
+  ///
+  /// In pt, this message translates to:
+  /// **'Esqueceu a senha?'**
+  String get forgotPassword;
+
+  /// No description provided for @clickHere.
+  ///
+  /// In pt, this message translates to:
+  /// **'Clique aqui'**
+  String get clickHere;
+
+  /// No description provided for @hasAccount.
+  ///
+  /// In pt, this message translates to:
+  /// **'Ainda não tem conta?'**
+  String get hasAccount;
+
+  /// No description provided for @invalidEmailOrPassword.
+  ///
+  /// In pt, this message translates to:
+  /// **'Email ou senha inválido.'**
+  String get invalidEmailOrPassword;
+
+  /// No description provided for @requiredField.
+  ///
+  /// In pt, this message translates to:
+  /// **'Campo obrigatório.'**
+  String get requiredField;
+
+  /// No description provided for @invalidEmail.
+  ///
+  /// In pt, this message translates to:
+  /// **'Email inválido.'**
+  String get invalidEmail;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

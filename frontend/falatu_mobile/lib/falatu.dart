@@ -1,9 +1,11 @@
-import "package:falatu_mobile/app/app_module.dart";
+import "package:falatu_mobile/commons/ui/blocs/sign_out_bloc.dart";
 import "package:falatu_mobile/commons/utils/extensions/context_extensions.dart";
 import "package:falatu_mobile/commons/utils/resources/localizations/app_localizations.dart";
 import "package:falatu_mobile/commons/utils/resources/theme/theme.dart";
 import "package:falatu_mobile/commons/utils/routes.dart";
+import "package:falatu_mobile/commons/utils/states/base_state.dart";
 import "package:flutter/material.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter_modular/flutter_modular.dart";
 
 class FalaTu extends StatelessWidget {
@@ -20,6 +22,17 @@ class FalaTu extends StatelessWidget {
       supportedLocales: AppLocalizations.supportedLocales,
       routeInformationParser: Modular.routeInformationParser,
       routerDelegate: Modular.routerDelegate,
+      builder: (context, child) => BlocListener<SignOutBloc, BaseState>(
+          bloc: Modular.get<SignOutBloc>(),
+          listener: (context, state) {
+            if (state is SuccessState<bool> && state.data) {
+              Modular.to.pushNamedAndRemoveUntil(
+                Routes.signIn,
+                (p0) => false,
+              );
+            }
+          },
+          child: child),
     );
   }
 }

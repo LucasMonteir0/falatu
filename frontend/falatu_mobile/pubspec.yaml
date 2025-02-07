@@ -46,6 +46,7 @@ dependencies:
   flutter_bloc: ^9.0.0
   socket_io_client: ^3.0.2
   flutter_modular: ^5.0.3
+  toastification: ^2.3.0
 
 dev_dependencies:
   flutter_test:
@@ -73,6 +74,7 @@ flutter:
   assets:
     - assets/design_tokens/theme_colors.json
     - assets/icons/
+    - assets/images/
     - .env
 
 

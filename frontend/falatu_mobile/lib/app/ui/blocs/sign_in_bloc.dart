@@ -2,6 +2,7 @@ import "package:falatu_mobile/app/core/domain/entities/sign_in_entity.dart";
 import "package:falatu_mobile/app/core/domain/usecases/sign_in/sign_in_use_case.dart";
 import "package:falatu_mobile/commons/core/data/services/shared_preferences_services/shared_preferences_services.dart";
 import "package:falatu_mobile/commons/core/domain/entities/auth_credentials_entity.dart";
+import "package:falatu_mobile/commons/utils/errors/errors.dart";
 import "package:falatu_mobile/commons/utils/states/base_state.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 
@@ -19,10 +20,14 @@ class SignInBloc extends Cubit<BaseState> {
     if (result.success) {
       final data = result.data as AuthCredentialsEntity;
       await _preferences.setUserAccessToken(data.accessToken);
+      await _preferences.setUserId(data.userId);
       await _preferences.setUserRefreshToken(data.refreshToken);
-      emit(SuccessState(result.data));
+      emit(SuccessState<AuthCredentialsEntity>(result.data!));
+      return;
+    } else if (result.error is NotFoundError) {
+      emit(ErrorState<NotFoundError>(result.error));
       return;
     }
-    emit(ErrorState(result.error));
+    emit(ErrorState(UnknownError(message: result.error!.message)));
   }
 }

@@ -1,3 +1,13 @@
 {
-"appName": "FalaTu"
+"appName": "FalaTu",
+"appSubtitle": "Converse com seus amigos de qualquer lugar",
+"signIn": "Entrar",
+"email": "E-mail",
+"password": "Senha",
+"forgotPassword": "Esqueceu a senha?",
+"clickHere": "Clique aqui",
+"hasAccount": "Ainda não tem conta?",
+"invalidEmailOrPassword": "Email ou senha inválido.",
+"requiredField": "Campo obrigatório.",
+"invalidEmail": "Email inválido."
 }
