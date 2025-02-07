@@ -8,13 +8,12 @@ import "package:falatu_mobile/commons/utils/errors/errors.dart";
 import "package:falatu_mobile/commons/utils/errors/handle_error.dart";
 import "package:falatu_mobile/commons/utils/helpers/url_helpers.dart";
 
-class AuthCommonsDatasourceImpl
-    implements AuthCommonsDatasource {
+class AuthCommonsDatasourceImpl implements AuthCommonsDatasource {
   final HttpService _httpClient;
   final SharedPreferencesService _preferences;
 
-  AuthCommonsDatasourceImpl(HttpService httpClient,
-      SharedPreferencesService preferences)
+  AuthCommonsDatasourceImpl(
+      HttpService httpClient, SharedPreferencesService preferences)
       : _preferences = preferences,
         _httpClient = httpClient;
 
@@ -22,10 +21,9 @@ class AuthCommonsDatasourceImpl
   Future<ApiResult<AuthCredentialsEntity>> updateAccessToken() async {
     try {
       final refreshToken = _preferences.getUserRefreshToken();
-      final url = UrlHelpers.getApiBaseUrl(
-          path: "refresh-token", moduleName: "auth");
-      final result =
-      await _httpClient.post(url, data: {"token": refreshToken});
+      final url =
+          UrlHelpers.getApiBaseUrl(path: "refresh-token", moduleName: "auth");
+      final result = await _httpClient.post(url, data: {"token": refreshToken});
 
       final model = AuthCredentialsModel.fromJson(result.data);
       await _preferences.setUserRefreshToken(model.refreshToken);
@@ -37,5 +35,10 @@ class AuthCommonsDatasourceImpl
     } catch (e) {
       return ApiResult.error(UnknownError(message: e.toString()));
     }
+  }
+
+  @override
+  Future<bool> signOut() async {
+    return _preferences.removeAuthCaches();
   }
 }

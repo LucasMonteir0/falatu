@@ -7,8 +7,11 @@ import "package:falatu_mobile/commons/core/data/services/http_service/http_servi
 import "package:falatu_mobile/commons/core/data/services/shared_preferences_services/shared_preferences_services.dart";
 import "package:falatu_mobile/commons/core/data/services/shared_preferences_services/shared_preferences_services_impl.dart";
 import "package:falatu_mobile/commons/core/domain/repositories/auth/auth_commons_repository.dart";
+import "package:falatu_mobile/commons/core/domain/usecases/sign_out/sign_out_use_case.dart";
+import "package:falatu_mobile/commons/core/domain/usecases/sign_out/sign_out_use_case_impl.dart";
 import "package:falatu_mobile/commons/core/domain/usecases/update_access_token/update_access_token_use_case.dart";
 import "package:falatu_mobile/commons/core/domain/usecases/update_access_token/update_access_token_use_case_impl.dart";
+import "package:falatu_mobile/commons/ui/blocs/sign_out_bloc.dart";
 import "package:falatu_mobile/commons/ui/blocs/update_access_token_bloc.dart";
 import "package:flutter_modular/flutter_modular.dart";
 
@@ -20,25 +23,34 @@ class CommonsModule extends Module {
             (i) => SharedPreferencesServiceImpl(),
             export: true),
         Bind.lazySingleton<HttpService>(
-            (i) => HttpServiceImpl(Dio(), i(), onRefreshToken: () async {
-                  await Modular.get<UpdateAccessTokenBloc>().call();
-                }),
+            (i) => HttpServiceImpl(
+                  Dio(),
+                  i(),
+                  onRefreshToken: () =>
+                      Modular.get<UpdateAccessTokenBloc>().call(),
+                  onSignOut: () => Modular.get<UpdateAccessTokenBloc>().call(),
+                ),
             export: true),
 
         //DATASOURCES
         Bind.factory<AuthCommonsDatasource>(
-            (i) => AuthCommonsDatasourceImpl(i(), i())),
+            (i) => AuthCommonsDatasourceImpl(i(), i()),
+            export: true),
 
         //REPOSITORIES
         Bind.factory<AuthCommonsRepository>(
-            (i) => AuthCommonsRepositoryImpl(i())),
+            (i) => AuthCommonsRepositoryImpl(i()),
+            export: true),
 
         //USECASES
         Bind.factory<UpdateAccessTokenUseCase>(
             (i) => UpdateAccessTokenUseCaseImpl(i())),
+        Bind.factory<SignOutUseCase>((i) => SignOutUseCaseImpl(i()),
+            export: true),
 
         //BLOCS
         Bind.lazySingleton<UpdateAccessTokenBloc>(
-            (i) => UpdateAccessTokenBloc(i(), i())),
+            (i) => UpdateAccessTokenBloc(i())),
+        Bind.lazySingleton<SignOutBloc>((i) => SignOutBloc(i()), export: true),
       ];
 }

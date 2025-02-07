@@ -3,4 +3,5 @@ import "package:falatu_mobile/commons/core/domain/entities/auth_credentials_enti
 
 abstract class AuthCommonsRepository {
   Future<ApiResult<AuthCredentialsEntity>> updateAccessToken();
+  Future<bool> signOut();
 }

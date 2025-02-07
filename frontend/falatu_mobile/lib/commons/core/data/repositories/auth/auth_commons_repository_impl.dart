@@ -12,4 +12,9 @@ class AuthCommonsRepositoryImpl implements AuthCommonsRepository {
   Future<ApiResult<AuthCredentialsEntity>> updateAccessToken() {
     return _datasource.updateAccessToken();
   }
+
+  @override
+  Future<bool> signOut() {
+    return _datasource.signOut();
+  }
 }

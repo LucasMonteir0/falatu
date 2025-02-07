@@ -8,8 +8,10 @@ class HttpServiceImpl extends HttpService {
   final Dio _dio;
   final SharedPreferencesService preferences;
   final Future<void> Function()? onRefreshToken;
+  final Future<void> Function()? onSignOut;
 
-  HttpServiceImpl(this._dio, this.preferences, {this.onRefreshToken}) {
+  HttpServiceImpl(this._dio, this.preferences,
+      {this.onRefreshToken, this.onSignOut}) {
     _setupLogging();
     _setupInterceptors();
   }
@@ -35,7 +37,7 @@ class HttpServiceImpl extends HttpService {
         onError: (DioException e, handler) {
           if (kDebugMode) {
             print(
-                "ERROR[${e.response?.statusCode}] => MESSAGE: ${e.response!.data}");
+                "ERROR[${e.response?.statusCode}] => MESSAGE: ${e.response?.data}");
           }
           handler.next(e);
         },
@@ -47,15 +49,27 @@ class HttpServiceImpl extends HttpService {
     _dio.interceptors.add(
       InterceptorsWrapper(
         onRequest: (options, handler) async {
-          String? token = preferences.getUserAccessToken();
-          if (token != null && token.isNotEmpty) {
-            if (JwtDecoder.isExpired(token)) {
+          String? access = preferences.getUserAccessToken();
+          String? refresh = preferences.getUserRefreshToken();
+          if (access != null && access.isNotEmpty) {
+
+            //Verifica se o access token está expirado.
+            if (JwtDecoder.isExpired(access)) {
+
+              //Se o refresh estiver expirado, então deslogará o usuário.
+              if (refresh != null &&
+                  JwtDecoder.isExpired(refresh) &&
+                  onSignOut != null) {
+                await onSignOut!();
+              }
+
+              //Se o access estiver expirado ele acessa recupera outro access pelo refresh.
               if (onRefreshToken != null) {
                 await onRefreshToken!();
-                token = preferences.getUserAccessToken();
+                access = preferences.getUserAccessToken();
               }
             }
-            options.headers["Authorization"] = "Bearer $token";
+            options.headers["Authorization"] = "Bearer $access";
           }
 
           return handler.next(options);
