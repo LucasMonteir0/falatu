@@ -1,3 +1,6 @@
+import "dart:io";
+import "package:falatu_mobile/app/ui/blocs/sign_up_bloc.dart";
+import "package:falatu_mobile/commons/core/domain/entities/user_entity.dart";
 import "package:falatu_mobile/commons/ui/components/falatu_button.dart";
 import "package:falatu_mobile/commons/ui/components/falatu_icon.dart";
 import "package:falatu_mobile/commons/ui/components/falatu_image_input.dart";
@@ -7,7 +10,10 @@ import "package:falatu_mobile/commons/ui/components/falatu_text_input.dart";
 import "package:falatu_mobile/commons/utils/enums/icons_enum.dart";
 import "package:falatu_mobile/commons/utils/extensions/context_extensions.dart";
 import "package:falatu_mobile/commons/utils/helpers/validators_heper.dart";
+import "package:falatu_mobile/commons/utils/states/base_state.dart";
 import "package:flutter/material.dart";
+import "package:flutter_bloc/flutter_bloc.dart";
+import "package:flutter_modular/flutter_modular.dart";
 
 class SignUpPage extends StatefulWidget {
   const SignUpPage({super.key});
@@ -25,6 +31,9 @@ class _SignUpPageState extends State<SignUpPage> {
   late final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   late final ValueNotifier<String> _passwordNotifier;
 
+  late final SignUpBloc _signUpBloc;
+  File? _picture;
+
   @override
   void initState() {
     super.initState();
@@ -32,8 +41,9 @@ class _SignUpPageState extends State<SignUpPage> {
     _emailController = TextEditingController();
     _passwordController = TextEditingController();
     _confirmPasswordController = TextEditingController();
-
     _passwordNotifier = ValueNotifier("");
+
+    _signUpBloc = Modular.get<SignUpBloc>();
   }
 
   @override
@@ -42,6 +52,7 @@ class _SignUpPageState extends State<SignUpPage> {
     _emailController.dispose();
     _passwordController.dispose();
     _confirmPasswordController.dispose();
+    _passwordNotifier.dispose();
     super.dispose();
   }
 
@@ -70,12 +81,13 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ),
                 Padding(
-                  padding: EdgeInsets.only(bottom: 24.0),
+                  padding: const EdgeInsets.only(bottom: 24.0),
                   child: Text(context.i18n.registerSubtitle),
                 ),
                 Padding(
                   padding: const EdgeInsets.only(bottom: 24.0),
                   child: FalaTuImageInput(
+                    onChanged: (file) => _picture = file,
                     validator: ValidatorsHelper.required(
                         context.i18n.requiredFieldError),
                   ),
@@ -150,10 +162,29 @@ class _SignUpPageState extends State<SignUpPage> {
                     },
                   ),
                 ),
-                FalaTuButton(
-                  label: context.i18n.confirm,
-                  onTap: () {
-                    _formKey.currentState!.validate();
+                BlocConsumer<SignUpBloc, BaseState>(
+                  bloc: _signUpBloc,
+                  listener: (context, state) {
+                    if (state is SuccessState<UserEntity>) {
+                      Modular.to.pop();
+                    }
+                  },
+                  builder: (context, state) {
+                    return FalaTuButton(
+                      label: context.i18n.confirm,
+                      onTap: () {
+                        if (_formKey.currentState!.validate()) {
+                          _signUpBloc.call(
+                            name: _nameController.text.trim(),
+                            email: _emailController.text.trim(),
+                            password: _passwordController.text.trim(),
+                            confirmPassword:
+                                _confirmPasswordController.text.trim(),
+                            picture: _picture,
+                          );
+                        }
+                      },
+                    );
                   },
                 ),
               ],
