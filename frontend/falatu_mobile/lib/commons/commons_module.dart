@@ -2,6 +2,8 @@ import "package:dio/dio.dart";
 import "package:falatu_mobile/commons/core/data/datasources/auth/auth_commons_datasource.dart";
 import "package:falatu_mobile/commons/core/data/datasources/auth/auth_commons_datasource_impl.dart";
 import "package:falatu_mobile/commons/core/data/repositories/auth/auth_commons_repository_impl.dart";
+import "package:falatu_mobile/commons/core/data/services/file_picker_service/file_picker_service.dart";
+import "package:falatu_mobile/commons/core/data/services/file_picker_service/file_picker_service_impl.dart";
 import "package:falatu_mobile/commons/core/data/services/http_service/http_service.dart";
 import "package:falatu_mobile/commons/core/data/services/http_service/http_service_impl.dart";
 import "package:falatu_mobile/commons/core/data/services/shared_preferences_services/shared_preferences_services.dart";
@@ -19,6 +21,8 @@ class CommonsModule extends Module {
   @override
   List<Bind<Object>> get binds => [
         //SERVICES
+        Bind.lazySingleton<FilePickerService>((i) => FilePickerServiceImpl(),
+            export: true),
         Bind.lazySingleton<SharedPreferencesService>(
             (i) => SharedPreferencesServiceImpl(),
             export: true),

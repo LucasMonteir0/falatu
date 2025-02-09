@@ -1,5 +1,5 @@
 enum FalaTuImagesEnum {
-  background("background.png");
+  background("background.jpg");
     
 
   const FalaTuImagesEnum(this.value);

@@ -111,17 +111,17 @@ abstract class AppLocalizations {
   /// **'Entrar'**
   String get signIn;
 
-  /// No description provided for @email.
+  /// No description provided for @emailLabel.
   ///
   /// In pt, this message translates to:
   /// **'E-mail'**
-  String get email;
+  String get emailLabel;
 
-  /// No description provided for @password.
+  /// No description provided for @passwordLabel.
   ///
   /// In pt, this message translates to:
   /// **'Senha'**
-  String get password;
+  String get passwordLabel;
 
   /// No description provided for @forgotPassword.
   ///
@@ -147,17 +147,95 @@ abstract class AppLocalizations {
   /// **'Email ou senha inválido.'**
   String get invalidEmailOrPassword;
 
-  /// No description provided for @requiredField.
+  /// No description provided for @requiredFieldError.
   ///
   /// In pt, this message translates to:
   /// **'Campo obrigatório.'**
-  String get requiredField;
+  String get requiredFieldError;
 
-  /// No description provided for @invalidEmail.
+  /// No description provided for @invalidEmailError.
   ///
   /// In pt, this message translates to:
   /// **'Email inválido.'**
-  String get invalidEmail;
+  String get invalidEmailError;
+
+  /// No description provided for @clear.
+  ///
+  /// In pt, this message translates to:
+  /// **'Limpar'**
+  String get clear;
+
+  /// No description provided for @register.
+  ///
+  /// In pt, this message translates to:
+  /// **'Registre-se'**
+  String get register;
+
+  /// No description provided for @registerSubtitle.
+  ///
+  /// In pt, this message translates to:
+  /// **'Crie sua nova conta'**
+  String get registerSubtitle;
+
+  /// No description provided for @fullNameLabel.
+  ///
+  /// In pt, this message translates to:
+  /// **'Nome Completo'**
+  String get fullNameLabel;
+
+  /// No description provided for @invalidNameError.
+  ///
+  /// In pt, this message translates to:
+  /// **'Nome inválido'**
+  String get invalidNameError;
+
+  /// No description provided for @weekPasswordError.
+  ///
+  /// In pt, this message translates to:
+  /// **'Senha muito fraca.'**
+  String get weekPasswordError;
+
+  /// No description provided for @confirmPasswordLabel.
+  ///
+  /// In pt, this message translates to:
+  /// **'Confirmar Senha'**
+  String get confirmPasswordLabel;
+
+  /// No description provided for @differentPasswordsError.
+  ///
+  /// In pt, this message translates to:
+  /// **'As senhas são diferentes.'**
+  String get differentPasswordsError;
+
+  /// No description provided for @confirm.
+  ///
+  /// In pt, this message translates to:
+  /// **'Confirm'**
+  String get confirm;
+
+  /// No description provided for @atLeastSixCharacters.
+  ///
+  /// In pt, this message translates to:
+  /// **'Ao menos 6 caracteres.'**
+  String get atLeastSixCharacters;
+
+  /// No description provided for @shouldHaveAtLeastOneDigit.
+  ///
+  /// In pt, this message translates to:
+  /// **'Deve conter pelo menos 1 número.'**
+  String get shouldHaveAtLeastOneDigit;
+
+  /// No description provided for @shouldHaveBothUpperAndLowerCaseLetters.
+  ///
+  /// In pt, this message translates to:
+  /// **'Deve conter letras maiúsculas e minúsculas.'**
+  String get shouldHaveBothUpperAndLowerCaseLetters;
+
+  /// No description provided for @shouldHaveAtLeastOneSpecialCharacter.
+  ///
+  /// In pt, this message translates to:
+  /// **'Deve conter ao menos 1 caractere especial.'**
+  String get shouldHaveAtLeastOneSpecialCharacter;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

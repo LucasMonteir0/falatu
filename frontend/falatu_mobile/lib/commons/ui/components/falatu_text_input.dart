@@ -19,6 +19,7 @@ class FalaTuTextInput extends StatefulWidget {
   final TextInputType? keyboardType;
   final String? Function(String?)? validator;
   final List<TextInputFormatter>? inputFormatters;
+  final String? hint;
 
   const FalaTuTextInput({
     super.key,
@@ -35,6 +36,7 @@ class FalaTuTextInput extends StatefulWidget {
     this.keyboardType,
     this.validator,
     this.inputFormatters,
+    this.hint,
   });
 
   @override
@@ -70,7 +72,7 @@ class _FalaTuTextInputState extends State<FalaTuTextInput> {
       onChanged: widget.onChanged,
       style: typography.bodyMedium!.copyWith(color: colors.primary),
       autovalidateMode: widget.autovalidateMode,
-      decoration: _decoration(context),
+      decoration: _decoration(context, widget.hint),
       readOnly: widget.readOnly,
       obscureText: showText,
       keyboardType: widget.keyboardType,
@@ -90,13 +92,16 @@ class _FalaTuTextInputState extends State<FalaTuTextInput> {
         : colors.surfaceContainerLow;
   }
 
-  InputDecoration _decoration(BuildContext context) {
+  InputDecoration _decoration(BuildContext context, String? hint) {
     final colors = Theme.of(context).colorScheme;
     final typography = Theme.of(context).textTheme;
     return InputDecoration(
       contentPadding: const EdgeInsets.all(16),
       isDense: true,
       filled: true,
+      alignLabelWithHint: false,
+      helperText: hint,
+      helperMaxLines: 3,
       floatingLabelBehavior: FloatingLabelBehavior.never,
       enabled: widget.enabled,
       fillColor: _handleFillColor(colors),

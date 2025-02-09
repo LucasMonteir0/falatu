@@ -16,10 +16,10 @@ class AppLocalizationsPt extends AppLocalizations {
   String get signIn => 'Entrar';
 
   @override
-  String get email => 'E-mail';
+  String get emailLabel => 'E-mail';
 
   @override
-  String get password => 'Senha';
+  String get passwordLabel => 'Senha';
 
   @override
   String get forgotPassword => 'Esqueceu a senha?';
@@ -34,8 +34,47 @@ class AppLocalizationsPt extends AppLocalizations {
   String get invalidEmailOrPassword => 'Email ou senha inválido.';
 
   @override
-  String get requiredField => 'Campo obrigatório.';
+  String get requiredFieldError => 'Campo obrigatório.';
 
   @override
-  String get invalidEmail => 'Email inválido.';
+  String get invalidEmailError => 'Email inválido.';
+
+  @override
+  String get clear => 'Limpar';
+
+  @override
+  String get register => 'Registre-se';
+
+  @override
+  String get registerSubtitle => 'Crie sua nova conta';
+
+  @override
+  String get fullNameLabel => 'Nome Completo';
+
+  @override
+  String get invalidNameError => 'Nome inválido';
+
+  @override
+  String get weekPasswordError => 'Senha muito fraca.';
+
+  @override
+  String get confirmPasswordLabel => 'Confirmar Senha';
+
+  @override
+  String get differentPasswordsError => 'As senhas são diferentes.';
+
+  @override
+  String get confirm => 'Confirm';
+
+  @override
+  String get atLeastSixCharacters => 'Ao menos 6 caracteres.';
+
+  @override
+  String get shouldHaveAtLeastOneDigit => 'Deve conter pelo menos 1 número.';
+
+  @override
+  String get shouldHaveBothUpperAndLowerCaseLetters => 'Deve conter letras maiúsculas e minúsculas.';
+
+  @override
+  String get shouldHaveAtLeastOneSpecialCharacter => 'Deve conter ao menos 1 caractere especial.';
 }

@@ -79,26 +79,27 @@ class _SignInPageState extends State<SignInPage> {
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
                   child: FalaTuTextInput(
-                    label: context.i18n.email,
+                    label: context.i18n.emailLabel,
                     controller: _emailController,
                     prefixIcon: FalaTuIconsEnum.mailFilled,
                     autovalidateMode: AutovalidateMode.onUnfocus,
                     validator: ValidatorsHelper.multiple([
-                      ValidatorsHelper.required(context.i18n.requiredField),
-                      ValidatorsHelper.email(context.i18n.invalidEmail)
+                      ValidatorsHelper.required(
+                          context.i18n.requiredFieldError),
+                      ValidatorsHelper.email(context.i18n.invalidEmailError)
                     ]),
                   ),
                 ),
                 Padding(
                   padding: const EdgeInsets.fromLTRB(16, 16, 16, 0),
                   child: FalaTuTextInput(
-                    label: context.i18n.password,
+                    label: context.i18n.passwordLabel,
                     controller: _passwordController,
                     prefixIcon: FalaTuIconsEnum.lockFilled,
                     autovalidateMode: AutovalidateMode.onUserInteraction,
                     obscureText: true,
-                    validator:
-                        ValidatorsHelper.required(context.i18n.requiredField),
+                    validator: ValidatorsHelper.required(
+                        context.i18n.requiredFieldError),
                   ),
                 ),
                 Align(

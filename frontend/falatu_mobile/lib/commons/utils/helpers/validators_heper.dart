@@ -93,6 +93,18 @@ class ValidatorsHelper {
       return null;
     };
   }
+  static FormFieldValidator<String> weekPassword(String message) {
+    return (value) {
+      if (value?.isEmpty ?? true) {
+        return message;
+      }
+      final character = RegExp(r"^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[!@#\$&*~]).{6,}$");
+      if (!character.hasMatch(value!)) {
+        return message;
+      }
+      return null;
+    };
+  }
 
   static FormFieldValidator<String> onlyLetters(String message) {
     return (value) {
@@ -146,6 +158,7 @@ class ValidatorsHelper {
       return false;
     }
   }
+
 }
 
 class FullNameValidator {
