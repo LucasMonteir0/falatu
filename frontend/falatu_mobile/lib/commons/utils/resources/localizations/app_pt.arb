@@ -18,7 +18,7 @@
 "weekPasswordError": "Senha muito fraca.",
 "confirmPasswordLabel": "Confirmar Senha",
 "differentPasswordsError": "As senhas são diferentes.",
-"confirm": "Confirm",
+"confirm": "Confirmar",
 "atLeastSixCharacters": "Ao menos 6 caracteres.",
 "shouldHaveAtLeastOneDigit": "Deve conter pelo menos 1 número.",
 "shouldHaveBothUpperAndLowerCaseLetters": "Deve conter letras maiúsculas e minúsculas.",

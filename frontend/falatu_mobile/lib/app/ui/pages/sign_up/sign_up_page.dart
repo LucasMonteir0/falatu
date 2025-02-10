@@ -81,7 +81,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(bottom: 24.0),
+                  padding: const EdgeInsets.only(bottom: 24.0, top: 8),
                   child: Text(context.i18n.registerSubtitle),
                 ),
                 Padding(
