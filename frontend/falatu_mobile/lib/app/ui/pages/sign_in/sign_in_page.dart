@@ -2,6 +2,7 @@ import "package:falatu_mobile/app/ui/blocs/sign_in_bloc.dart";
 import "package:falatu_mobile/commons/core/domain/entities/auth_credentials_entity.dart";
 import "package:falatu_mobile/commons/ui/components/curved_image.dart";
 import "package:falatu_mobile/commons/ui/components/falatu_button.dart";
+import "package:falatu_mobile/commons/ui/components/falatu_logo.dart";
 import "package:falatu_mobile/commons/ui/components/falatu_text_input.dart";
 import "package:falatu_mobile/commons/ui/components/falatu_toast.dart";
 import "package:falatu_mobile/commons/utils/enums/icons_enum.dart";
@@ -49,7 +50,6 @@ class _SignInPageState extends State<SignInPage> {
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
-    final typography = Theme.of(context).textTheme;
     return AnnotatedRegion(
       value: const SystemUiOverlayStyle(
         statusBarColor: Colors.white,
@@ -67,11 +67,7 @@ class _SignInPageState extends State<SignInPage> {
                   height: MediaQuery.of(context).size.height * 0.3,
                   shadowColor: colors.primary,
                 ),
-                Text(
-                  "${context.i18n.appName}!",
-                  style: typography.headlineLarge!.copyWith(
-                      color: colors.primary, fontWeight: FontWeight.bold),
-                ),
+                const FalaTuLogo(height: 60),
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
                   child: Text(context.i18n.appSubtitle),

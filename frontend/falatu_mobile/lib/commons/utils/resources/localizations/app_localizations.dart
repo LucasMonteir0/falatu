@@ -210,7 +210,7 @@ abstract class AppLocalizations {
   /// No description provided for @confirm.
   ///
   /// In pt, this message translates to:
-  /// **'Confirm'**
+  /// **'Confirmar'**
   String get confirm;
 
   /// No description provided for @atLeastSixCharacters.

@@ -64,7 +64,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get differentPasswordsError => 'As senhas são diferentes.';
 
   @override
-  String get confirm => 'Confirm';
+  String get confirm => 'Confirmar';
 
   @override
   String get atLeastSixCharacters => 'Ao menos 6 caracteres.';
