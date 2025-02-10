@@ -1,3 +1,4 @@
+import "package:falatu_mobile/chat/core/data/models/chat/chat_user_model.dart";
 import "package:falatu_mobile/chat/core/data/models/chat/group_chat_model.dart";
 import "package:falatu_mobile/chat/core/data/models/chat/private_chat_model.dart";
 import "package:falatu_mobile/chat/core/domain/entities/chat/chat_entity.dart";
@@ -10,15 +11,16 @@ class ChatModel extends ChatEntity {
       required super.createdAt,
       required super.users});
 
-  factory ChatModel.fromJson(Map<String, dynamic> json) {
+  factory ChatModel.fromJson(
+      Map<String, dynamic> json, Map<String, dynamic> otherUser) {
     final type = ChatType.fromValue(json["type"]);
 
-    switch(type) {
+    switch (type) {
       case ChatType.private:
-        return PrivateChatModel.fromJson(json);
+        return PrivateChatModel.fromJson(
+            json, ChatUserModel.fromJson(otherUser));
       case ChatType.group:
-       return GroupChatModel.fromJson(json);}
-
+        return GroupChatModel.fromJson(json);
+    }
   }
-
 }

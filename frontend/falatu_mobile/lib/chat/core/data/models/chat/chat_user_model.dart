@@ -11,11 +11,11 @@ class ChatUserModel extends ChatUserEntity {
       required super.role});
 
   factory ChatUserModel.fromJson(Map<String, dynamic> json) => ChatUserModel(
-        id: json["id"],
-        name: json["name"],
-        email: json["email"],
-        pictureUrl: json["pictureUrl"],
-        createdAt: json["createdAt"],
-        role: ChatRole.fromValue(json["role"]),
-      );
+      id: json["id"],
+      name: json["name"],
+      email: json["email"],
+      pictureUrl: json["pictureUrl"],
+      createdAt: DateTime.parse(json["createdAt"]),
+      role: ChatRole.fromValue(json["role"]),
+    );
 }

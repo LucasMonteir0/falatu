@@ -9,7 +9,7 @@ class ChatUserEntity extends Equatable {
   final DateTime createdAt;
   final ChatRole role;
 
-  ChatUserEntity(
+  const ChatUserEntity(
       {required this.id,
       required this.name,
       required this.email,
