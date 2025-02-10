@@ -77,4 +77,13 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get shouldHaveAtLeastOneSpecialCharacter => 'Deve conter ao menos 1 caractere especial.';
+
+  @override
+  String get fullNameMaxCharactersError => 'O nome não pode conter mais que 16 caracteres.';
+
+  @override
+  String get onUserCreationMessage => 'Usuário criado com sucesso.';
+
+  @override
+  String get emailAlreadyInUseMessage => 'Este E-mail já está sendo usado.';
 }

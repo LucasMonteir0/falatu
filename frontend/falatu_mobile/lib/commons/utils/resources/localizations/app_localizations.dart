@@ -236,6 +236,24 @@ abstract class AppLocalizations {
   /// In pt, this message translates to:
   /// **'Deve conter ao menos 1 caractere especial.'**
   String get shouldHaveAtLeastOneSpecialCharacter;
+
+  /// No description provided for @fullNameMaxCharactersError.
+  ///
+  /// In pt, this message translates to:
+  /// **'O nome não pode conter mais que 16 caracteres.'**
+  String get fullNameMaxCharactersError;
+
+  /// No description provided for @onUserCreationMessage.
+  ///
+  /// In pt, this message translates to:
+  /// **'Usuário criado com sucesso.'**
+  String get onUserCreationMessage;
+
+  /// No description provided for @emailAlreadyInUseMessage.
+  ///
+  /// In pt, this message translates to:
+  /// **'Este E-mail já está sendo usado.'**
+  String get emailAlreadyInUseMessage;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

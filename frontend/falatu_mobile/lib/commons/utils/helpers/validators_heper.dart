@@ -12,6 +12,14 @@ class ValidatorsHelper {
       return null;
     };
   }
+  static FormFieldValidator requiredObject(String message) {
+    return (value) {
+      if (value == null) {
+        return message;
+      }
+      return null;
+    };
+  }
 
   static FormFieldValidator<String> number(String message) {
     return (value) {
@@ -74,6 +82,18 @@ class ValidatorsHelper {
         return null;
       }
       if (value.length < minLength) {
+        return message;
+      }
+      return null;
+    };
+  }
+  static FormFieldValidator<String> maxLengthValidator(
+      int maxLength, String message) {
+    return (value) {
+      if (value == null || value.isEmpty) {
+        return null;
+      }
+      if (value.length > maxLength) {
         return message;
       }
       return null;

@@ -1,7 +1,8 @@
 import "dart:io";
-
 import "package:falatu_mobile/app/core/domain/entities/sign_up_entity.dart";
 import "package:falatu_mobile/app/core/domain/usecases/sign_up/sign_up_use_case.dart";
+import "package:falatu_mobile/commons/core/domain/entities/user_entity.dart";
+import "package:falatu_mobile/commons/utils/errors/errors.dart";
 import "package:falatu_mobile/commons/utils/states/base_state.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 
@@ -26,7 +27,10 @@ class SignUpBloc extends Cubit<BaseState> {
         picture: picture));
 
     if (result.success) {
-      emit(SuccessState(result.data));
+      emit(SuccessState<UserEntity>(result.data!));
+      return;
+    } else if (result.error is ConflictError) {
+      emit(ErrorState<ConflictError>(result.error));
       return;
     }
     emit(ErrorState(result.error));

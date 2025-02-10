@@ -7,7 +7,9 @@ import "package:falatu_mobile/commons/ui/components/falatu_image_input.dart";
 import "package:falatu_mobile/commons/ui/components/falatu_rounded_back_button.dart";
 import "package:falatu_mobile/commons/ui/components/falatu_scaffold.dart";
 import "package:falatu_mobile/commons/ui/components/falatu_text_input.dart";
+import "package:falatu_mobile/commons/ui/components/falatu_toast.dart";
 import "package:falatu_mobile/commons/utils/enums/icons_enum.dart";
+import "package:falatu_mobile/commons/utils/errors/errors.dart";
 import "package:falatu_mobile/commons/utils/extensions/context_extensions.dart";
 import "package:falatu_mobile/commons/utils/helpers/validators_heper.dart";
 import "package:falatu_mobile/commons/utils/states/base_state.dart";
@@ -88,7 +90,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   padding: const EdgeInsets.only(bottom: 24.0),
                   child: FalaTuImageInput(
                     onChanged: (file) => _picture = file,
-                    validator: ValidatorsHelper.required(
+                    validator: ValidatorsHelper.requiredObject(
                         context.i18n.requiredFieldError),
                   ),
                 ),
@@ -103,6 +105,7 @@ class _SignUpPageState extends State<SignUpPage> {
                       ValidatorsHelper.required(
                           context.i18n.requiredFieldError),
                       ValidatorsHelper.fullName(context.i18n.invalidNameError),
+                      ValidatorsHelper.maxLengthValidator(16, context.i18n.fullNameMaxCharactersError),
                     ]),
                   ),
                 ),
@@ -167,6 +170,12 @@ class _SignUpPageState extends State<SignUpPage> {
                   listener: (context, state) {
                     if (state is SuccessState<UserEntity>) {
                       Modular.to.pop();
+                      FalaTuToast.show(context,
+                          message: context.i18n.onUserCreationMessage,
+                          status: FalaTuToastStatus.success);
+                    } else if (state is ErrorState<ConflictError>) {
+                      FalaTuToast.show(context,
+                          message: context.i18n.emailAlreadyInUseMessage);
                     }
                   },
                   builder: (context, state) {

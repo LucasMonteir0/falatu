@@ -22,5 +22,8 @@
 "atLeastSixCharacters": "Ao menos 6 caracteres.",
 "shouldHaveAtLeastOneDigit": "Deve conter pelo menos 1 número.",
 "shouldHaveBothUpperAndLowerCaseLetters": "Deve conter letras maiúsculas e minúsculas.",
-"shouldHaveAtLeastOneSpecialCharacter": "Deve conter ao menos 1 caractere especial."
+"shouldHaveAtLeastOneSpecialCharacter": "Deve conter ao menos 1 caractere especial.",
+"fullNameMaxCharactersError": "O nome não pode conter mais que 16 caracteres.",
+"onUserCreationMessage": "Usuário criado com sucesso.",
+"emailAlreadyInUseMessage": "Este E-mail já está sendo usado."
 }

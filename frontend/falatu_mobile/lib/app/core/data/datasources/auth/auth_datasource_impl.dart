@@ -30,10 +30,9 @@ class AuthDatasourceImpl implements AuthDatasource {
 
   @override
   Future<ApiResult<UserModel>> signUp(SignUpModel params) async {
-
     try {
       final url = UrlHelpers.getApiBaseUrl(moduleName: "users", path: "");
-      final json = params.toJson();
+      final json = await params.toFormData();
       final response = await _client.post(url, data: json);
       final user = UserModel.fromJson(response.data);
       return ApiResult.success(user);
