@@ -18,6 +18,34 @@ import { ChatRole } from "../../enums/chat_role.enum";
 export class PrismaChatDatasourceImpl implements ChatDatasource {
   constructor(private readonly database: PrismaService) {}
 
+  //ATUALIZAR ULTIMA MENSAGEM ENVIADA NO CHAT
+  async updateLastMessage(
+    chatId: string,
+    messageId: string
+  ): Promise<ResultWrapper<ChatEntity>> {
+    try {
+      const chat = await this.database.chat.update({
+        where: { id: chatId },
+        data: { lastMessageId: messageId },
+        include: {
+          userChats: {
+            include: { user: true },
+          },
+        },
+      });
+
+      const result = ChatEntity.fromPrisma(
+        chat,
+        chat.userChats.map((u) =>
+          ChatUserEntity.fromPrisma(u.user, ChatUtils.roleFromValue(u.role))
+        )
+      );
+      return ResultWrapper.success(result);
+    } catch (e) {
+      return ResultWrapper.error(new UnknownError(e));
+    }
+  }
+
   //BUSCAR USUARIOS DE UM CHAT
   async getUsersByChatId(id: string): Promise<ResultWrapper<ChatUserEntity[]>> {
     try {

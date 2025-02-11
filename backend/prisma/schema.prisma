@@ -5,7 +5,7 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
+  provider      = "prisma-client-js"
   binaryTargets = ["rhel-openssl-1.0.x", "native"]
 }
 
@@ -28,13 +28,15 @@ model User {
 }
 
 model Chat {
-  id           String        @id @default(uuid())
-  title        String?
-  picture_url  String?
-  type         String        @default("private")
-  userChats    UserChat[]
-  chatMessages ChatMessage[]
-  createdAt    DateTime      @default(now())
+  id            String        @id @default(uuid())
+  title         String?
+  picture_url   String?
+  type          String        @default("private")
+  userChats     UserChat[]
+  chatMessages  ChatMessage[]
+  createdAt     DateTime      @default(now())
+  lastMessageId String?       @unique
+  lastMessage   Message?      @relation(fields: [lastMessageId], references: [id], onDelete: SetNull)
 
   @@map("chats")
 }
@@ -48,6 +50,7 @@ model Message {
   sender       User          @relation(fields: [senderId], references: [id], onDelete: Cascade)
   chatMessages ChatMessage[]
   createdAt    DateTime      @default(now())
+  Chat         Chat?
 
   @@map("messages")
 }

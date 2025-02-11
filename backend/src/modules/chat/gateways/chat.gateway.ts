@@ -1,28 +1,24 @@
 import {
   WebSocketGateway,
   WebSocketServer,
-  SubscribeMessage,
-  MessageBody,
-  ConnectedSocket,
   OnGatewayConnection,
   OnGatewayDisconnect,
   OnGatewayInit,
+  MessageBody,
 } from "@nestjs/websockets";
 import { Server, Socket } from "socket.io";
 import { BadRequestError } from "src/utils/result/AppError";
 import { ChatDatasource } from "../datasources/chat/chat.datasource";
-import { MessageDatasource } from "../datasources/message/message.datasource";
 import { JwtService } from "@nestjs/jwt";
 import { PrismaService } from "src/utils/config/database/prisma.service";
 import { AuthSocketMiddleware } from "src/modules/commons/middlewares/auth_socket.middleware";
-import { SendMessageDto } from "../dtos/send_message.dto";
+import { CreateChatDTO } from "../dtos/create_chat.dto";
 
 @WebSocketGateway(80, { namespace: "/chats" })
 export class ChatGateway
   implements OnGatewayInit, OnGatewayConnection, OnGatewayDisconnect
 {
   constructor(
-    private readonly datasource: MessageDatasource,
     private readonly chatDatasource: ChatDatasource,
     private readonly jwtService: JwtService,
     private readonly prismaService: PrismaService
@@ -47,7 +43,7 @@ export class ChatGateway
     const sockets = this.userSockets.get(userId) || new Set();
     sockets.add(client);
     this.userSockets.set(userId, sockets);
-    this.emitChatsToUser(userId);
+    this.emitChatsToUsers([userId]);
   }
 
   async handleDisconnect(client: Socket) {
@@ -59,93 +55,41 @@ export class ChatGateway
     }
   }
 
-  @SubscribeMessage("openChat")
-  async handleJoinChat(
-    @ConnectedSocket() client: Socket,
-    @MessageBody() data: { chatId: string }
-  ) {
-    const userId = client.handshake.query.userId as string;
-
-    const { chatId } = data;
-
-    if (!chatId || !userId) {
-      throw new BadRequestError(
-        "chatId and userId is required to open a chat."
-      );
+  async createChat(client: Socket, @MessageBody() data: CreateChatDTO) {
+    const result = await this.chatDatasource.createChat(data);
+    if (result.isSuccess) {
+      const ids = result.data.users.map((e) => e.id);
+      this.emitChatsToUsers(ids);
     }
-
-    await client.join(chatId);
-    client.emit("joinedChat", {
-      chatId,
-      userId,
-      message: "User joined this chat.",
-    });
-    await this.emitMessagesToChat(this.server, chatId);
   }
 
-  @SubscribeMessage("leaveChat")
-  async handleLeaveChat(
-    @ConnectedSocket() client: Socket,
-    @MessageBody() data: { chatId: string }
+  async updateLastMessage(
+    client: Socket,
+    @MessageBody() data: { chatId: string; messageId: string }
   ) {
-    const userId = client.handshake.query.userId as string;
-    const { chatId } = data;
-    if (!chatId || !userId) {
-      throw new BadRequestError(
-        "chatId and userId is required to leave a chat."
-      );
+    const { chatId, messageId } = data;
+    if (!chatId || !messageId) {
+      return new BadRequestError("chatId and messageId are required.");
     }
-
-    await this.leaveChatRoom(client, chatId);
-    client.emit("leftChat", {
+    const result = await this.chatDatasource.updateLastMessage(
       chatId,
-      userId,
-      message: "User left this chat.",
-    });
+      messageId
+    );
+    if (result.isSuccess) {
+      const ids = result.data.users.map((e) => e.id);
+      this.emitChatsToUsers(ids);
+    }
   }
 
-  @SubscribeMessage("sendMessage")
-  async handleSendMessage(
-    @ConnectedSocket() client: Socket,
-    @MessageBody() data: { message: SendMessageDto; chatId: string }
-  ) {
-    const { chatId, message } = data;
+  private async emitChatsToUsers(usersIds: string[]) {
+    for (const id of usersIds) {
+      const sockets = this.userSockets.get(id);
+      if (!sockets) return;
 
-    if (!chatId || !message) {
-      return new BadRequestError("chatId and message are required.");
-    }
-
-    const newMessage = await this.datasource.sendMessage(message, chatId);
-    if (newMessage.isSuccess) {
-      await this.emitMessagesToChat(this.server, chatId);
-
-      const participants = await this.chatDatasource.getUsersByChatId(chatId);
-      participants.data.forEach((participant) => {
-        this.emitChatsToUser(participant.id);
+      const chats = await this.chatDatasource.getChatsByUserId(id);
+      sockets.forEach((socket) => {
+        socket.emit("chats", chats.data);
       });
-    } else {
-      return newMessage.error;
-    }
-  }
-
-  private async emitMessagesToChat(client: Socket | Server, chatId: string) {
-    const messages = await this.datasource.getMessagesByChatId(chatId);
-    client.to(chatId).emit("messages", messages.data);
-  }
-
-  private async emitChatsToUser(userId: string) {
-    const sockets = this.userSockets.get(userId);
-    if (!sockets) return;
-
-    const chats = await this.chatDatasource.getChatsByUserId(userId);
-    sockets.forEach((socket) => {
-      socket.emit("chats", chats.data);
-    });
-  }
-
-  private async leaveChatRoom(client: Socket, chatId: string) {
-    if (client.rooms.has(chatId)) {
-      client.leave(chatId);
     }
   }
 }

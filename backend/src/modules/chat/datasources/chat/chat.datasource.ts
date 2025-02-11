@@ -10,4 +10,6 @@ export abstract class ChatDatasource {
   abstract getChatById(id: string): Promise<ResultWrapper<ChatEntity>>;
   abstract getChatsByUserId(id: string): Promise<ResultWrapper<ChatEntity[]>>;
   abstract getUsersByChatId(id: string): Promise<ResultWrapper<ChatUserEntity[]>>;
+  abstract updateLastMessage(chatId: string, messageId: string): Promise<ResultWrapper<ChatEntity>>;
+
 }

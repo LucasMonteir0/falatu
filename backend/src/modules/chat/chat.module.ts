@@ -5,6 +5,7 @@ import { ChatDatasource } from "./datasources/chat/chat.datasource";
 import { PrismaChatDatasourceImpl } from "./datasources/chat/prisma_chat.datasource";
 import { MessageDatasource } from "./datasources/message/message.datasource";
 import { PrismaMessageDatasourceImpl } from "./datasources/message/prisma_message.datasource";
+import { MessageGateway } from "./gateways/messages.gateway";
 
 @Module({
   imports: [],
@@ -19,6 +20,7 @@ import { PrismaMessageDatasourceImpl } from "./datasources/message/prisma_messag
       useClass: PrismaMessageDatasourceImpl,
     },
     ChatGateway,
+    MessageGateway,
   ],
 })
 export class ChatModule {}
