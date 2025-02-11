@@ -112,7 +112,7 @@ class _SignInPageState extends State<SignInPage> {
                     bloc: _bloc,
                     listener: (context, state) {
                       if (state is SuccessState<AuthCredentialsEntity>) {
-                        Modular.to.pushReplacementNamed(Routes.chats);
+                        Modular.to.pushReplacementNamed(Routes.chats + Routes.root);
                       } else if (state is ErrorState<NotFoundError>) {
                         FalaTuToast.show(context,
                             message: context.i18n.invalidEmailOrPassword);
