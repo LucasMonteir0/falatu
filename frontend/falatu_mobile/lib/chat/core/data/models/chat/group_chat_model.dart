@@ -1,12 +1,11 @@
 import "package:falatu_mobile/chat/core/data/models/chat/chat_model.dart";
 import "package:falatu_mobile/chat/core/data/models/chat/chat_user_model.dart";
-import "package:falatu_mobile/chat/core/domain/entities/chat/group_chat_entity.dart";
 
 class GroupChatModel extends ChatModel {
   final String title;
   final String? pictureUrl;
 
-  GroupChatModel({
+  const GroupChatModel({
     required super.id,
     required super.type,
     required super.createdAt,

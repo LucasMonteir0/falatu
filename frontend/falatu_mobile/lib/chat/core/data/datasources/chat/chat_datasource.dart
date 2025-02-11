@@ -1,10 +1,10 @@
 import "package:falatu_mobile/chat/core/domain/entities/chat/chat_entity.dart";
-import "package:falatu_mobile/commons/core/domain/entities/api_result.dart";
+import "package:falatu_mobile/commons/core/domain/entities/result_wrapper.dart";
 
 abstract class ChatDatasource {
-  ApiResult<Stream<List<ChatEntity>>> loadChats();
+  ResultWrapper<Stream<List<ChatEntity>>> loadChats();
 
-  Future<ApiResult<ChatEntity>> create();
+  Future<ResultWrapper<ChatEntity>> create();
 
   void dispose();
 }

@@ -2,7 +2,7 @@ import "package:falatu_mobile/commons/core/data/datasources/auth/auth_commons_da
 import "package:falatu_mobile/commons/core/data/models/auth_credentials_model.dart";
 import "package:falatu_mobile/commons/core/data/services/http_service/http_service.dart";
 import "package:falatu_mobile/commons/core/data/services/shared_preferences_services/shared_preferences_services.dart";
-import "package:falatu_mobile/commons/core/domain/entities/api_result.dart";
+import "package:falatu_mobile/commons/core/domain/entities/result_wrapper.dart";
 import "package:falatu_mobile/commons/core/domain/entities/auth_credentials_entity.dart";
 import "package:falatu_mobile/commons/utils/errors/errors.dart";
 import "package:falatu_mobile/commons/utils/errors/handle_error.dart";
@@ -18,7 +18,7 @@ class AuthCommonsDatasourceImpl implements AuthCommonsDatasource {
         _httpClient = httpClient;
 
   @override
-  Future<ApiResult<AuthCredentialsEntity>> updateAccessToken() async {
+  Future<ResultWrapper<AuthCredentialsEntity>> updateAccessToken() async {
     try {
       final refreshToken = _preferences.getUserRefreshToken();
       final url =
@@ -28,12 +28,12 @@ class AuthCommonsDatasourceImpl implements AuthCommonsDatasource {
       final model = AuthCredentialsModel.fromJson(result.data);
       await _preferences.setUserRefreshToken(model.refreshToken);
       await _preferences.setUserAccessToken(model.accessToken);
-      return ApiResult<AuthCredentialsEntity>.success(model);
+      return ResultWrapper<AuthCredentialsEntity>.success(model);
     } on ApiError catch (e) {
       final error = handleError(e.statusCode, message: e.message);
-      return ApiResult.error(error);
+      return ResultWrapper.error(error);
     } catch (e) {
-      return ApiResult.error(UnknownError(message: e.toString()));
+      return ResultWrapper.error(UnknownError(message: e.toString()));
     }
   }
 

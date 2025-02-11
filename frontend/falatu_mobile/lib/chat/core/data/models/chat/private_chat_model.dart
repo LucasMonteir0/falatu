@@ -5,7 +5,7 @@ import "package:falatu_mobile/chat/utils/enums/chat_type.dart";
 class PrivateChatModel extends ChatModel {
   final ChatUserModel otherUser;
 
-  PrivateChatModel({
+  const PrivateChatModel({
     required super.id,
     required super.type,
     required super.createdAt,

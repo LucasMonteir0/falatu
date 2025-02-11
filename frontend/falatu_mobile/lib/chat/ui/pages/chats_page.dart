@@ -1,13 +1,6 @@
 import "package:falatu_mobile/chat/core/data/datasources/chat/chat_datasource.dart";
-import "package:falatu_mobile/chat/core/data/models/chat/private_chat_model.dart";
-import "package:falatu_mobile/chat/core/domain/entities/chat/chat_entity.dart";
-import "package:falatu_mobile/chat/core/domain/entities/chat/private_chat_entity.dart";
-import "package:falatu_mobile/chat/ui/components/chat_tile.dart";
-import "package:falatu_mobile/chat/utils/enums/chat_type.dart";
 import "package:falatu_mobile/commons/core/data/services/shared_preferences_services/shared_preferences_services.dart";
 import "package:falatu_mobile/commons/ui/blocs/sign_out_bloc.dart";
-import "package:falatu_mobile/commons/utils/extensions/nullable_extensions.dart";
-import "package:falatu_mobile/commons/utils/routes.dart";
 import "package:flutter/material.dart";
 import "package:flutter_modular/flutter_modular.dart";
 
@@ -38,7 +31,7 @@ class _ChatsPageState extends State<ChatsPage> {
         actions: [
           IconButton(
               onPressed: () => Modular.get<SignOutBloc>().call(),
-              icon: Icon(
+              icon: const Icon(
                 Icons.logout_outlined,
                 color: Colors.red,
               ))

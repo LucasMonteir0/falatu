@@ -4,7 +4,7 @@ class GroupChatEntity extends ChatEntity {
   final String title;
   final String? pictureUrl;
 
-  GroupChatEntity({
+  const GroupChatEntity({
     required super.id,
     required super.type,
     required super.createdAt,

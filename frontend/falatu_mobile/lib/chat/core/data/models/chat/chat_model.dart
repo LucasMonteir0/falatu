@@ -5,7 +5,7 @@ import "package:falatu_mobile/chat/core/domain/entities/chat/chat_entity.dart";
 import "package:falatu_mobile/chat/utils/enums/chat_type.dart";
 
 class ChatModel extends ChatEntity {
-  ChatModel(
+  const ChatModel(
       {required super.id,
       required super.type,
       required super.createdAt,

@@ -29,7 +29,7 @@ class ChatTile extends StatelessWidget {
                   image: pictureUrl
                       .let((url) => DecorationImage(image: NetworkImage(url))),
                 ),
-                child: Center(
+                child: const Center(
                   child: Icon(Icons.person_rounded),
                 ),
               ),

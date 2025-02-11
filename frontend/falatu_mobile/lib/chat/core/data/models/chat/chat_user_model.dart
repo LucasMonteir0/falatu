@@ -2,7 +2,7 @@ import "package:falatu_mobile/chat/core/domain/entities/chat/chat_user_entity.da
 import "package:falatu_mobile/chat/utils/enums/chat_role.dart";
 
 class ChatUserModel extends ChatUserEntity {
-  ChatUserModel(
+  const ChatUserModel(
       {required super.id,
       required super.name,
       required super.email,

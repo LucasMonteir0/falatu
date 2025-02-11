@@ -5,7 +5,7 @@ import "package:falatu_mobile/chat/core/data/models/chat/chat_model.dart";
 import "package:falatu_mobile/chat/core/domain/entities/chat/chat_entity.dart";
 import "package:falatu_mobile/chat/utils/enums/chat_type.dart";
 import "package:falatu_mobile/commons/core/data/services/shared_preferences_services/shared_preferences_services.dart";
-import "package:falatu_mobile/commons/core/domain/entities/api_result.dart";
+import "package:falatu_mobile/commons/core/domain/entities/result_wrapper.dart";
 import "package:falatu_mobile/commons/core/domain/entities/base_error.dart";
 import "package:falatu_mobile/commons/utils/errors/errors.dart";
 import "package:flutter/cupertino.dart";
@@ -57,7 +57,7 @@ class ChatDatasourceImpl extends ChatDatasource {
   }
 
   @override
-  ApiResult<Stream<List<ChatEntity>>> loadChats() {
+  ResultWrapper<Stream<List<ChatEntity>>> loadChats() {
     BaseError? error;
     _connect(
       onError: (value) {
@@ -66,13 +66,13 @@ class ChatDatasourceImpl extends ChatDatasource {
     );
 
     if (error != null) {
-      return ApiResult.error(error);
+      return ResultWrapper.error(error);
     }
-    return ApiResult.success(_controller.stream);
+    return ResultWrapper.success(_controller.stream);
   }
 
   @override
-  Future<ApiResult<ChatEntity>> create() {
+  Future<ResultWrapper<ChatEntity>> create() {
     // TODO: implement create
     throw UnimplementedError();
   }

@@ -1,8 +1,8 @@
 import "package:falatu_mobile/app/core/domain/entities/sign_in_entity.dart";
-import "package:falatu_mobile/commons/core/domain/entities/auth_credentials_entity.dart";
 import "package:falatu_mobile/app/core/domain/repositories/auth/auth_repository.dart";
 import "package:falatu_mobile/app/core/domain/usecases/sign_in/sign_in_use_case.dart";
-import "package:falatu_mobile/commons/core/domain/entities/api_result.dart";
+import "package:falatu_mobile/commons/core/domain/entities/result_wrapper.dart";
+import "package:falatu_mobile/commons/core/domain/entities/auth_credentials_entity.dart";
 
 class SignInUseCaseImpl implements SignInUseCase {
   final AuthRepository _repository;
@@ -10,7 +10,7 @@ class SignInUseCaseImpl implements SignInUseCase {
   SignInUseCaseImpl(this._repository);
 
   @override
-  Future<ApiResult<AuthCredentialsEntity>> call(SignInEntity params) {
+  Future<ResultWrapper<AuthCredentialsEntity>> call(SignInEntity params) {
     return _repository.signIn(params);
   }
 }

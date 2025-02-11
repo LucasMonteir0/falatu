@@ -2,10 +2,10 @@ import "package:falatu_mobile/app/core/data/datasources/auth/auth_datasource.dar
 import "package:falatu_mobile/app/core/data/models/sign_in_model.dart";
 import "package:falatu_mobile/app/core/data/models/sign_up_model.dart";
 import "package:falatu_mobile/app/core/domain/entities/sign_in_entity.dart";
-import "package:falatu_mobile/commons/core/domain/entities/auth_credentials_entity.dart";
 import "package:falatu_mobile/app/core/domain/entities/sign_up_entity.dart";
 import "package:falatu_mobile/app/core/domain/repositories/auth/auth_repository.dart";
-import "package:falatu_mobile/commons/core/domain/entities/api_result.dart";
+import "package:falatu_mobile/commons/core/domain/entities/result_wrapper.dart";
+import "package:falatu_mobile/commons/core/domain/entities/auth_credentials_entity.dart";
 import "package:falatu_mobile/commons/core/domain/entities/user_entity.dart";
 
 class AuthRepositoryImpl implements AuthRepository {
@@ -14,12 +14,12 @@ class AuthRepositoryImpl implements AuthRepository {
   AuthRepositoryImpl(this._datasource);
 
   @override
-  Future<ApiResult<AuthCredentialsEntity>> signIn(SignInEntity params) {
+  Future<ResultWrapper<AuthCredentialsEntity>> signIn(SignInEntity params) {
     return _datasource.signIn(SignInModel.fromObject(params));
   }
 
   @override
-  Future<ApiResult<UserEntity>> signUp(SignUpEntity params) {
+  Future<ResultWrapper<UserEntity>> signUp(SignUpEntity params) {
     return _datasource.signUp(SignUpModel.fromObject(params));
   }
 }

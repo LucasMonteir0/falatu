@@ -8,7 +8,7 @@ class ChatEntity extends Equatable {
   final DateTime createdAt;
   final List<ChatUserEntity> users;
 
-  ChatEntity({
+  const ChatEntity({
     required this.id,
     required this.type,
     required this.createdAt,

@@ -1,9 +1,6 @@
-import "package:falatu_mobile/chat/core/data/datasources/chat/chat_datasource.dart";
 import "package:falatu_mobile/chat/core/data/datasources/messages/messages_datasource.dart";
 import "package:falatu_mobile/chat/core/domain/entities/message/message_entity.dart";
 import "package:falatu_mobile/chat/core/domain/entities/message/send_message_entity.dart";
-import "package:falatu_mobile/chat/core/domain/entities/message/text_message_entity.dart";
-import "package:falatu_mobile/chat/utils/enums/chat_type.dart";
 import "package:falatu_mobile/chat/utils/enums/message_type.dart";
 import "package:falatu_mobile/commons/core/data/services/shared_preferences_services/shared_preferences_services.dart";
 import "package:flutter/material.dart";

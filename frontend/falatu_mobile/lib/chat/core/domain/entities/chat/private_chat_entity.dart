@@ -4,7 +4,7 @@ import "package:falatu_mobile/chat/core/domain/entities/chat/chat_user_entity.da
 class PrivateChatEntity extends ChatEntity {
   final ChatUserEntity otherUser;
 
-  PrivateChatEntity(
+  const PrivateChatEntity(
       {required super.id,
       required super.type,
       required super.createdAt,
