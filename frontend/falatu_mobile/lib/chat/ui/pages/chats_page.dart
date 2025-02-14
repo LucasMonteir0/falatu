@@ -6,6 +6,7 @@ import "package:falatu_mobile/chat/ui/components/chats_list_view.dart";
 import "package:falatu_mobile/chat/utils/enums/chat_tabs.dart";
 import "package:falatu_mobile/commons/ui/components/blur_effect.dart";
 import "package:falatu_mobile/commons/ui/components/falatu_scaffold.dart";
+import "package:falatu_mobile/commons/ui/components/falatu_shimmer.dart";
 import "package:falatu_mobile/commons/ui/components/falatu_tab.dart";
 import "package:falatu_mobile/commons/utils/enums/icons_enum.dart";
 import "package:falatu_mobile/commons/utils/enums/images_enum.dart";
@@ -54,47 +55,74 @@ class _ChatsPageState extends State<ChatsPage> {
               icon: FalaTuIconsEnum.settinsFilled,
               onTap: () => Modular.to.pushNamed(Routes.settings)),
         ],
-        body: DefaultTabController(
-          length: 2,
-          child: Column(
-            children: [
-              Padding(
-                padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                child: TabBar(
-                  tabAlignment: TabAlignment.start,
-                  indicatorSize: TabBarIndicatorSize.label,
-                  isScrollable: true,
-                  indicator: const FalaTuTabIndicator(),
-                  labelStyle: typography.bodyMedium!.copyWith(
-                      fontWeight: FontWeight.w700, color: colors.primary),
-                  unselectedLabelColor: Colors.white,
-                  tabs: ChatTabs.values
-                      .map((e) => Tab(text: e.getLabel(context)))
-                      .toList(),
-                ),
-              ),
-              BlocBuilder<LoadChatsBloc, BaseState>(
-                bloc: _bloc,
-                builder: (context, state) {
-                  return Expanded(
-                    child: BlurEffect(
-                      height: double.infinity,
-                      borderRadius:
-                          const BorderRadius.vertical(top: Radius.circular(24)),
-                      child: TabBarView(
-                        children: [
-                          ChatsListView<PrivateChatEntity>(state: state),
-                          ChatsListView<GroupChatEntity>(state: state),
-                        ],
+        body: BlocBuilder<LoadChatsBloc, BaseState>(
+            bloc: _bloc,
+            builder: (context, state) {
+              return DefaultTabController(
+                length: 2,
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: _TabBarComponent(state: state),
+                    ),
+                    Expanded(
+                      child: BlurEffect(
+                        height: double.infinity,
+                        borderRadius: const BorderRadius.vertical(
+                            top: Radius.circular(24)),
+                        child: TabBarView(
+                          children: [
+                            ChatsListView<PrivateChatEntity>(state: state),
+                            ChatsListView<GroupChatEntity>(state: state),
+                          ],
+                        ),
                       ),
                     ),
-                  );
-                },
+                  ],
+                ),
+              );
+            }),
+      ),
+    );
+  }
+}
+
+class _TabBarComponent extends StatelessWidget {
+  final BaseState state;
+
+  const _TabBarComponent({required this.state});
+
+  @override
+  Widget build(BuildContext context) {
+    final typography = Theme.of(context).textTheme;
+    final colors = Theme.of(context).colorScheme;
+    if (state is LoadingState) {
+      return SingleChildScrollView(
+        child: Row(
+          children: List.generate(
+            4,
+            (index) => Padding(
+              padding: const EdgeInsets.only(right: 8.0, bottom: 8, top: 8),
+              child: FalaTuShimmer.customBorder(
+                width: 80,
+                height: 28,
+                border: BorderRadius.circular(100),
               ),
-            ],
+            ),
           ),
         ),
-      ),
+      );
+    }
+    return TabBar(
+      tabAlignment: TabAlignment.start,
+      indicatorSize: TabBarIndicatorSize.label,
+      isScrollable: true,
+      indicator: const FalaTuTabIndicator(),
+      labelStyle: typography.bodyMedium!
+          .copyWith(fontWeight: FontWeight.w700, color: colors.primary),
+      unselectedLabelColor: Colors.white,
+      tabs: ChatTabs.values.map((e) => Tab(text: e.getLabel(context))).toList(),
     );
   }
 }
