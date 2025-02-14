@@ -1,12 +1,13 @@
 import "dart:async";
 import "dart:io";
+
 import "package:falatu_mobile/chat/core/data/datasources/chat/chat_datasource.dart";
 import "package:falatu_mobile/chat/core/data/models/chat/chat_model.dart";
 import "package:falatu_mobile/chat/core/domain/entities/chat/chat_entity.dart";
 import "package:falatu_mobile/chat/utils/enums/chat_type.dart";
 import "package:falatu_mobile/commons/core/data/services/shared_preferences_services/shared_preferences_services.dart";
-import "package:falatu_mobile/commons/core/domain/entities/result_wrapper.dart";
 import "package:falatu_mobile/commons/core/domain/entities/base_error.dart";
+import "package:falatu_mobile/commons/core/domain/entities/result_wrapper.dart";
 import "package:falatu_mobile/commons/utils/errors/errors.dart";
 import "package:flutter/cupertino.dart";
 import "package:socket_io_client/socket_io_client.dart" as io;

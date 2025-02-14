@@ -1,12 +1,8 @@
-import "dart:ui";
 
-import "package:falatu_mobile/chat/core/data/models/chat/chat_model.dart";
-import "package:falatu_mobile/chat/core/data/models/chat/private_chat_model.dart";
 import "package:falatu_mobile/chat/core/domain/entities/chat/chat_entity.dart";
 import "package:falatu_mobile/chat/core/domain/entities/chat/private_chat_entity.dart";
 import "package:falatu_mobile/chat/ui/components/chat_tile.dart";
 import "package:falatu_mobile/chat/utils/enums/chat_type.dart";
-import "package:falatu_mobile/commons/ui/components/blur_effect.dart";
 import "package:falatu_mobile/commons/ui/components/falatu_shimmer.dart";
 import "package:falatu_mobile/commons/utils/extensions/context_extensions.dart";
 import "package:falatu_mobile/commons/utils/routes.dart";

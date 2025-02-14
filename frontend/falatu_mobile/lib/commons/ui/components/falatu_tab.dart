@@ -14,6 +14,7 @@ class FalaTuTabIndicator extends Decoration {
   final double indicatorHeight;
   final Color indicatorColor;
   final double indicatorRadius;
+  @override
   final EdgeInsetsGeometry padding;
   final EdgeInsetsGeometry insets;
   final TabBarIndicatorSize tabBarIndicatorSize;
@@ -41,7 +42,7 @@ class FalaTuTabIndicator extends Decoration {
   @override
   Decoration? lerpTo(Decoration? b, double t) {
     if (b is FalaTuTabIndicator) {
-      return new FalaTuTabIndicator(
+      return FalaTuTabIndicator(
         padding: EdgeInsetsGeometry.lerp(padding, b.padding, t)!,
         insets: EdgeInsetsGeometry.lerp(insets, b.insets, t)!,
       );

@@ -2,8 +2,8 @@ import "package:falatu_mobile/commons/core/data/datasources/auth/auth_commons_da
 import "package:falatu_mobile/commons/core/data/models/auth_credentials_model.dart";
 import "package:falatu_mobile/commons/core/data/services/http_service/http_service.dart";
 import "package:falatu_mobile/commons/core/data/services/shared_preferences_services/shared_preferences_services.dart";
-import "package:falatu_mobile/commons/core/domain/entities/result_wrapper.dart";
 import "package:falatu_mobile/commons/core/domain/entities/auth_credentials_entity.dart";
+import "package:falatu_mobile/commons/core/domain/entities/result_wrapper.dart";
 import "package:falatu_mobile/commons/utils/errors/errors.dart";
 import "package:falatu_mobile/commons/utils/errors/handle_error.dart";
 import "package:falatu_mobile/commons/utils/helpers/url_helpers.dart";

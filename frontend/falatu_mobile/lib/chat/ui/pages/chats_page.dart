@@ -1,5 +1,3 @@
-import "dart:ui";
-import "package:falatu_mobile/chat/core/data/models/chat/private_chat_model.dart";
 import "package:falatu_mobile/chat/core/domain/entities/chat/group_chat_entity.dart";
 import "package:falatu_mobile/chat/core/domain/entities/chat/private_chat_entity.dart";
 import "package:falatu_mobile/chat/ui/blocs/load_chats/load_chats_bloc.dart";

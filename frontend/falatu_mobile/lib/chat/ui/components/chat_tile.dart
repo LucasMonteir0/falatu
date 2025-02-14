@@ -3,7 +3,6 @@ import "package:falatu_mobile/commons/ui/components/falatu_cached_network_image.
 import "package:falatu_mobile/commons/ui/components/falatu_shimmer.dart";
 import "package:falatu_mobile/commons/utils/extensions/date_extensions.dart";
 import "package:falatu_mobile/commons/utils/extensions/message_extensions.dart";
-import "package:falatu_mobile/commons/utils/extensions/nullable_extensions.dart";
 import "package:flutter/material.dart";
 
 class ChatTile extends StatelessWidget {
