@@ -14,4 +14,12 @@ class UrlHelpers {
     }
     return '${dotenv.env['FALATU_URL'] ?? ''}$modulePath${path != null ? "/$path" : ""}';
   }
+
+  static String getChatsSocketUrl() {
+    return '${dotenv.env['CHATS_WS_URL']}';
+  }
+
+  static String getMessagesSocketUrl() {
+    return '${dotenv.env['MESSAGES_WS_URL']}';
+  }
 }

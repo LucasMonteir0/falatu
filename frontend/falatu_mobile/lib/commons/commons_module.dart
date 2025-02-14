@@ -8,6 +8,8 @@ import "package:falatu_mobile/commons/core/data/services/http_service/http_servi
 import "package:falatu_mobile/commons/core/data/services/http_service/http_service_impl.dart";
 import "package:falatu_mobile/commons/core/data/services/shared_preferences_services/shared_preferences_services.dart";
 import "package:falatu_mobile/commons/core/data/services/shared_preferences_services/shared_preferences_services_impl.dart";
+import "package:falatu_mobile/commons/core/data/services/socket_io_service/socket_io_service.dart";
+import "package:falatu_mobile/commons/core/data/services/socket_io_service/socket_io_service_impl.dart";
 import "package:falatu_mobile/commons/core/domain/repositories/auth/auth_commons_repository.dart";
 import "package:falatu_mobile/commons/core/domain/usecases/sign_out/sign_out_use_case.dart";
 import "package:falatu_mobile/commons/core/domain/usecases/sign_out/sign_out_use_case_impl.dart";
@@ -32,8 +34,15 @@ class CommonsModule extends Module {
                   i(),
                   onRefreshToken: () =>
                       Modular.get<UpdateAccessTokenBloc>().call(),
-                  onSignOut: () => Modular.get<UpdateAccessTokenBloc>().call(),
+                  onSignOut: () => Modular.get<SignOutBloc>().call(),
                 ),
+            export: true),
+        Bind.factory<SocketIoService>(
+            (i) => SocketServiceIoImpl(
+                onRefreshToken: () =>
+                    Modular.get<UpdateAccessTokenBloc>().call(),
+                onSignOut: () => Modular.get<SignOutBloc>().call(),
+                preferences: i()),
             export: true),
 
         //DATASOURCES

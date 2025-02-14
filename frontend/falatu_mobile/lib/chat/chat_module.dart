@@ -15,7 +15,7 @@ import "package:flutter_modular/flutter_modular.dart";
 class ChatModule extends Module {
   @override
   List<Bind<Object>> get binds => [
-        Bind.lazySingleton<ChatDatasource>((i) => ChatDatasourceImpl(i()),
+        Bind.lazySingleton<ChatDatasource>((i) => ChatDatasourceImpl(i(), i()),
             onDispose: (datasource) => datasource.dispose()),
         Bind.factory<MessagesDatasource>((i) => MessagesDatasourceImpl(i())),
         Bind.factory<ChatRepository>((i) => ChatRepositoryImpl(i())),
