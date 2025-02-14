@@ -25,5 +25,15 @@
 "shouldHaveAtLeastOneSpecialCharacter": "Deve conter ao menos 1 caractere especial.",
 "fullNameMaxCharactersError": "O nome não pode conter mais que 16 caracteres.",
 "onUserCreationMessage": "Usuário criado com sucesso.",
-"emailAlreadyInUseMessage": "Este E-mail já está sendo usado."
+"emailAlreadyInUseMessage": "Este E-mail já está sendo usado.",
+"yesterday": "ontem",
+"audio": "Àudio",
+"image": "Imagem",
+"video": "Vídeo",
+"file": "Arquivo",
+"messages": "Mensagens",
+"loadChatsError": "Não foi possível carregar os chats, tente novamente mais tarde.",
+"friendsTab": "Amigos",
+"groupsTab": "Grupos",
+"emptyChatsMessage": "Ainda nao existem chats aqui."
 }

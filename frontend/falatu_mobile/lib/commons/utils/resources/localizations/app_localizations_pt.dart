@@ -86,4 +86,34 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get emailAlreadyInUseMessage => 'Este E-mail já está sendo usado.';
+
+  @override
+  String get yesterday => 'ontem';
+
+  @override
+  String get audio => 'Àudio';
+
+  @override
+  String get image => 'Imagem';
+
+  @override
+  String get video => 'Vídeo';
+
+  @override
+  String get file => 'Arquivo';
+
+  @override
+  String get messages => 'Mensagens';
+
+  @override
+  String get loadChatsError => 'Não foi possível carregar os chats, tente novamente mais tarde.';
+
+  @override
+  String get friendsTab => 'Amigos';
+
+  @override
+  String get groupsTab => 'Grupos';
+
+  @override
+  String get emptyChatsMessage => 'Ainda nao existem chats aqui.';
 }

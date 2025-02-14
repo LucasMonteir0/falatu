@@ -8,6 +8,7 @@ import "package:falatu_mobile/app/core/domain/usecases/sign_up/sign_up_use_case.
 import "package:falatu_mobile/app/core/domain/usecases/sign_up/sign_up_use_case_impl.dart";
 import "package:falatu_mobile/app/ui/blocs/sign_in_bloc.dart";
 import "package:falatu_mobile/app/ui/blocs/sign_up_bloc.dart";
+import "package:falatu_mobile/app/ui/pages/settings/settings_page.dart";
 import "package:falatu_mobile/app/ui/pages/sign_in/sign_in_page.dart";
 import "package:falatu_mobile/app/ui/pages/sign_up/sign_up_page.dart";
 import "package:falatu_mobile/chat/chat_module.dart";
@@ -47,6 +48,10 @@ class AppModule extends Module {
         ChildRoute(
           Routes.signUp,
           child: (_, __) => const SignUpPage(),
+        ),
+        ChildRoute(
+          Routes.settings,
+          child: (_, __) => const SettingsPage(),
         ),
       ];
 }

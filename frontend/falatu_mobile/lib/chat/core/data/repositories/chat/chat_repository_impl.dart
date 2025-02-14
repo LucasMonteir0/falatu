@@ -4,7 +4,9 @@ import "package:falatu_mobile/chat/core/domain/repositories/chat/chat_repository
 import "package:falatu_mobile/commons/core/domain/entities/result_wrapper.dart";
 
 class ChatRepositoryImpl implements ChatRepository {
-  late final ChatDatasource _datasource;
+  final ChatDatasource _datasource;
+
+  ChatRepositoryImpl(this._datasource);
 
   @override
   Future<ResultWrapper<ChatEntity>> create() {

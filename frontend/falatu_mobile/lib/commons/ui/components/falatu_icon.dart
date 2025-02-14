@@ -10,6 +10,7 @@ class FalaTuIcon extends StatelessWidget {
   final VoidCallback? onTap;
   final EdgeInsets? padding;
   final BoxFit fit;
+  final bool? enableFeedback;
 
   const FalaTuIcon({
     required this.icon,
@@ -18,20 +19,23 @@ class FalaTuIcon extends StatelessWidget {
     this.color,
     super.key,
     this.padding,
-    this.fit = BoxFit.contain,
+    this.fit = BoxFit.contain, this.enableFeedback,
   });
 
   @override
   Widget build(BuildContext context) {
-    return InkWell(
-      onTap: onTap,
-      borderRadius:
-          padding != null ? BorderRadius.circular(4) : BorderRadius.zero,
-      splashFactory: InkSplash.splashFactory,
-      child: Padding(
-        padding: padding ?? EdgeInsets.zero,
-        child: SizedBox.square(
-          dimension: size,
+    return Material(
+      clipBehavior: Clip.antiAlias,
+      color: Colors.transparent,
+      borderRadius: BorderRadius.circular(4),
+      child: InkWell(
+        onTap: onTap,
+        enableFeedback: enableFeedback,
+        splashFactory: InkSplash.splashFactory,
+        child: Ink(
+          padding: padding ?? EdgeInsets.zero,
+         height: size,
+          width: size,
           child: SvgPicture.asset(
             "$_iconsAssetsPath${icon.value}",
             colorFilter: color != null

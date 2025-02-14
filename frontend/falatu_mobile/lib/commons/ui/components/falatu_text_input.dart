@@ -133,7 +133,7 @@ class _FalaTuTextInputState extends State<FalaTuTextInput> {
                     ? FalaTuIconsEnum.visibilityOnFilled
                     : FalaTuIconsEnum.visibilityOffFilled,
                 color: colors.primary,
-                size: 36,
+                size: 30,
                 onTap: () => setState(() => showText = !showText),
               ),
             )

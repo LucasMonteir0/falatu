@@ -9,7 +9,8 @@ class ChatModel extends ChatEntity {
       {required super.id,
       required super.type,
       required super.createdAt,
-      required super.users});
+      required super.users,
+      super.lastMessage});
 
   factory ChatModel.fromJson(
       Map<String, dynamic> json, Map<String, dynamic> otherUser) {
@@ -21,6 +22,15 @@ class ChatModel extends ChatEntity {
             json, ChatUserModel.fromJson(otherUser));
       case ChatType.group:
         return GroupChatModel.fromJson(json);
+    }
+  }
+
+  ChatEntity toEntity() {
+    switch (type) {
+      case ChatType.private:
+        return (this as PrivateChatModel).toEntity();
+      case ChatType.group:
+        return (this as GroupChatModel).toEntity();
     }
   }
 }

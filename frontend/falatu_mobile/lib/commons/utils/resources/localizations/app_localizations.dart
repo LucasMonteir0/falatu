@@ -254,6 +254,66 @@ abstract class AppLocalizations {
   /// In pt, this message translates to:
   /// **'Este E-mail já está sendo usado.'**
   String get emailAlreadyInUseMessage;
+
+  /// No description provided for @yesterday.
+  ///
+  /// In pt, this message translates to:
+  /// **'ontem'**
+  String get yesterday;
+
+  /// No description provided for @audio.
+  ///
+  /// In pt, this message translates to:
+  /// **'Àudio'**
+  String get audio;
+
+  /// No description provided for @image.
+  ///
+  /// In pt, this message translates to:
+  /// **'Imagem'**
+  String get image;
+
+  /// No description provided for @video.
+  ///
+  /// In pt, this message translates to:
+  /// **'Vídeo'**
+  String get video;
+
+  /// No description provided for @file.
+  ///
+  /// In pt, this message translates to:
+  /// **'Arquivo'**
+  String get file;
+
+  /// No description provided for @messages.
+  ///
+  /// In pt, this message translates to:
+  /// **'Mensagens'**
+  String get messages;
+
+  /// No description provided for @loadChatsError.
+  ///
+  /// In pt, this message translates to:
+  /// **'Não foi possível carregar os chats, tente novamente mais tarde.'**
+  String get loadChatsError;
+
+  /// No description provided for @friendsTab.
+  ///
+  /// In pt, this message translates to:
+  /// **'Amigos'**
+  String get friendsTab;
+
+  /// No description provided for @groupsTab.
+  ///
+  /// In pt, this message translates to:
+  /// **'Grupos'**
+  String get groupsTab;
+
+  /// No description provided for @emptyChatsMessage.
+  ///
+  /// In pt, this message translates to:
+  /// **'Ainda nao existem chats aqui.'**
+  String get emptyChatsMessage;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

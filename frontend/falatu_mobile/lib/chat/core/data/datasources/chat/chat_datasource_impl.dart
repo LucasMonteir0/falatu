@@ -34,7 +34,7 @@ class ChatDatasourceImpl extends ChatDatasource {
 
     _socket.on("chats", (data) {
       _controller.add((data as List<dynamic>)
-          .map((e) => ChatModel.fromJson(e, _extractOtherUser(e)))
+          .map((e) => ChatModel.fromJson(e, _extractOtherUser(e)).toEntity())
           .toList());
     });
 
