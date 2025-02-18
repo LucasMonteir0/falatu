@@ -1,9 +1,15 @@
 import { ResultWrapper } from "src/utils/result/ResultWrapper";
 import { MessageEntity } from "../../entities/message.entity";
-import { SendMessageDto } from "../../dtos/send_message.dto";
-
+import { CreateMessageDto } from "../../dtos/create_message_dto";
 
 export abstract class MessageDatasource {
-  abstract sendMessage(message: SendMessageDto, chatId: string): Promise<ResultWrapper<MessageEntity>>;
-  abstract getMessagesByChatId(id: string): Promise<ResultWrapper<MessageEntity[]>>;
+  abstract create(
+    message: CreateMessageDto,
+    chatId: string
+  ): Promise<ResultWrapper<MessageEntity>>;
+  abstract getByChat(id: string): Promise<ResultWrapper<MessageEntity[]>>;
+  abstract updateMessageRead(
+    messageId: string,
+    userId: string
+  ): Promise<ResultWrapper<MessageEntity>>;
 }

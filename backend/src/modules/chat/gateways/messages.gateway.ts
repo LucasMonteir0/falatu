@@ -14,7 +14,7 @@ import { AuthSocketMiddleware } from "src/modules/commons/middlewares/auth_socke
 import { PrismaService } from "src/utils/config/database/prisma.service";
 import { BadRequestError } from "src/utils/result/AppError";
 import { MessageDatasource } from "../datasources/message/message.datasource";
-import { SendMessageDto } from "../dtos/send_message.dto";
+import { CreateMessageDto } from "../dtos/create_message_dto";
 
 @WebSocketGateway(81, { namespace: "/messages" })
 export class MessageGateway
@@ -72,14 +72,14 @@ export class MessageGateway
   @SubscribeMessage("sendMessage")
   async handleSendMessage(
     @ConnectedSocket() client: Socket,
-    @MessageBody() data: { message: SendMessageDto; chatId: string }
+    @MessageBody() data: { message: CreateMessageDto; chatId: string }
   ) {
     const { chatId, message } = data;
     if (!chatId || !message) {
       return new BadRequestError("chatId and message are required.");
     }
 
-    const newMessage = await this.datasource.sendMessage(message, chatId);
+    const newMessage = await this.datasource.create(message, chatId);
     if (newMessage.isSuccess) {
       await this.emitMessagesToChat(client, chatId);
     } else {
@@ -88,7 +88,7 @@ export class MessageGateway
   }
 
   private async emitMessagesToChat(client: Socket | Server, chatId: string) {
-    const messages = await this.datasource.getMessagesByChatId(chatId);
+    const messages = await this.datasource.getByChat(chatId);
     if (messages.isSuccess) {
       client.to(chatId).emit("messages", messages.data);
     }

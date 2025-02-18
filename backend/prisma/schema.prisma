@@ -15,14 +15,15 @@ datasource db {
 }
 
 model User {
-  id          String     @id @default(uuid())
+  id          String        @id @default(uuid())
   name        String
-  email       String     @unique
+  email       String        @unique
   password    String
   picture_url String?
   userChats   UserChat[]
   messages    Message[]
-  createdAt   DateTime   @default(now())
+  createdAt   DateTime      @default(now())
+  MessageRead MessageRead[]
 
   @@map("users")
 }
@@ -49,10 +50,22 @@ model Message {
   media_url    String?
   sender       User          @relation(fields: [senderId], references: [id], onDelete: Cascade)
   chatMessages ChatMessage[]
+  messageReads MessageRead[]
   createdAt    DateTime      @default(now())
   Chat         Chat?
 
   @@map("messages")
+}
+
+model MessageRead {
+  messageId String
+  message   Message  @relation(fields: [messageId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  readAt    DateTime @default(now())
+
+  @@id([messageId, userId])
+  @@map("message_reads")
 }
 
 model UserChat {

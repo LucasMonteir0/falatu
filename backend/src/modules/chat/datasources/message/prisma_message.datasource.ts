@@ -2,7 +2,7 @@ import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/utils/config/database/prisma.service";
 import { ResultWrapper } from "src/utils/result/ResultWrapper";
 import { MessageDatasource } from "./message.datasource";
-import { SendMessageDto } from "../../dtos/send_message.dto";
+import { CreateMessageDto } from "../../dtos/create_message_dto";
 import { MessageEntity } from "../../entities/message.entity";
 import { ConflictError, UnknownError } from "src/utils/result/AppError";
 import { QueryHelper } from "src/utils/helpers/query.helper";
@@ -10,8 +10,54 @@ import { QueryHelper } from "src/utils/helpers/query.helper";
 @Injectable()
 export class PrismaMessageDatasourceImpl implements MessageDatasource {
   constructor(private readonly database: PrismaService) {}
-  async sendMessage(
-    message: SendMessageDto,
+  async updateMessageRead(
+    messageId: string,
+    userId: string
+  ): Promise<ResultWrapper<MessageEntity>> {
+    try {
+      const messageExists = await this.database.message.findUnique({
+        where: { id: messageId },
+      });
+
+      const userExists = await this.database.user.findUnique({
+        where: { id: userId },
+      });
+
+      if (!messageExists || !userExists) {
+        ResultWrapper.error(
+          new ConflictError("Message or User doesn't exists.")
+        );
+      }
+
+      const messageRead = await this.database.messageRead.create({
+        data: {
+          messageId,
+          userId,
+        },
+      });
+
+      const result = await this.database.message.findUnique({
+        where: { id: messageRead.messageId },
+        include: {
+          sender: QueryHelper.selectUser(),
+          messageReads: {
+            select: {
+              user: true,
+              readAt: true,
+            },
+          },
+        },
+      });
+
+      return ResultWrapper.success(
+        MessageEntity.fromPrisma(result, result.sender)
+      );
+    } catch (e) {
+      return ResultWrapper.error(new UnknownError(e));
+    }
+  }
+  async create(
+    message: CreateMessageDto,
     chatId: string
   ): Promise<ResultWrapper<MessageEntity>> {
     try {
@@ -23,33 +69,37 @@ export class PrismaMessageDatasourceImpl implements MessageDatasource {
         ResultWrapper.error(new ConflictError("Chat doesn't exists."));
       }
 
-      const result = await this.database.message.create({
-        data: {
-          type: message.type,
-          senderId: message.senderId,
-          text: message.text,
-          media_url: null, //TODO message.mediaFile,
-          chatMessages: {
-            create: {
-              chatId: chatId,
+      const result = await this.database.$transaction(async (transaction) => {
+        let query = await transaction.message.create({
+          data: {
+            type: message.type,
+            senderId: message.senderId,
+            text: message.text,
+            media_url: null,
+            Chat: { connect: { id: chatId } },
+            chatMessages: {
+              create: {
+                chatId: chatId,
+              },
             },
           },
-        },
-        include: {
-          sender: QueryHelper.selectUser(),
-        },
+          include: {
+            sender: QueryHelper.selectUser(),
+          },
+        });
+
+        let newMessage = MessageEntity.fromPrisma(query, query.sender);
+        await this.updateMessageRead(newMessage.id, newMessage.sender.id);
+
+        return newMessage;
       });
 
-      return ResultWrapper.success(
-        MessageEntity.fromPrisma(result, result.sender)
-      );
+      return ResultWrapper.success(result);
     } catch (e) {
       return ResultWrapper.error(new UnknownError(e));
     }
   }
-  async getMessagesByChatId(
-    id: string
-  ): Promise<ResultWrapper<MessageEntity[]>> {
+  async getByChat(id: string): Promise<ResultWrapper<MessageEntity[]>> {
     try {
       const chatExists = await this.database.chat.findUnique({
         where: { id },
