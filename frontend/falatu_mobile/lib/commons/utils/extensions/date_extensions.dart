@@ -18,4 +18,8 @@ extension DateTimeFormatter on DateTime {
       return DateFormat("dd/MM/yy").format(this);
     }
   }
+
+  String toTime() {
+    return DateFormat("hh:MM").format(this);
+  }
 }
