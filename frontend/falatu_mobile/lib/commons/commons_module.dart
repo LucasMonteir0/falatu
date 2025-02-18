@@ -57,13 +57,15 @@ class CommonsModule extends Module {
 
         //USECASES
         Bind.factory<UpdateAccessTokenUseCase>(
-            (i) => UpdateAccessTokenUseCaseImpl(i())),
+            (i) => UpdateAccessTokenUseCaseImpl(i()),
+            export: true),
         Bind.factory<SignOutUseCase>((i) => SignOutUseCaseImpl(i()),
             export: true),
 
         //BLOCS
         Bind.lazySingleton<UpdateAccessTokenBloc>(
-            (i) => UpdateAccessTokenBloc(i())),
+            (i) => UpdateAccessTokenBloc(i()),
+            export: true),
         Bind.lazySingleton<SignOutBloc>((i) => SignOutBloc(i()), export: true),
       ];
 }

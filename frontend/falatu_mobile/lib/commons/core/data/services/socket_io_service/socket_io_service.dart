@@ -2,7 +2,7 @@ import "package:falatu_mobile/commons/core/domain/entities/base_error.dart";
 import "package:flutter/material.dart";
 
 abstract class SocketIoService {
-  void connect(String url,
+  Future<void> connect(String url,
       {Map<String, dynamic>? query,
       Map<String, dynamic>? headers,
       ValueChanged<BaseError?>? onError});

@@ -28,4 +28,22 @@ class MessageModel extends MessageEntity {
         throw UnimplementedError();
     }
   }
+
+  MessageEntity toEntity() {
+    switch (type) {
+      case MessageType.text:
+        return (this as TextMessageModel).toEntity();
+      case MessageType.audio:
+        throw UnimplementedError();
+      case MessageType.video:
+        // TODO: Handle this case.
+        throw UnimplementedError();
+      case MessageType.image:
+        // TODO: Handle this case.
+        throw UnimplementedError();
+      case MessageType.file:
+        // TODO: Handle this case.
+        throw UnimplementedError();
+    }
+  }
 }

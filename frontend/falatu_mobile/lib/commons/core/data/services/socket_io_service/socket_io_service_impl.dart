@@ -11,7 +11,7 @@ class SocketServiceIoImpl implements SocketIoService {
   final Future<void> Function()? _onRefreshToken;
   final Future<void> Function()? _onSignOut;
   final SharedPreferencesService _preferences;
-  late io.Socket _socket;
+  io.Socket? _socket;
 
   SocketServiceIoImpl({
     required Future<void> Function()? onRefreshToken,
@@ -22,63 +22,72 @@ class SocketServiceIoImpl implements SocketIoService {
         _preferences = preferences;
 
   @override
-  void connect(String url,
+  Future<void> connect(String url,
       {Map<String, dynamic>? query,
       Map<String, dynamic>? headers,
       ValueChanged<BaseError?>? onError}) async {
     String? access = _preferences.getUserAccessToken();
     String? refresh = _preferences.getUserRefreshToken();
-    if (access != null && access.isNotEmpty) {
-      if (JwtDecoder.isExpired(access)) {
-        if (refresh != null && JwtDecoder.isExpired(refresh)) {
-          await _onSignOut?.call();
-          return;
-        }
-        await _onRefreshToken?.call();
-        access = _preferences.getUserAccessToken();
+
+    if (access != null && access.isNotEmpty && JwtDecoder.isExpired(access)) {
+      if (refresh != null && JwtDecoder.isExpired(refresh)) {
+        await _onSignOut?.call();
+        return;
       }
+      await _onRefreshToken?.call();
+      access = _preferences.getUserAccessToken();
     }
 
     _socket = io.io(
       url,
       io.OptionBuilder()
           .setTransports(["websocket"])
+          .setReconnectionDelay(5000)
           .setExtraHeaders(
               {"authorization": access!, if (headers != null) ...headers})
           .setQuery(query ?? {})
           .build(),
     );
 
-    _socket.onConnect((_) async {
-      _socket.io.options?["extraHeaders"] = {"authorization": access};
+    _socket?.onConnect((_) async {
+      _socket?.io.options?["extraHeaders"] = {"authorization": access};
     });
 
-    _socket.onError((data) {
+    _socket?.onError((data) {
       if (data is SocketException && data.osError?.errorCode == 61) {
         onError?.call(ServiceUnavailableError());
       }
-      onError?.call(null);
+      onError?.call(UnknownError(message: data.toString()));
     });
-
-    _socket.connect();
+    _socket?.connect();
   }
 
   @override
   void disconnect() {
-    _socket.disconnect();
+    if (_socket == null) {
+      throw UnknownError(message: "Socket not initialized.");
+    }
+    _socket?.disconnect();
   }
+
   @override
   void dispose() {
-    _socket.dispose();
+    _socket?.dispose();
   }
 
   @override
-  void on(String event, Function(dynamic) handler) {
-    _socket.on(event, handler);
+  void on(String event, Function(dynamic data) handler) {
+    if (_socket == null) {
+      throw UnknownError(message: "Socket not initialized.");
+    }
+    _socket?.on(event, handler);
   }
 
   @override
-  void emit(String event, dynamic data) {
-    _socket.emit(event, data);
+  void emit(String event, [dynamic data]) {
+    if (_socket == null) {
+      throw UnknownError(message: "Socket not initialized.");
+    }
+    _socket?.emit(event, data);
   }
 }

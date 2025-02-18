@@ -1,9 +1,9 @@
 import "package:equatable/equatable.dart";
 
-abstract class LoadChatsEvents extends Equatable{}
+abstract class ChatEvents extends Equatable{}
 
 
-class Load extends LoadChatsEvents{
+class LoadChats extends ChatEvents{
   @override
   List<Object?> get props => [];
 }

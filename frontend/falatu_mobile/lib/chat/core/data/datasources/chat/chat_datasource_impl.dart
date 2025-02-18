@@ -14,20 +14,18 @@ class ChatDatasourceImpl extends ChatDatasource {
   final SharedPreferencesService _preferences;
   final SocketIoService _socket;
   late final String? _userId;
-  late BaseError? _connectionError;
 
   ChatDatasourceImpl(this._preferences, this._socket) {
     _userId = _preferences.getUserId();
-    _connectionError = _connect();
   }
 
   final StreamController<List<ChatEntity>> _controller =
       StreamController.broadcast();
 
-  BaseError? _connect() {
+  Future<BaseError?> _connect() async {
     final String url = UrlHelpers.getChatsSocketUrl();
     BaseError? error;
-    _socket.connect(
+    await _socket.connect(
       url,
       query: {"userId": _userId},
       onError: (value) {
@@ -39,21 +37,29 @@ class ChatDatasourceImpl extends ChatDatasource {
 
   @override
   void dispose() {
-    _controller.close();
     _socket.disconnect();
+    _controller.close();
     _socket.dispose();
   }
 
   @override
   ResultWrapper<Stream<List<ChatEntity>>> loadChats() {
+    BaseError? connectionError;
+    _connect().then(
+      (value) {
+        connectionError = value;
+      },
+    );
+
+    if (connectionError != null) {
+      return ResultWrapper.error(connectionError);
+    }
     _socket.on("chats", (data) {
       _controller.add((data as List<dynamic>)
           .map((e) => ChatModel.fromJson(e, _extractOtherUser(e)).toEntity())
           .toList());
     });
-    if (_connectionError != null) {
-      return ResultWrapper.error(_connectionError);
-    }
+
     return ResultWrapper.success(_controller.stream);
   }
 

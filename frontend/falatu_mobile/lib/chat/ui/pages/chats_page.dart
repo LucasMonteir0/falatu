@@ -1,7 +1,7 @@
 import "package:falatu_mobile/chat/core/domain/entities/chat/group_chat_entity.dart";
 import "package:falatu_mobile/chat/core/domain/entities/chat/private_chat_entity.dart";
 import "package:falatu_mobile/chat/ui/blocs/load_chats/load_chats_bloc.dart";
-import "package:falatu_mobile/chat/ui/blocs/load_chats/load_chats_events.dart";
+import "package:falatu_mobile/chat/ui/blocs/load_chats/chat_events.dart";
 import "package:falatu_mobile/chat/ui/components/chats_list_view.dart";
 import "package:falatu_mobile/chat/utils/enums/chat_tabs.dart";
 import "package:falatu_mobile/commons/ui/components/blur_effect.dart";
@@ -31,7 +31,7 @@ class _ChatsPageState extends State<ChatsPage> {
   void initState() {
     super.initState();
     _bloc = Modular.get<LoadChatsBloc>();
-    _bloc.add(Load());
+    _bloc.add(LoadChats());
   }
 
   @override

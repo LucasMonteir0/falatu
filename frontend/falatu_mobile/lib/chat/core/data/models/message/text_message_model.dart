@@ -1,4 +1,6 @@
 import "package:falatu_mobile/chat/core/data/models/message/message_model.dart";
+import "package:falatu_mobile/chat/core/domain/entities/message/message_entity.dart";
+import "package:falatu_mobile/chat/core/domain/entities/message/text_message_entity.dart";
 import "package:falatu_mobile/chat/utils/enums/message_type.dart";
 import "package:falatu_mobile/commons/core/data/models/user_model.dart";
 
@@ -21,4 +23,8 @@ class TextMessageModel extends MessageModel {
         type: MessageType.fromValue(json["type"]),
         createdAt: DateTime.parse(json["createdAt"]),
       );
+
+  @override
+  TextMessageEntity toEntity() => TextMessageEntity(
+      id: id, sender: sender, type: type, createdAt: createdAt, text: text);
 }
