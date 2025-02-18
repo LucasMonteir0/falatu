@@ -36,8 +36,6 @@ class _ChatsPageState extends State<ChatsPage> {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
-    final typography = Theme.of(context).textTheme;
     return Container(
       decoration: BoxDecoration(
         image: DecorationImage(
@@ -117,10 +115,12 @@ class _TabBarComponent extends StatelessWidget {
     return TabBar(
       tabAlignment: TabAlignment.start,
       indicatorSize: TabBarIndicatorSize.label,
+      dividerColor: Colors.transparent,
       isScrollable: true,
-      indicator: const FalaTuTabIndicator(),
+      indicator: FalaTuTabIndicator(indicatorColor: colors.surface),
       labelStyle: typography.bodyMedium!
           .copyWith(fontWeight: FontWeight.w700, color: colors.primary),
+
       unselectedLabelColor: Colors.white,
       tabs: ChatTabs.values.map((e) => Tab(text: e.getLabel(context))).toList(),
     );

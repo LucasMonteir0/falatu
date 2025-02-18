@@ -1,3 +1,5 @@
+import "package:flutter/material.dart";
+
 abstract class SharedPreferencesService {
   Future<void> init();
 
@@ -12,5 +14,10 @@ abstract class SharedPreferencesService {
   Future<bool> setUserAccessToken(String token);
 
   Future<bool> setUserRefreshToken(String token);
+
   Future<bool> removeAuthCaches();
+
+  Future<bool> setThemeMode(ThemeMode mode);
+
+  ThemeMode? getThemeMode();
 }

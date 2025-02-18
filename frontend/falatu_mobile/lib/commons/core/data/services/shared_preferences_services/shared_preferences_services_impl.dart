@@ -1,4 +1,5 @@
 import "package:falatu_mobile/commons/core/data/services/shared_preferences_services/shared_preferences_services.dart";
+import "package:flutter/src/material/app.dart";
 import "package:shared_preferences/shared_preferences.dart";
 
 class SharedPreferencesServiceImpl implements SharedPreferencesService {
@@ -79,5 +80,22 @@ class SharedPreferencesServiceImpl implements SharedPreferencesService {
     ]);
 
     return futures.every((removed) => removed);
+  }
+
+  @override
+  ThemeMode? getThemeMode() {
+    if (_prefs == null) {
+      return null;
+    }
+    final String? mode = _prefs!.getString("themeMode");
+    return ThemeMode.values.firstWhere((e) => e.name == mode);
+  }
+
+  @override
+  Future<bool> setThemeMode(ThemeMode mode) async {
+    if (_prefs == null) {
+      return false;
+    }
+    return await _prefs!.setString("themeMode", mode.name);
   }
 }

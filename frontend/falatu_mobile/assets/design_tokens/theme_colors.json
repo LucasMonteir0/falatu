@@ -45,7 +45,7 @@
     "onTertiaryContainer": "0xFFE5E2DC",
     "surface": "0xFF1B1B1F",
     "onSurface": "0xFFE5E5E5",
-    "surfaceBright": "0xFF292933",
+    "surfaceBright": "0xFFFFFFFF",
     "surfaceContainerLowest": "0xFF1A1A1D",
     "surfaceContainerLow": "0xFF222228",
     "surfaceContainer": "0xFF2A2A33",

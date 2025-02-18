@@ -28,7 +28,7 @@ class BlurEffect extends StatelessWidget {
           height: double.infinity,
           clipBehavior: Clip.antiAlias,
           decoration: BoxDecoration(
-              color: color ?? colors.surface.withAlpha(199),
+              color: color ?? colors.surface.withValues(alpha: 0.7),
               borderRadius: borderRadius),
           child: child,
         ),
