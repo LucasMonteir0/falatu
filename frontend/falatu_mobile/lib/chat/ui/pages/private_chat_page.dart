@@ -1,4 +1,3 @@
-import "package:falatu_mobile/chat/core/data/datasources/messages/messages_datasource.dart";
 import "package:falatu_mobile/chat/core/domain/entities/message/message_entity.dart";
 import "package:falatu_mobile/chat/core/domain/entities/message/send_message_entity.dart";
 import "package:falatu_mobile/chat/core/domain/entities/message/text_message_entity.dart";
@@ -63,7 +62,7 @@ class _PrivateChatPageState extends State<PrivateChatPage> {
           backgroundColor: Colors.transparent,
           title: const Hero(
             tag: Tags.chatTileToHeader,
-            child: Text('Bla Bla Bla Bla'),
+            child: Text("Bla Bla Bla Bla"),
           ),
         ),
         body: Column(

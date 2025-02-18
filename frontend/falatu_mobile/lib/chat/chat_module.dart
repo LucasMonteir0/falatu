@@ -14,7 +14,6 @@ import "package:falatu_mobile/chat/ui/blocs/load_chats/load_chats_bloc.dart";
 import "package:falatu_mobile/chat/ui/blocs/load_messages/load_messages_bloc.dart";
 import "package:falatu_mobile/chat/ui/pages/chats_page.dart";
 import "package:falatu_mobile/chat/ui/pages/private_chat_page.dart";
-import "package:falatu_mobile/commons/commons_module.dart";
 import "package:falatu_mobile/commons/utils/routes.dart";
 import "package:flutter_modular/flutter_modular.dart";
 

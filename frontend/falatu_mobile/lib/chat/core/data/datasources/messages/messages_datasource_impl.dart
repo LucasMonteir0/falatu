@@ -10,7 +10,6 @@ import "package:falatu_mobile/commons/core/data/services/socket_io_service/socke
 import "package:falatu_mobile/commons/core/domain/entities/base_error.dart";
 import "package:falatu_mobile/commons/core/domain/entities/result_wrapper.dart";
 import "package:falatu_mobile/commons/utils/helpers/url_helpers.dart";
-import "package:socket_io_client/socket_io_client.dart" as io;
 
 class MessagesDatasourceImpl implements MessagesDatasource {
   final SharedPreferencesService _preferences;
