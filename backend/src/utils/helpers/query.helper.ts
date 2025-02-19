@@ -18,4 +18,17 @@ export class QueryHelper {
       },
     };
   }
+  static includeReadsWithUser(): {
+    include: {
+      user: boolean;
+      readAt: boolean;
+    };
+  } {
+    return {
+      include: {
+        user: true,
+        readAt: true,
+      },
+    };
+  }
 }

@@ -40,12 +40,7 @@ export class PrismaMessageDatasourceImpl implements MessageDatasource {
         where: { id: messageRead.messageId },
         include: {
           sender: QueryHelper.selectUser(),
-          messageReads: {
-            select: {
-              user: true,
-              readAt: true,
-            },
-          },
+          messageReads: QueryHelper.includeReadsWithUser(),
         },
       });
 
@@ -82,9 +77,15 @@ export class PrismaMessageDatasourceImpl implements MessageDatasource {
                 chatId: chatId,
               },
             },
+            messageReads: {
+              create: {
+                userId: message.senderId,
+              },
+            },
           },
           include: {
             sender: QueryHelper.selectUser(),
+            messageReads: QueryHelper.includeReadsWithUser(),
           },
         });
 
@@ -117,6 +118,7 @@ export class PrismaMessageDatasourceImpl implements MessageDatasource {
         },
         include: {
           sender: QueryHelper.selectUser(),
+          messageReads: QueryHelper.includeReadsWithUser(),
         },
       });
 

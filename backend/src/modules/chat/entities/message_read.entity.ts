@@ -1,4 +1,4 @@
-import { MessageRead } from "@prisma/client";
+import { MessageRead, User } from "@prisma/client";
 import { UserEntity } from "../../commons/entities/user.entity";
 
 export class MessageReadEntity {
@@ -20,10 +20,10 @@ export class MessageReadEntity {
     this.readAt = readAt;
   }
 
-  static fromPrisma(read: MessageRead, user: UserEntity): MessageReadEntity {
+  static fromPrisma(read: MessageRead & {user: User}): MessageReadEntity {
     return new MessageReadEntity({
       id: `${read.messageId}:${read.userId}`,
-      user: user,
+      user: read.user,
       readAt: read.readAt,
     });
   }
