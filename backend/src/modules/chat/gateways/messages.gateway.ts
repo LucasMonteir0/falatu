@@ -81,7 +81,7 @@ export class MessageGateway
 
     const newMessage = await this.datasource.create(message, chatId);
     if (newMessage.isSuccess) {
-      await this.emitMessagesToChat(client, chatId);
+      await this.emitMessagesToChat(this.server, chatId);
     } else {
       return newMessage.error;
     }
