@@ -5,6 +5,7 @@ import {
   OnGatewayDisconnect,
   OnGatewayInit,
   MessageBody,
+  SubscribeMessage,
 } from "@nestjs/websockets";
 import { Server, Socket } from "socket.io";
 import { BadRequestError } from "src/utils/result/AppError";
@@ -62,7 +63,8 @@ export class ChatGateway
       this.emitChatsToUsers(ids);
     }
   }
-
+  
+  @SubscribeMessage("updateLastMessage")
   async updateLastMessage(
     client: Socket,
     @MessageBody() data: { chatId: string; messageId: string }
