@@ -11,7 +11,7 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   runApp(const SplashScreen());
   await Future.wait([
-    Future.delayed(const Duration(milliseconds: 2000)),
+    Future.delayed(const Duration(milliseconds: 3000)),
     MaterialTheme.loadTheme(),
     UrlHelpers.init(),
     ThemeManager.i.init(),

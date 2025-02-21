@@ -50,6 +50,15 @@ dependencies:
   image_picker: ^1.1.2
   cached_network_image: ^3.4.1
   shimmer: ^3.0.0
+  flutter_native_splash: ^2.4.4
+  lottie: ^3.3.1
+
+
+flutter_native_splash:
+  color: "#584CD7"
+  image: "assets/images/falatu_logo_white.png"
+  android: true
+  ios: true
 
 dev_dependencies:
   flutter_test:
@@ -78,6 +87,7 @@ flutter:
     - assets/design_tokens/theme_colors.json
     - assets/icons/
     - assets/images/
+    - assets/lottie/
     - .env
 
   fonts:
