@@ -39,13 +39,13 @@ export class PrismaMessageDatasourceImpl implements MessageDatasource {
       const result = await this.database.message.findUnique({
         where: { id: messageRead.messageId },
         include: {
-          sender: QueryHelper.selectUser(),
+          sender: true,
           messageReads: QueryHelper.includeReadsWithUser(),
         },
       });
 
       return ResultWrapper.success(
-        MessageEntity.fromPrisma(result, result.sender)
+        MessageEntity.fromPrisma(result)
       );
     } catch (e) {
       return ResultWrapper.error(new UnknownError(e));
@@ -84,14 +84,19 @@ export class PrismaMessageDatasourceImpl implements MessageDatasource {
             },
           },
           include: {
-            sender: QueryHelper.selectUser(),
+            sender: true,
             messageReads: QueryHelper.includeReadsWithUser(),
           },
         });
 
-        let newMessage = MessageEntity.fromPrisma(query, query.sender);
-        await this.updateMessageRead(newMessage.id, newMessage.sender.id);
+        await transaction.chat.update({
+          where: { id: chatId },
+          data: {
+            lastMessageId: query.id,
+          },
+        });
 
+        let newMessage = MessageEntity.fromPrisma(query);
         return newMessage;
       });
 
@@ -117,12 +122,12 @@ export class PrismaMessageDatasourceImpl implements MessageDatasource {
           },
         },
         include: {
-          sender: QueryHelper.selectUser(),
+          sender: true,
           messageReads: QueryHelper.includeReadsWithUser(),
         },
       });
 
-      const result = messages.map((m) => MessageEntity.fromPrisma(m, m.sender));
+      const result = messages.map((m) => MessageEntity.fromPrisma(m));
       return ResultWrapper.success(result);
     } catch (e) {
       return ResultWrapper.error(new UnknownError(e));
