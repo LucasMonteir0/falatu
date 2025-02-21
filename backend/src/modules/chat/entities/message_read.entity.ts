@@ -23,7 +23,7 @@ export class MessageReadEntity {
   static fromPrisma(read: MessageRead & {user: User}): MessageReadEntity {
     return new MessageReadEntity({
       id: `${read.messageId}:${read.userId}`,
-      user: read.user,
+      user: UserEntity.fromPrisma(read.user),
       readAt: read.readAt,
     });
   }

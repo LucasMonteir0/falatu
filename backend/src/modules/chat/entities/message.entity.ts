@@ -3,6 +3,7 @@ import { MessageType } from "../enums/message_type.enum";
 import { UserEntity } from "../../commons/entities/user.entity";
 import { MessageUtils } from "../utils/message.utils";
 import { MessageReadEntity } from "./message_read.entity";
+import { ChatUserEntity } from "./chat_user.entity";
 
 export class MessageEntity {
   id: string;
@@ -40,13 +41,14 @@ export class MessageEntity {
   }
 
   static fromPrisma(
-    message: Message & { messageReads: (MessageRead & { user: User })[] },
-    sender: UserEntity,
-
+    message: Message & {
+      messageReads: (MessageRead & { user: User })[];
+      sender: User;
+    }
   ): MessageEntity {
     return new MessageEntity({
       id: message.id,
-      sender: sender,
+      sender: UserEntity.fromPrisma(message.sender),
       type: MessageUtils.fromValue(message.type),
       createdAt: message.createdAt,
       text: message.text,
