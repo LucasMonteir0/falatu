@@ -5,7 +5,7 @@ import "package:falatu_mobile/commons/core/domain/entities/result_wrapper.dart";
 abstract class MessagesDatasource {
   ResultWrapper<Stream<List<MessageEntity>>> loadMessages(String chatId);
 
-  ResultWrapper<MessageEntity> sendMessage(
+  void sendMessage(
       String chatId, SendMessageEntity message);
 
   void dispose();

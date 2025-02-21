@@ -10,12 +10,18 @@ import "package:falatu_mobile/chat/core/domain/usecases/load_chats/load_chats_us
 import "package:falatu_mobile/chat/core/domain/usecases/load_chats/load_chats_use_case_impl.dart";
 import "package:falatu_mobile/chat/core/domain/usecases/load_messages/load_messages_use_case.dart";
 import "package:falatu_mobile/chat/core/domain/usecases/load_messages/load_messages_use_case_impl.dart";
+import "package:falatu_mobile/chat/core/domain/usecases/send_message/send_message_use_case.dart";
+import "package:falatu_mobile/chat/core/domain/usecases/update_last_message/update_last_message_use_case.dart";
+import "package:falatu_mobile/chat/core/domain/usecases/update_last_message/update_last_message_use_case_impl.dart";
 import "package:falatu_mobile/chat/ui/blocs/load_chats/load_chats_bloc.dart";
 import "package:falatu_mobile/chat/ui/blocs/load_messages/load_messages_bloc.dart";
+import "package:falatu_mobile/chat/ui/blocs/send_message/send_messge_bloc.dart";
 import "package:falatu_mobile/chat/ui/pages/chats_page.dart";
 import "package:falatu_mobile/chat/ui/pages/private_chat_page.dart";
 import "package:falatu_mobile/commons/utils/routes.dart";
 import "package:flutter_modular/flutter_modular.dart";
+
+import "core/domain/usecases/send_message/send_message_use_case_impl.dart";
 
 class ChatModule extends Module {
   @override
@@ -32,10 +38,13 @@ class ChatModule extends Module {
         //USECASES
         Bind.factory<LoadChatsUseCase>((i) => LoadChatsUseCaseImpl(i())),
         Bind.factory<LoadMessagesUseCase>((i) => LoadMessagesUseCaseImpl(i())),
+        Bind.factory<SendMessageUseCase>((i) => SendMessageUseCaseImpl(i())),
+        Bind.factory<UpdateLastMessageUseCase>((i) => UpdateLastMessageUseCaseImpl(i())),
 
         //BLOCS
         Bind.lazySingleton<LoadChatsBloc>((i) => LoadChatsBloc(i())),
         Bind.factory<LoadMessagesBloc>((i) => LoadMessagesBloc(i())),
+        Bind.factory<SendMessageBloc>((i) => SendMessageBloc(i(), i())),
       ];
 
   @override

@@ -5,4 +5,6 @@ abstract class ChatRepository{
   ResultWrapper<Stream<List<ChatEntity>>> loadChats();
 
   Future<ResultWrapper<ChatEntity>> create();
+
+  void updateLastMessage({required String chatId, required String messageId});
 }

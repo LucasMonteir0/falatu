@@ -6,5 +6,7 @@ abstract class ChatDatasource {
 
   Future<ResultWrapper<ChatEntity>> create();
 
+  void updateLastMessage({required String chatId, required String messageId});
+
   void dispose();
 }

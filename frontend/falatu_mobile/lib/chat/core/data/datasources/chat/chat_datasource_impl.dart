@@ -76,4 +76,11 @@ class ChatDatasourceImpl extends ChatDatasource {
     }
     return {};
   }
+
+  @override
+  void updateLastMessage(
+      {required String chatId, required String messageId}) {
+    _socket
+        .emit("updateLastMessage", {"chatId": chatId, "messageId": messageId});
+  }
 }

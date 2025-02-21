@@ -15,7 +15,8 @@ class MessagesRepositoryImpl implements MessagesRepository {
   }
 
   @override
-  ResultWrapper<MessageEntity> sendMessage(String chatId, SendMessageEntity message) {
+  void sendMessage(
+      String chatId, SendMessageEntity message) {
     return _datasource.sendMessage(chatId, message);
   }
 }

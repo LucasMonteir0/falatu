@@ -37,6 +37,8 @@ class MessagesDatasourceImpl implements MessagesDatasource {
     return error;
   }
 
+
+
   @override
   ResultWrapper<Stream<List<MessageEntity>>> loadMessages(String chatId) {
     BaseError? connectionError;
@@ -55,17 +57,13 @@ class MessagesDatasourceImpl implements MessagesDatasource {
           .map((e) => MessageModel.fromJson(e).toEntity())
           .toList());
     });
-
     return ResultWrapper.success(_controller.stream);
   }
 
   @override
-  ResultWrapper<MessageEntity> sendMessage(
-      String chatId, SendMessageEntity message) {
+  void sendMessage(String chatId, SendMessageEntity message) {
     final model = SendMessageModel.fromObject(message);
     _socket.emit("sendMessage", {"chatId": chatId, "message": model.toJson()});
-
-    throw UnimplementedError();
   }
 
   @override
