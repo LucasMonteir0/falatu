@@ -1,7 +1,8 @@
-import { Chat } from "@prisma/client";
+import { Chat, Message, MessageRead, User, UserChat } from "@prisma/client";
 import { ChatType } from "../enums/chat_type.enum";
 import { ChatUtils } from "../utils/chat.utils";
 import { ChatUserEntity } from "./chat_user.entity";
+import { MessageEntity } from "./message.entity";
 
 export class ChatEntity {
   id: string;
@@ -10,6 +11,7 @@ export class ChatEntity {
   type: ChatType;
   createdAt: Date;
   users: ChatUserEntity[];
+  lastMessage: MessageEntity | null;
 
   constructor(
     id: string,
@@ -17,6 +19,7 @@ export class ChatEntity {
     title: string | null,
     pictureUrl: string | null,
     users: ChatUserEntity[],
+    lastMessage: MessageEntity | null,
     createdAt: Date = new Date()
   ) {
     this.id = id;
@@ -24,16 +27,28 @@ export class ChatEntity {
     this.title = title;
     this.pictureUrl = pictureUrl;
     this.users = users;
+    this.lastMessage = lastMessage;
     this.createdAt = createdAt;
   }
 
-  static fromPrisma(chat: Chat, users: ChatUserEntity[]): ChatEntity {
+  static fromPrisma(
+    chat: Chat & {
+      userChats: (UserChat & { user: User })[];
+      lastMessage: Message & {
+        messageReads: (MessageRead & { user: User })[];
+        sender: User;
+      };
+    }
+  ): ChatEntity {
     return new ChatEntity(
       chat.id,
       ChatUtils.typeFromValue(chat.type),
       chat.title,
       chat.picture_url,
-      users,
+      chat.userChats.map((e) =>
+        ChatUserEntity.fromPrisma(e.user, ChatUtils.roleFromValue(e.role))
+      ),
+      MessageEntity.fromPrisma(chat.lastMessage),
       chat.createdAt
     );
   }

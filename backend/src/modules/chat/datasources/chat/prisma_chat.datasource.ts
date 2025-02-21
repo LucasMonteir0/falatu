@@ -13,6 +13,7 @@ import { ResultWrapper } from "src/utils/result/ResultWrapper";
 import { ChatUserEntity } from "../../entities/chat_user.entity";
 import { ChatUtils } from "../../utils/chat.utils";
 import { ChatRole } from "../../enums/chat_role.enum";
+import { QueryHelper } from "src/utils/helpers/query.helper";
 
 @Injectable()
 export class PrismaChatDatasourceImpl implements ChatDatasource {
@@ -27,20 +28,10 @@ export class PrismaChatDatasourceImpl implements ChatDatasource {
       const chat = await this.database.chat.update({
         where: { id: chatId },
         data: { lastMessageId: messageId },
-        include: {
-          userChats: {
-            include: { user: true },
-          },
-        },
+        include: QueryHelper.includesOnChat(),
       });
 
-      const result = ChatEntity.fromPrisma(
-        chat,
-        chat.userChats.map((u) =>
-          ChatUserEntity.fromPrisma(u.user, ChatUtils.roleFromValue(u.role))
-        )
-      );
-      return ResultWrapper.success(result);
+      return ResultWrapper.success(ChatEntity.fromPrisma(chat));
     } catch (e) {
       return ResultWrapper.error(new UnknownError(e));
     }
@@ -90,23 +81,10 @@ export class PrismaChatDatasourceImpl implements ChatDatasource {
             },
           },
         },
-        include: {
-          userChats: {
-            include: {
-              user: true,
-            },
-          },
-        },
+        include: QueryHelper.includesOnChat(),
       });
 
-      const result = chats.map((c) =>
-        ChatEntity.fromPrisma(
-          c,
-          c.userChats.map((u) =>
-            ChatUserEntity.fromPrisma(u.user, ChatUtils.roleFromValue(u.role))
-          )
-        )
-      );
+      const result = chats.map((c) => ChatEntity.fromPrisma(c));
       return ResultWrapper.success(result);
     } catch (e) {
       return ResultWrapper.error(new UnknownError(e));
@@ -118,13 +96,7 @@ export class PrismaChatDatasourceImpl implements ChatDatasource {
     try {
       const chat = await this.database.chat.findUnique({
         where: { id: id },
-        include: {
-          userChats: {
-            include: {
-              user: true,
-            },
-          },
-        },
+        include: QueryHelper.includesOnChat(),
       });
 
       if (!chat) {
@@ -133,14 +105,7 @@ export class PrismaChatDatasourceImpl implements ChatDatasource {
         );
       }
 
-      return ResultWrapper.success(
-        ChatEntity.fromPrisma(
-          chat,
-          chat.userChats.map((e) =>
-            ChatUserEntity.fromPrisma(e.user, ChatUtils.roleFromValue(e.role))
-          )
-        )
-      );
+      return ResultWrapper.success(ChatEntity.fromPrisma(chat));
     } catch (e) {
       return ResultWrapper.error(new UnknownError(e));
     }
@@ -183,23 +148,10 @@ export class PrismaChatDatasourceImpl implements ChatDatasource {
               })),
             },
           },
-          include: {
-            userChats: {
-              include: {
-                user: true,
-              },
-            },
-          },
+          include: QueryHelper.includesOnChat(),
         });
 
-        return ResultWrapper.success(
-          ChatEntity.fromPrisma(
-            chat,
-            chat.userChats.map((e) =>
-              ChatUserEntity.fromPrisma(e.user, ChatUtils.roleFromValue(e.role))
-            )
-          )
-        );
+        return ResultWrapper.success(ChatEntity.fromPrisma(chat));
       } else if (params.type === "group") {
         if (!params.title) {
           return ResultWrapper.error(
@@ -219,23 +171,10 @@ export class PrismaChatDatasourceImpl implements ChatDatasource {
               })),
             },
           },
-          include: {
-            userChats: {
-              include: {
-                user: true,
-              },
-            },
-          },
+          include: QueryHelper.includesOnChat(),
         });
 
-        return ResultWrapper.success(
-          ChatEntity.fromPrisma(
-            chat,
-            chat.userChats.map((e) =>
-              ChatUserEntity.fromPrisma(e.user, ChatUtils.roleFromValue(e.role))
-            )
-          )
-        );
+        return ResultWrapper.success(ChatEntity.fromPrisma(chat));
       } else {
         return ResultWrapper.error(
           new BadRequestError("Tipo de chat inválido.")
