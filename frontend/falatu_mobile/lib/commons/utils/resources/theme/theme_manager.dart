@@ -1,7 +1,7 @@
-import 'dart:async';
+import "dart:async";
 import "package:falatu_mobile/commons/core/data/services/shared_preferences_services/shared_preferences_services.dart";
 import "package:falatu_mobile/commons/core/data/services/shared_preferences_services/shared_preferences_services_impl.dart";
-import 'package:flutter/material.dart';
+import "package:flutter/material.dart";
 
 class ThemeManager {
   final SharedPreferencesService _preferences = SharedPreferencesServiceImpl();

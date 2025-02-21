@@ -4,7 +4,6 @@ import "package:falatu_mobile/chat/ui/blocs/load_chats/chat_events.dart";
 import "package:falatu_mobile/chat/ui/blocs/load_chats/load_chats_bloc.dart";
 import "package:falatu_mobile/chat/ui/components/chats_list_view.dart";
 import "package:falatu_mobile/chat/utils/enums/chat_tabs.dart";
-import "package:falatu_mobile/commons/core/data/services/shared_preferences_services/shared_preferences_services.dart";
 import "package:falatu_mobile/commons/core/domain/entities/auth_credentials_entity.dart";
 import "package:falatu_mobile/commons/ui/blocs/update_access_token_bloc.dart";
 import "package:falatu_mobile/commons/ui/components/blur_effect.dart";
@@ -14,13 +13,11 @@ import "package:falatu_mobile/commons/ui/components/falatu_tab.dart";
 import "package:falatu_mobile/commons/utils/enums/icons_enum.dart";
 import "package:falatu_mobile/commons/utils/enums/images_enum.dart";
 import "package:falatu_mobile/commons/utils/extensions/context_extensions.dart";
-import "package:falatu_mobile/commons/utils/helpers/jwt_helper.dart";
 import "package:falatu_mobile/commons/utils/routes.dart";
 import "package:falatu_mobile/commons/utils/states/base_state.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter_modular/flutter_modular.dart";
-import "package:jwt_decoder/jwt_decoder.dart";
 
 class ChatsPage extends StatefulWidget {
   const ChatsPage({super.key});

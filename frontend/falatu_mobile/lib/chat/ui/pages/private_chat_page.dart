@@ -1,4 +1,3 @@
-import "package:falatu_mobile/chat/core/data/models/message/send_message_model.dart";
 import "package:falatu_mobile/chat/core/domain/entities/message/message_entity.dart";
 import "package:falatu_mobile/chat/core/domain/entities/message/send_message_entity.dart";
 import "package:falatu_mobile/chat/core/domain/entities/message/text_message_entity.dart";
@@ -75,7 +74,7 @@ class _PrivateChatPageState extends State<PrivateChatPage> {
           backgroundColor: Colors.transparent,
           appBar: AppBar(
             backgroundColor: Colors.transparent,
-            title: Text("Bla Bla Bla Bla"),
+            title: const Text("Bla Bla Bla Bla"),
           ),
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
