@@ -1,4 +1,18 @@
 export class QueryHelper {
+  static includesOnChat() {
+    return {
+      userChats: {
+        include: { user: true },
+      },
+      lastMessage: {
+        include: {
+          sender: true,
+          messageReads: QueryHelper.includeReadsWithUser(),
+        },
+      },
+    };
+  }
+
   static selectUser(): {
     select: {
       id: boolean;
@@ -21,13 +35,11 @@ export class QueryHelper {
   static includeReadsWithUser(): {
     include: {
       user: boolean;
-      readAt: boolean;
     };
   } {
     return {
       include: {
         user: true,
-        readAt: true,
       },
     };
   }
