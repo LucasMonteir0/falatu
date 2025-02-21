@@ -2,6 +2,6 @@ import "package:falatu_mobile/commons/core/domain/entities/auth_credentials_enti
 import "package:falatu_mobile/commons/core/domain/entities/result_wrapper.dart";
 
 abstract class AuthCommonsDatasource {
-  Future<ResultWrapper<AuthCredentialsEntity>> updateAccessToken();
+  Future<ResultWrapper<AuthCredentialsEntity>> updateAccessToken(bool forceRefresh);
   Future<bool> signOut();
 }

@@ -37,7 +37,7 @@ class CommonsModule extends Module {
                   onSignOut: () => Modular.get<SignOutBloc>().call(),
                 ),
             export: true),
-        Bind.factory<SocketIoService>(
+        Bind.lazySingleton<SocketIoService>(
             (i) => SocketServiceIoImpl(
                 onRefreshToken: () =>
                     Modular.get<UpdateAccessTokenBloc>().call(),
@@ -47,7 +47,8 @@ class CommonsModule extends Module {
 
         //DATASOURCES
         Bind.factory<AuthCommonsDatasource>(
-            (i) => AuthCommonsDatasourceImpl(i(), i()),
+            (i) => AuthCommonsDatasourceImpl(i(), i(),
+                onNullRefreshToken: () => Modular.get<SignOutBloc>().call()),
             export: true),
 
         //REPOSITORIES

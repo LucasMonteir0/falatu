@@ -10,9 +10,9 @@ class UpdateAccessTokenBloc extends Cubit<BaseState> {
   UpdateAccessTokenBloc(this._useCase)
       : super(const InitialState());
 
-  Future<void> call() async {
+  Future<void> call([bool forceRefresh = false]) async {
     emit(LoadingState());
-    final ResultWrapper<AuthCredentialsEntity> result = await _useCase.call();
+    final ResultWrapper<AuthCredentialsEntity> result = await _useCase.call(forceRefresh);
     if (result.success) {
       final auth = result.data as AuthCredentialsEntity;
       emit(SuccessState<AuthCredentialsEntity>(auth));

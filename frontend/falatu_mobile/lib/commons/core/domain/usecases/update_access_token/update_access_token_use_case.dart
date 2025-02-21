@@ -2,5 +2,5 @@ import "package:falatu_mobile/commons/core/domain/entities/auth_credentials_enti
 import "package:falatu_mobile/commons/core/domain/entities/result_wrapper.dart";
 
 abstract class UpdateAccessTokenUseCase {
-  Future<ResultWrapper<AuthCredentialsEntity>> call();
+  Future<ResultWrapper<AuthCredentialsEntity>> call(bool forceRefresh);
 }

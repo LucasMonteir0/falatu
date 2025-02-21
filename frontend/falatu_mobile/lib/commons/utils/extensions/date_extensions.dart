@@ -22,4 +22,8 @@ extension DateTimeFormatter on DateTime {
   String toTime() {
     return DateFormat("hh:MM").format(this);
   }
+
+  DateTime subtractHours(int hours) {
+  return subtract(Duration(hours: hours));
+  }
 }

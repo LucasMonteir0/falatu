@@ -9,7 +9,7 @@ class UpdateAccessTokenUseCaseImpl  implements UpdateAccessTokenUseCase{
   UpdateAccessTokenUseCaseImpl(this._repository);
 
   @override
-  Future<ResultWrapper<AuthCredentialsEntity>> call() {
-    return _repository.updateAccessToken();
+  Future<ResultWrapper<AuthCredentialsEntity>> call([bool forceRefresh = false]) {
+    return _repository.updateAccessToken(forceRefresh);
   }
 }

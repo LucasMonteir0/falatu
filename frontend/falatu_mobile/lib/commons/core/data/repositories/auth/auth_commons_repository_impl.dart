@@ -9,8 +9,8 @@ class AuthCommonsRepositoryImpl implements AuthCommonsRepository {
   AuthCommonsRepositoryImpl(this._datasource);
 
   @override
-  Future<ResultWrapper<AuthCredentialsEntity>> updateAccessToken() {
-    return _datasource.updateAccessToken();
+  Future<ResultWrapper<AuthCredentialsEntity>> updateAccessToken([bool forceRefresh = false]) {
+    return _datasource.updateAccessToken(forceRefresh);
   }
 
   @override
