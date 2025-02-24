@@ -4,7 +4,6 @@ import "package:falatu_mobile/commons/core/data/services/socket_io_service/socke
 import "package:falatu_mobile/commons/core/domain/entities/base_error.dart";
 import "package:falatu_mobile/commons/utils/errors/errors.dart";
 import "package:flutter/material.dart";
-import "package:jwt_decoder/jwt_decoder.dart";
 import "package:socket_io_client/socket_io_client.dart" as io;
 
 class SocketServiceIoImpl implements SocketIoService {
