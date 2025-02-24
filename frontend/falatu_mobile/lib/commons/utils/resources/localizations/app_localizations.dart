@@ -314,6 +314,12 @@ abstract class AppLocalizations {
   /// In pt, this message translates to:
   /// **'Ainda nao existem chats aqui.'**
   String get emptyChatsMessage;
+
+  /// No description provided for @you.
+  ///
+  /// In pt, this message translates to:
+  /// **'Você'**
+  String get you;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

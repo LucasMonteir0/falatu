@@ -27,15 +27,28 @@ class AuthCommonsDatasourceImpl implements AuthCommonsDatasource {
       [bool forceRefresh = false]) async {
     try {
       final refreshToken = _preferences.getUserRefreshToken();
+      final accessToken = _preferences.getUserAccessToken();
       if (refreshToken == null) {
         _onNullRefreshToken?.call();
         return ResultWrapper.error(
             BadRequestError(message: "Refresh token is null"));
       }
 
-      final expirationDate = JwtHelper.getExpirationDate(refreshToken);
-      if (forceRefresh ||
-          DateTime.now().isAfter(expirationDate.subtractHours(8))) {
+      final isAccessTokenAvailable = accessToken != null;
+
+      if (!forceRefresh) {
+        forceRefresh = !isAccessTokenAvailable;
+      }
+
+      final now = DateTime.now();
+      final refreshExpiration = JwtHelper.getExpirationDate(refreshToken);
+      final accessExpiration = isAccessTokenAvailable ? JwtHelper.getExpirationDate(accessToken!) : null;
+
+      final shouldRefresh = forceRefresh ||
+          now.isAfter(refreshExpiration.subtractHours(12)) ||
+          (accessExpiration != null && now.isAfter(accessExpiration.subtractHours(12)));
+
+      if (shouldRefresh) {
         final url =
             UrlHelpers.getApiBaseUrl(path: "refresh-token", moduleName: "auth");
         final result =

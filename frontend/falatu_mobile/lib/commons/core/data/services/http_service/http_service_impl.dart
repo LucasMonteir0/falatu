@@ -63,7 +63,7 @@ class HttpServiceImpl extends HttpService {
                 await onSignOut!();
               }
 
-              //Se o access estiver expirado ele acessa recupera outro access pelo refresh.
+              // Se o access estiver expirado ele acessa recupera outro access pelo refresh.
               if (onRefreshToken != null) {
                 await onRefreshToken!();
                 access = preferences.getUserAccessToken();

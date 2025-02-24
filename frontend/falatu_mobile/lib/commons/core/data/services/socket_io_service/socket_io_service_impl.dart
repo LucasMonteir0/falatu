@@ -26,23 +26,24 @@ class SocketServiceIoImpl implements SocketIoService {
       {Map<String, dynamic>? query,
       Map<String, dynamic>? headers,
       ValueChanged<BaseError?>? onError}) async {
-    String? access = _preferences.getUserAccessToken();
-    String? refresh = _preferences.getUserRefreshToken();
+    //
+    // if (access != null && access.isNotEmpty && JwtDecoder.isExpired(access)) {
+    //   if (refresh != null && JwtDecoder.isExpired(refresh)) {
+    //     await _onSignOut?.call();
+    //     return;
+    //   }
+    //   await _onRefreshToken?.call();
+    //   access = _preferences.getUserAccessToken();
+    // }
 
-    if (access != null && access.isNotEmpty && JwtDecoder.isExpired(access)) {
-      if (refresh != null && JwtDecoder.isExpired(refresh)) {
-        await _onSignOut?.call();
-        return;
-      }
-      await _onRefreshToken?.call();
-      access = _preferences.getUserAccessToken();
-    }
+    String? access = _preferences.getUserAccessToken();
 
     _socket = io.io(
       url,
       io.OptionBuilder()
           .setTransports(["websocket"])
           .setReconnectionDelay(5000)
+          .disableAutoConnect()
           .setExtraHeaders(
               {"authorization": access!, if (headers != null) ...headers})
           .setQuery(query ?? {})

@@ -11,5 +11,6 @@ class SignOutBloc extends Cubit<BaseState> {
     emit(LoadingState());
     final bool result = await _useCase.call();
     emit(SuccessState(result));
+    return;
   }
 }

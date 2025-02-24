@@ -95,7 +95,7 @@ class _PrivateChatPageState extends State<PrivateChatPage> {
 
                               if (message is TextMessageEntity) {
                                 return TextMessageCard(
-                                    message: message, isMe: false);
+                                    message: message, isMe: isMe);
                               }
                               return Text(message.id);
                             },

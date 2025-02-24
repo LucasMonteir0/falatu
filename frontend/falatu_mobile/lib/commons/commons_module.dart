@@ -39,10 +39,11 @@ class CommonsModule extends Module {
             export: true),
         Bind.lazySingleton<SocketIoService>(
             (i) => SocketServiceIoImpl(
-                onRefreshToken: () =>
-                    Modular.get<UpdateAccessTokenBloc>().call(),
-                onSignOut: () => Modular.get<SignOutBloc>().call(),
-                preferences: i()),
+                  onRefreshToken: () =>
+                      Modular.get<UpdateAccessTokenBloc>().call(),
+                  onSignOut: () => Modular.get<SignOutBloc>().call(),
+                  preferences: i(),
+                ),
             export: true),
 
         //DATASOURCES
@@ -65,7 +66,7 @@ class CommonsModule extends Module {
 
         //BLOCS
         Bind.lazySingleton<UpdateAccessTokenBloc>(
-            (i) => UpdateAccessTokenBloc(i()),
+            (i) => UpdateAccessTokenBloc(i(), i()),
             export: true),
         Bind.lazySingleton<SignOutBloc>((i) => SignOutBloc(i()), export: true),
       ];

@@ -1,10 +1,13 @@
 import "package:falatu_mobile/chat/core/domain/entities/message/message_entity.dart";
 import "package:falatu_mobile/chat/utils/strings/tags.dart";
+import "package:falatu_mobile/commons/core/data/services/shared_preferences_services/shared_preferences_services.dart";
 import "package:falatu_mobile/commons/ui/components/falatu_cached_network_image.dart";
 import "package:falatu_mobile/commons/ui/components/falatu_shimmer.dart";
+import "package:falatu_mobile/commons/utils/extensions/context_extensions.dart";
 import "package:falatu_mobile/commons/utils/extensions/date_extensions.dart";
 import "package:falatu_mobile/commons/utils/extensions/message_extensions.dart";
 import "package:flutter/material.dart";
+import "package:flutter_modular/flutter_modular.dart";
 
 class ChatTile extends StatelessWidget {
   final String title;
@@ -30,14 +33,15 @@ class ChatTile extends StatelessWidget {
         onTap: onTap,
         child: Ink(
           width: double.infinity,
+          height: 95,
           padding: const EdgeInsets.all(16),
-          child:Hero(
+          child: Hero(
             tag: Tags.chatTileToHeader,
             child: Row(
               children: [
                 Container(
-                  width: 50,
-                  height: 50,
+                  width: 60,
+                  height: 60,
                   clipBehavior: Clip.antiAlias,
                   decoration: BoxDecoration(
                     color: colors.surface,
@@ -59,33 +63,41 @@ class ChatTile extends StatelessWidget {
                     child: IntrinsicWidth(
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Text(
-                            title,
-                            style: typography.bodyMedium!
-                                .copyWith(fontWeight: FontWeight.w700),
+                          Row(
+                            children: [
+                              Expanded(
+                                child: Text(
+                                  title,
+                                  style: typography.bodyLarge!
+                                      .copyWith(fontWeight: FontWeight.w700),
+                                ),
+                              ),
+                              if(lastMessage != null)
+                              Padding(
+                                padding: const EdgeInsets.only(left: 8),
+                                child: Text(
+                                  lastMessage!.createdAt.formatForChat(context),
+                                  style: typography.bodyMedium,
+                                ),
+                              ),
+                            ],
                           ),
-                          SizedBox(height: lastMessage != null ? 4 : 16),
                           if (lastMessage != null)
-                            Row(
-                              children: [
-                                Text(
-                                  lastMessage!.getLastMessageText(context),
-                                  maxLines: 1,
+                            Expanded(
+                              child: Builder(builder: (context) {
+                                final userId = Modular.get<
+                                        SharedPreferencesService>()
+                                    .getUserId();
+                                final isMe =
+                                    userId == lastMessage!.sender.id;
+                                return Text(
+                                  "${isMe ? "${context.i18n.you}: " : ""}${lastMessage!.getLastMessageText(context)}",
+                                  maxLines: 2,
                                   overflow: TextOverflow.ellipsis,
-                                  style: typography.bodySmall,
-                                ),
-                                Flexible(
-                                  child: Padding(
-                                    padding: const EdgeInsets.only(left: 4),
-                                    child: Text(
-                                      DateTime.now().formatForChat(context),
-                                      style: typography.bodySmall,
-                                    ),
-                                  ),
-                                ),
-                              ],
+                                  style: typography.bodyMedium,
+                                );
+                              }),
                             )
                         ],
                       ),

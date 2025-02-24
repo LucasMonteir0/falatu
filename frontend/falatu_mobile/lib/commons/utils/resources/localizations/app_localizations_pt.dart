@@ -116,4 +116,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get emptyChatsMessage => 'Ainda nao existem chats aqui.';
+
+  @override
+  String get you => 'Você';
 }

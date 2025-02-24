@@ -10,8 +10,11 @@ class SettingsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
     return FalaTuScaffold(
       hasSafeArea: true,
+      backgroundColor: colors.surface,
+      title: "Configurações",
       body: Center(
         child: Column(
           children: [

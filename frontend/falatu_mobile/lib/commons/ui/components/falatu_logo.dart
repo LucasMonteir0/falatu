@@ -10,7 +10,7 @@ class FalaTuLogo extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Image.asset(
-      "assets/images/${FalaTuImagesEnum.falatuLogo.value}",
+      "assets/images/${FalaTuImagesEnum.falatuLogomarca.value}",
       width: width,
       height: height,
       fit: BoxFit.contain,

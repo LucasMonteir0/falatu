@@ -25,5 +25,5 @@ class TextMessageModel extends MessageModel {
 
   @override
   TextMessageEntity toEntity() => TextMessageEntity(
-      id: id, sender: sender, type: type, createdAt: createdAt, text: text);
+      id: id, sender: sender, type: type, createdAt: createdAt, text: text, );
 }

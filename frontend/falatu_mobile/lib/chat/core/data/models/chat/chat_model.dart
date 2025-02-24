@@ -10,7 +10,7 @@ class ChatModel extends ChatEntity {
       required super.type,
       required super.createdAt,
       required super.users,
-      super.lastMessage});
+      required super.lastMessage});
 
   factory ChatModel.fromJson(
       Map<String, dynamic> json, Map<String, dynamic> otherUser) {
