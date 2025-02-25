@@ -12,8 +12,6 @@ import "package:falatu_mobile/chat/ui/components/messages/text_message_card.dart
 import "package:falatu_mobile/chat/utils/enums/message_type.dart";
 import "package:falatu_mobile/chat/utils/strings/tags.dart";
 import "package:falatu_mobile/commons/core/data/services/shared_preferences_services/shared_preferences_services.dart";
-import "package:falatu_mobile/commons/core/domain/entities/auth_credentials_entity.dart";
-import "package:falatu_mobile/commons/ui/blocs/update_access_token_bloc.dart";
 import "package:falatu_mobile/commons/ui/components/falatu_circular_progress_indicator.dart";
 import "package:falatu_mobile/commons/ui/components/falatu_icon.dart";
 import "package:falatu_mobile/commons/ui/components/falatu_splash_effect.dart";
@@ -127,7 +125,6 @@ class _PrivateChatPageState extends State<PrivateChatPage> {
                       child: Padding(
                         padding: EdgeInsets.all(8.0),
                         child: FalaTuCircularProgressIndicator(
-                          size: 30,
                           strokeWidth: 4,
                           padding: 6,
                         ),

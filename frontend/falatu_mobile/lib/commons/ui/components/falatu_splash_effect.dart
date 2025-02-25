@@ -9,9 +9,8 @@ class FalaTuSplashEffect extends StatelessWidget {
   final double? size;
 
   const FalaTuSplashEffect(
-      {super.key,
+      {required this.child, super.key,
       this.backgroundColor,
-      required this.child,
       this.borderRadius,
       this.padding,
       this.onTap,

@@ -4,8 +4,6 @@ import "package:falatu_mobile/chat/ui/blocs/load_chats/chat_events.dart";
 import "package:falatu_mobile/chat/ui/blocs/load_chats/load_chats_bloc.dart";
 import "package:falatu_mobile/chat/ui/components/chats_list_view.dart";
 import "package:falatu_mobile/chat/utils/enums/chat_tabs.dart";
-import "package:falatu_mobile/commons/core/domain/entities/auth_credentials_entity.dart";
-import "package:falatu_mobile/commons/ui/blocs/update_access_token_bloc.dart";
 import "package:falatu_mobile/commons/ui/components/blur_effect.dart";
 import "package:falatu_mobile/commons/ui/components/falatu_scaffold.dart";
 import "package:falatu_mobile/commons/ui/components/falatu_shimmer.dart";

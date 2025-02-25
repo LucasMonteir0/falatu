@@ -24,7 +24,7 @@ extension DateTimeFormatter on DateTime {
     final locale = Localizations.localeOf(context).toString();
 
     final today = DateTime(now.year, now.month, now.day);
-    final date = DateTime(this.year, this.month, this.day);
+    final date = DateTime(year, month, day);
     final difference = today.difference(date).inDays;
     if (difference == 0) {
       return context.i18n.today;

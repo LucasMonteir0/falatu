@@ -31,7 +31,6 @@ class MessageInput extends StatelessWidget {
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 8),
         child: Row(
-          crossAxisAlignment: CrossAxisAlignment.center,
           children: [
             FalaTuSplashEffect(
               size: 36,
