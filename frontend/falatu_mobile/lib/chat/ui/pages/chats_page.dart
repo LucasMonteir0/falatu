@@ -125,16 +125,23 @@ class _TabBarComponent extends StatelessWidget {
         ),
       );
     }
-    return TabBar(
-      tabAlignment: TabAlignment.start,
-      indicatorSize: TabBarIndicatorSize.label,
-      dividerColor: Colors.transparent,
-      isScrollable: true,
-      indicator: FalaTuTabIndicator(indicatorColor: colors.surface),
-      labelStyle: typography.bodyMedium!
-          .copyWith(fontWeight: FontWeight.w700, color: colors.primary),
-      unselectedLabelColor: Colors.white,
-      tabs: ChatTabs.values.map((e) => Tab(text: e.getLabel(context))).toList(),
+    return Padding(
+      padding: const EdgeInsets.symmetric(vertical: 8.0),
+      child: SizedBox(
+        height: 28,
+        child: TabBar(
+          tabAlignment: TabAlignment.start,
+          indicatorSize: TabBarIndicatorSize.label,
+          dividerColor: Colors.transparent,
+          isScrollable: true,
+          splashBorderRadius: BorderRadius.circular(100),
+          indicator: FalaTuTabIndicator(indicatorColor: colors.surface),
+          labelStyle: typography.bodyMedium!
+              .copyWith(fontWeight: FontWeight.w700, color: colors.primary),
+          unselectedLabelColor: Colors.white,
+          tabs: ChatTabs.values.map((e) => Tab(text: e.getLabel(context))).toList(),
+        ),
+      ),
     );
   }
 }
