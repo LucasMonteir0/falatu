@@ -8,16 +8,13 @@ import "package:socket_io_client/socket_io_client.dart" as io;
 
 class SocketServiceIoImpl implements SocketIoService {
   final Future<void> Function()? _onRefreshToken;
-  final Future<void> Function()? _onSignOut;
   final SharedPreferencesService _preferences;
   io.Socket? _socket;
 
   SocketServiceIoImpl({
     required Future<void> Function()? onRefreshToken,
-    required Future<void> Function()? onSignOut,
     required SharedPreferencesService preferences,
   })  : _onRefreshToken = onRefreshToken,
-        _onSignOut = onSignOut,
         _preferences = preferences;
 
   @override
@@ -25,16 +22,7 @@ class SocketServiceIoImpl implements SocketIoService {
       {Map<String, dynamic>? query,
       Map<String, dynamic>? headers,
       ValueChanged<BaseError?>? onError}) async {
-    //
-    // if (access != null && access.isNotEmpty && JwtDecoder.isExpired(access)) {
-    //   if (refresh != null && JwtDecoder.isExpired(refresh)) {
-    //     await _onSignOut?.call();
-    //     return;
-    //   }
-    //   await _onRefreshToken?.call();
-    //   access = _preferences.getUserAccessToken();
-    // }
-
+    await _onRefreshToken?.call();
     String? access = _preferences.getUserAccessToken();
 
     _socket = io.io(

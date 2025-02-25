@@ -40,7 +40,6 @@ class _PrivateChatPageState extends State<PrivateChatPage> {
 
   late final LoadMessagesBloc _loadMessagesBloc;
   late final SendMessageBloc _sendMessageBloc;
-  late final UpdateAccessTokenBloc _updateAccessTokenBloc;
   late final SharedPreferencesService _preferences;
   late final ScrollController _scrollController;
 
@@ -50,10 +49,9 @@ class _PrivateChatPageState extends State<PrivateChatPage> {
     _loadMessagesBloc = Modular.get<LoadMessagesBloc>();
     _sendMessageBloc = Modular.get<SendMessageBloc>();
     _preferences = Modular.get<SharedPreferencesService>();
-    _updateAccessTokenBloc = Modular.get<UpdateAccessTokenBloc>();
     _scrollController = ScrollController();
 
-    _updateAccessTokenBloc.call();
+    _loadMessagesBloc.add(LoadMessages(widget.chat.id));
   }
 
   @override
@@ -64,123 +62,117 @@ class _PrivateChatPageState extends State<PrivateChatPage> {
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<UpdateAccessTokenBloc, BaseState>(
-      bloc: _updateAccessTokenBloc,
-      listener: (context, state) {
-        if (state is SuccessState<AuthCredentialsEntity>) {
-          _loadMessagesBloc.add(LoadMessages(widget.chat.id));
-        }
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            fit: BoxFit.cover,
-            image: AssetImage(
-              "assets/images/${FalaTuImagesEnum.background.value}",
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          fit: BoxFit.cover,
+          image: AssetImage(
+            "assets/images/${FalaTuImagesEnum.background.value}",
+          ),
+        ),
+      ),
+      child: Scaffold(
+        backgroundColor: Colors.transparent,
+        appBar: AppBar(
+          backgroundColor: Colors.transparent,
+          leadingWidth: 30,
+          centerTitle: false,
+          forceMaterialTransparency: true,
+          title: Hero(
+            tag: Tags.chatTileToHeader,
+            child: ChatAppBarContent(
+              title: widget.chat.otherUser.name,
+              pictureUrl: widget.chat.otherUser.pictureUrl,
             ),
           ),
         ),
-        child: Scaffold(
-          backgroundColor: Colors.transparent,
-          appBar: AppBar(
-            backgroundColor: Colors.transparent,
-            leadingWidth: 30,
-            centerTitle: false,
-            forceMaterialTransparency: true,
-            title: Hero(
-              tag: Tags.chatTileToHeader,
-              child: ChatAppBarContent(
-                title: widget.chat.otherUser.name,
-                pictureUrl: widget.chat.otherUser.pictureUrl,
-              ),
-            ),
-          ),
-          body: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              Expanded(
-                child: BlocConsumer<LoadMessagesBloc, BaseState>(
-                  bloc: _loadMessagesBloc,
-                  listener: (context, state) async {
-                    if (state is SuccessState<List<MessageEntity>>) {
-                      await Future.delayed(const Duration(milliseconds: 500));
+        body: Column(
+          crossAxisAlignment: CrossAxisAlignment.stretch,
+          children: [
+            Expanded(
+              child: BlocConsumer<LoadMessagesBloc, BaseState>(
+                bloc: _loadMessagesBloc,
+                listener: (context, state) async {
+                  if (state is SuccessState<List<MessageEntity>>) {
+                    await Future.delayed(const Duration(milliseconds: 500));
+                    if (_scrollController.positions.isEmpty) {
                       _scrollController.animateTo(
                         _scrollController.position.minScrollExtent,
                         duration: const Duration(milliseconds: 150),
                         curve: Curves.easeOut,
                       );
                     }
-                  },
-                  builder: (context, state) {
-                    if (state is SuccessState<List<MessageEntity>>) {
-                      return MessagesListView(
-                        data: state.data,
-                        controller: _scrollController,
-                        builder: (context, message, index) {
-                          final bool isMe =
-                              message.sender.id == _preferences.getUserId();
+                  }
+                },
+                builder: (context, state) {
+                  if (state is SuccessState<List<MessageEntity>>) {
+                    return MessagesListView(
+                      data: state.data,
+                      controller: _scrollController,
+                      builder: (context, message, index) {
+                        final bool isMe =
+                            message.sender.id == _preferences.getUserId();
 
-                          if (message is TextMessageEntity) {
-                            return TextMessageCard(
-                                message: message, isMe: isMe);
-                          }
-                          return Text(message.id);
-                        },
-                      );
-                    }
-                    if (state is LoadingState) {
-                      return const Align(
-                        alignment: Alignment.topCenter,
-                        child: Padding(
-                          padding: EdgeInsets.all(8.0),
-                          child: FalaTuCircularProgressIndicator(
-                            size: 30,
-                            strokeWidth: 4,
-                            padding: 6,
-                          ),
+                        if (message is TextMessageEntity) {
+                          return TextMessageCard(
+                              message: message, isMe: isMe);
+                        }
+                        return Text(message.id);
+                      },
+                    );
+                  }
+                  if (state is LoadingState) {
+                    return const Align(
+                      alignment: Alignment.topCenter,
+                      child: Padding(
+                        padding: EdgeInsets.all(8.0),
+                        child: FalaTuCircularProgressIndicator(
+                          size: 30,
+                          strokeWidth: 4,
+                          padding: 6,
                         ),
-                      );
-                    }
-                    return const CircularProgressIndicator();
-                  },
+                      ),
+                    );
+                  }
+                  return const CircularProgressIndicator();
+                },
+              ),
+            ),
+            SafeArea(
+              child: Padding(
+                padding: const EdgeInsets.symmetric(
+                    horizontal: 16.0, vertical: 8.0),
+                child: Row(
+                  children: [
+                    Expanded(
+                      child: MessageInput(controller: _textMessageController),
+                    ),
+                    4.pw,
+                    FalaTuSplashEffect(
+                      borderRadius: BorderRadius.circular(100),
+                      onTap: () {
+                        if (_textMessageController.text.trim().isEmpty) {
+                          return;
+                        }
+                        final userId = _preferences.getUserId();
+                        final message = SendMessageEntity(
+                            senderId: userId!,
+                            type: MessageType.text,
+                            text: _textMessageController.text.trim());
+
+                        _sendMessageBloc.call(widget.chat.id, message);
+
+                        _textMessageController.clear();
+                      },
+                      child: const FalaTuIcon(
+                        icon: FalaTuIconsEnum.sendFilled,
+                      ),
+                    ),
+                  ],
                 ),
               ),
-              SafeArea(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(
-                      horizontal: 16.0, vertical: 8.0),
-                  child: Row(
-                    children: [
-                      Expanded(
-                        child: MessageInput(controller: _textMessageController),
-                      ),
-                      4.pw,
-                      FalaTuSplashEffect(
-                        borderRadius: BorderRadius.circular(100),
-                        onTap: () {
-                          if (_textMessageController.text.trim().isEmpty) {
-                            return;
-                          }
-                          final userId = _preferences.getUserId();
-                          final message = SendMessageEntity(
-                              senderId: userId!,
-                              type: MessageType.text,
-                              text: _textMessageController.text.trim());
-
-                          _sendMessageBloc.call(widget.chat.id, message);
-
-                          _textMessageController.clear();
-                        },
-                        child: const FalaTuIcon(
-                          icon: FalaTuIconsEnum.sendFilled,
-                        ),
-                      ),
-                    ],
-                  ),
-                ),
-              )
-            ],
-          ),
+            )
+          ],
         ),
       ),
     );

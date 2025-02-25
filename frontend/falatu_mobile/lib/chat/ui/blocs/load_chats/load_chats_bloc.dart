@@ -12,7 +12,7 @@ class LoadChatsBloc extends Bloc<ChatEvents, BaseState> {
   }
 
   void _onLoad(LoadChats event, Emitter<BaseState> emit) async {
-    final result = _useCase.call();
+    final result = await _useCase.call();
     if (result.success) {
       await emit.forEach(
         result.data!,

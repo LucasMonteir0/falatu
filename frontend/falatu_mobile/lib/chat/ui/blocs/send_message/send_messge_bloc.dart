@@ -14,7 +14,6 @@ class SendMessageBloc extends Cubit<BaseState> {
   void call(String chatId, SendMessageEntity message) {
     emit(LoadingState());
     _sendMessage.call(chatId, message);
-    // _updateLastMessage.call(chatId: chatId, messageId: result.data!.id);
     emit(const SuccessState(null));
   }
 }

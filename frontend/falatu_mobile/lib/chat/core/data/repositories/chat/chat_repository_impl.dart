@@ -14,7 +14,7 @@ class ChatRepositoryImpl implements ChatRepository {
   }
 
   @override
-  ResultWrapper<Stream<List<ChatEntity>>> loadChats() {
+  Future<ResultWrapper<Stream<List<ChatEntity>>>> loadChats() {
     return _datasource.loadChats();
   }
 

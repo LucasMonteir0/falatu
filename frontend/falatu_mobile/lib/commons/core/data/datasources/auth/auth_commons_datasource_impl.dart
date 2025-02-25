@@ -42,11 +42,20 @@ class AuthCommonsDatasourceImpl implements AuthCommonsDatasource {
 
       final now = DateTime.now();
       final refreshExpiration = JwtHelper.getExpirationDate(refreshToken);
-      final accessExpiration = isAccessTokenAvailable ? JwtHelper.getExpirationDate(accessToken) : null;
+      final accessExpiration = isAccessTokenAvailable
+          ? JwtHelper.getExpirationDate(accessToken)
+          : null;
+
+      if (now.isAfter(refreshExpiration)) {
+        _onNullRefreshToken?.call();
+        return ResultWrapper.error(
+            BadRequestError(message: "Refresh token is invalid."));
+      }
 
       final shouldRefresh = forceRefresh ||
           now.isAfter(refreshExpiration.subtractHours(12)) ||
-          (accessExpiration != null && now.isAfter(accessExpiration.subtractHours(12)));
+          (accessExpiration != null &&
+              now.isAfter(accessExpiration.subtractHours(12)));
 
       if (shouldRefresh) {
         final url =

@@ -9,7 +9,7 @@ class LoadMessagesUseCaseImpl implements LoadMessagesUseCase {
   LoadMessagesUseCaseImpl(this._repository);
 
   @override
-  ResultWrapper<Stream<List<MessageEntity>>> call(String chatId) {
+  Future<ResultWrapper<Stream<List<MessageEntity>>>> call(String chatId) {
     return _repository.loadMessages(chatId);
   }
 }

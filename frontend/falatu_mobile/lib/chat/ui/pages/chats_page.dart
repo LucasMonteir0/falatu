@@ -28,72 +28,61 @@ class ChatsPage extends StatefulWidget {
 
 class _ChatsPageState extends State<ChatsPage> {
   late final LoadChatsBloc _bloc;
-  late final UpdateAccessTokenBloc _updateAccessTokenBloc;
 
   @override
   void initState() {
     super.initState();
     _bloc = Modular.get<LoadChatsBloc>();
-    _updateAccessTokenBloc = Modular.get<UpdateAccessTokenBloc>();
-
-    _updateAccessTokenBloc.call();
+    _bloc.add(LoadChats());
   }
 
   @override
   Widget build(BuildContext context) {
-    return BlocListener<UpdateAccessTokenBloc, BaseState>(
-      bloc: _updateAccessTokenBloc,
-      listener: (context, state) {
-        if (state is SuccessState<AuthCredentialsEntity>) {
-          _bloc.add(LoadChats());
-        }
-      },
-      child: Container(
-        decoration: BoxDecoration(
-          image: DecorationImage(
-            fit: BoxFit.cover,
-            image: AssetImage(
-              "assets/images/${FalaTuImagesEnum.background.value}",
-            ),
+    return Container(
+      decoration: BoxDecoration(
+        image: DecorationImage(
+          fit: BoxFit.cover,
+          image: AssetImage(
+            "assets/images/${FalaTuImagesEnum.background.value}",
           ),
         ),
-        child: FalaTuScaffold(
-          title: context.i18n.messages,
-          backgroundColor: Colors.transparent,
-          actions: [
-            ScaffoldAction(
-                icon: FalaTuIconsEnum.settinsFilled,
-                onTap: () => Modular.to.pushNamed(Routes.settings)),
-          ],
-          body: BlocBuilder<LoadChatsBloc, BaseState>(
-              bloc: _bloc,
-              builder: (context, state) {
-                return DefaultTabController(
-                  length: 2,
-                  child: Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: _TabBarComponent(state: state),
-                      ),
-                      Expanded(
-                        child: BlurEffect(
-                          height: double.infinity,
-                          borderRadius: const BorderRadius.vertical(
-                              top: Radius.circular(24)),
-                          child: TabBarView(
-                            children: [
-                              ChatsListView<PrivateChatEntity>(state: state),
-                              ChatsListView<GroupChatEntity>(state: state),
-                            ],
-                          ),
+      ),
+      child: FalaTuScaffold(
+        title: context.i18n.messages,
+        backgroundColor: Colors.transparent,
+        actions: [
+          ScaffoldAction(
+              icon: FalaTuIconsEnum.settinsFilled,
+              onTap: () => Modular.to.pushNamed(Routes.settings)),
+        ],
+        body: BlocBuilder<LoadChatsBloc, BaseState>(
+            bloc: _bloc,
+            builder: (context, state) {
+              return DefaultTabController(
+                length: 2,
+                child: Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                      child: _TabBarComponent(state: state),
+                    ),
+                    Expanded(
+                      child: BlurEffect(
+                        height: double.infinity,
+                        borderRadius: const BorderRadius.vertical(
+                            top: Radius.circular(24)),
+                        child: TabBarView(
+                          children: [
+                            ChatsListView<PrivateChatEntity>(state: state),
+                            ChatsListView<GroupChatEntity>(state: state),
+                          ],
                         ),
                       ),
-                    ],
-                  ),
-                );
-              }),
-        ),
+                    ),
+                  ],
+                ),
+              );
+            }),
       ),
     );
   }

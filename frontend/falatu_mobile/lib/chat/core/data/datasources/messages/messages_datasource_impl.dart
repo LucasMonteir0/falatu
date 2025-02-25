@@ -37,16 +37,10 @@ class MessagesDatasourceImpl implements MessagesDatasource {
     return error;
   }
 
-
-
   @override
-  ResultWrapper<Stream<List<MessageEntity>>> loadMessages(String chatId) {
-    BaseError? connectionError;
-    _connect(chatId).then(
-      (value) {
-        connectionError = value;
-      },
-    );
+  Future<ResultWrapper<Stream<List<MessageEntity>>>> loadMessages(
+      String chatId) async {
+    BaseError? connectionError = await _connect(chatId);
 
     if (connectionError != null) {
       return ResultWrapper.error(connectionError);

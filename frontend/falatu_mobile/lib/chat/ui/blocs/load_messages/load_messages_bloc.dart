@@ -12,13 +12,13 @@ class LoadMessagesBloc extends Bloc<MessageEvents, BaseState> {
   }
 
   void _onLoad(LoadMessages event, Emitter<BaseState> emit) async {
-    final result = _useCase.call(event.chatId);
+    final result = await _useCase.call(event.chatId);
     if (result.success) {
       await emit.forEach(
         result.data!,
-        onData:(data) {
+        onData: (data) {
           data.sort((a, b) => b.createdAt.compareTo(a.createdAt));
-           return SuccessState<List<MessageEntity>>(data);
+          return SuccessState<List<MessageEntity>>(data);
         },
       );
     } else {

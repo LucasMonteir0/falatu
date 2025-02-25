@@ -18,6 +18,7 @@ import "package:falatu_mobile/chat/ui/blocs/load_messages/load_messages_bloc.dar
 import "package:falatu_mobile/chat/ui/blocs/send_message/send_messge_bloc.dart";
 import "package:falatu_mobile/chat/ui/pages/chats_page.dart";
 import "package:falatu_mobile/chat/ui/pages/private_chat_page.dart";
+import "package:falatu_mobile/commons/ui/blocs/update_access_token_bloc.dart";
 import "package:falatu_mobile/commons/utils/routes.dart";
 import "package:flutter_modular/flutter_modular.dart";
 
@@ -39,7 +40,8 @@ class ChatModule extends Module {
         Bind.factory<LoadChatsUseCase>((i) => LoadChatsUseCaseImpl(i())),
         Bind.factory<LoadMessagesUseCase>((i) => LoadMessagesUseCaseImpl(i())),
         Bind.factory<SendMessageUseCase>((i) => SendMessageUseCaseImpl(i())),
-        Bind.factory<UpdateLastMessageUseCase>((i) => UpdateLastMessageUseCaseImpl(i())),
+        Bind.factory<UpdateLastMessageUseCase>(
+            (i) => UpdateLastMessageUseCaseImpl(i())),
 
         //BLOCS
         Bind.lazySingleton<LoadChatsBloc>((i) => LoadChatsBloc(i())),

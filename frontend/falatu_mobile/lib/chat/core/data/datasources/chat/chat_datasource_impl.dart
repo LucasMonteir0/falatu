@@ -43,13 +43,8 @@ class ChatDatasourceImpl extends ChatDatasource {
   }
 
   @override
-  ResultWrapper<Stream<List<ChatEntity>>> loadChats() {
-    BaseError? connectionError;
-    _connect().then(
-      (value) {
-        connectionError = value;
-      },
-    );
+  Future<ResultWrapper<Stream<List<ChatEntity>>>> loadChats() async {
+    BaseError? connectionError = await _connect();
 
     if (connectionError != null) {
       return ResultWrapper.error(connectionError);
@@ -78,8 +73,7 @@ class ChatDatasourceImpl extends ChatDatasource {
   }
 
   @override
-  void updateLastMessage(
-      {required String chatId, required String messageId}) {
+  void updateLastMessage({required String chatId, required String messageId}) {
     _socket
         .emit("updateLastMessage", {"chatId": chatId, "messageId": messageId});
   }
