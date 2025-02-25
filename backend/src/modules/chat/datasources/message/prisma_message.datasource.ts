@@ -4,7 +4,7 @@ import { ResultWrapper } from "src/utils/result/ResultWrapper";
 import { MessageDatasource } from "./message.datasource";
 import { CreateMessageDto } from "../../dtos/create_message_dto";
 import { MessageEntity } from "../../entities/message.entity";
-import { ConflictError, UnknownError } from "src/utils/result/AppError";
+import { UnknownError, NotFoundError } from "src/utils/result/AppError";
 import { QueryHelper } from "src/utils/helpers/query.helper";
 
 @Injectable()
@@ -25,7 +25,7 @@ export class PrismaMessageDatasourceImpl implements MessageDatasource {
 
       if (!messageExists || !userExists) {
         ResultWrapper.error(
-          new ConflictError("Message or User doesn't exists.")
+          new NotFoundError("Message or User doesn't exists.")
         );
       }
 
@@ -44,13 +44,12 @@ export class PrismaMessageDatasourceImpl implements MessageDatasource {
         },
       });
 
-      return ResultWrapper.success(
-        MessageEntity.fromPrisma(result)
-      );
+      return ResultWrapper.success(MessageEntity.fromPrisma(result));
     } catch (e) {
       return ResultWrapper.error(new UnknownError(e));
     }
   }
+
   async create(
     message: CreateMessageDto,
     chatId: string
@@ -61,7 +60,7 @@ export class PrismaMessageDatasourceImpl implements MessageDatasource {
       });
 
       if (!chatExists) {
-        ResultWrapper.error(new ConflictError("Chat doesn't exists."));
+        ResultWrapper.error(new NotFoundError("Chat doesn't exists."));
       }
 
       const result = await this.database.$transaction(async (transaction) => {
@@ -105,14 +104,19 @@ export class PrismaMessageDatasourceImpl implements MessageDatasource {
       return ResultWrapper.error(new UnknownError(e));
     }
   }
-  async getByChat(id: string): Promise<ResultWrapper<MessageEntity[]>> {
+
+  async getByChat(
+    id: string,
+    page: number = 1,
+    pageSize: number = 100
+  ): Promise<ResultWrapper<MessageEntity[]>> {
     try {
       const chatExists = await this.database.chat.findUnique({
         where: { id },
       });
 
       if (!chatExists) {
-        ResultWrapper.error(new ConflictError("Chat doesn't exists."));
+        ResultWrapper.error(new NotFoundError("Chat doesn't exists."));
       }
 
       const messages = await this.database.message.findMany({
@@ -125,6 +129,11 @@ export class PrismaMessageDatasourceImpl implements MessageDatasource {
           sender: true,
           messageReads: QueryHelper.includeReadsWithUser(),
         },
+        orderBy: {
+          createdAt: "desc", // Pegando as mensagens mais recentes primeiro
+        },
+        skip: (page - 1) * pageSize, // Paginação baseada no número da página
+        take: pageSize,
       });
 
       const result = messages.map((m) => MessageEntity.fromPrisma(m));

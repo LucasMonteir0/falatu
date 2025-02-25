@@ -10,13 +10,18 @@ class MessagesRepositoryImpl implements MessagesRepository {
   MessagesRepositoryImpl(this._datasource);
 
   @override
-  Future<ResultWrapper<Stream<List<MessageEntity>>>> loadMessages(String chatId) {
+  Future<ResultWrapper<Stream<List<MessageEntity>>>> loadMessages(
+      String chatId) {
     return _datasource.loadMessages(chatId);
   }
 
   @override
-  void sendMessage(
-      String chatId, SendMessageEntity message) {
+  void sendMessage(String chatId, SendMessageEntity message) {
     return _datasource.sendMessage(chatId, message);
+  }
+
+  @override
+  void addOldMessages(String chatId, int page) {
+    return _datasource.addOldMessages(chatId, page);
   }
 }

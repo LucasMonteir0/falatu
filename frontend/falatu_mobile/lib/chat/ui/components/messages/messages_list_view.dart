@@ -11,9 +11,14 @@ class MessagesListView extends StatefulWidget {
   final List<MessageEntity> data;
   final MessagesBuilder builder;
   final ScrollController? controller;
+  final void Function()? onMaxExtent;
 
   const MessagesListView(
-      {required this.data, required this.builder, super.key, this.controller});
+      {required this.data,
+      required this.builder,
+      super.key,
+      this.controller,
+      this.onMaxExtent});
 
   @override
   State<MessagesListView> createState() => _MessagesListViewState();
@@ -21,21 +26,48 @@ class MessagesListView extends StatefulWidget {
 
 class _MessagesListViewState extends State<MessagesListView>
     with SingleTickerProviderStateMixin {
-
   static const Duration _duration = Duration(milliseconds: 350);
   static const Curve _curve = Curves.easeIn;
 
-  late final AnimationController _controller = AnimationController(
+  late final AnimationController _animController = AnimationController(
     duration: _duration,
     vsync: this,
   )..forward();
-  late final CurvedAnimation _animation = CurvedAnimation(parent: _controller, curve: _curve);
+  late final CurvedAnimation _animation =
+      CurvedAnimation(parent: _animController, curve: _curve);
+
+  @override
+  void initState() {
+    super.initState();
+    widget.controller?.addListener(_onScroll);
+  }
 
   @override
   void dispose() {
     _animation.dispose();
-    _controller.dispose();
+    widget.controller?.removeListener(_onScroll);
+    _animController.dispose();
     super.dispose();
+  }
+
+  bool _isScrollLoading = false;
+
+  void _onScroll() async {
+    if (widget.controller == null || _isScrollLoading) {
+      return;
+    }
+    if (!widget.controller!.hasClients) {
+      return;
+    }
+    final maxScroll = widget.controller!.position.maxScrollExtent;
+    final currentScroll = widget.controller!.offset;
+
+    if (currentScroll >= (maxScroll * 0.9)) {
+      _isScrollLoading = true;
+      widget.onMaxExtent?.call();
+      await Future.delayed(const Duration(seconds: 2));
+      _isScrollLoading = false;
+    }
   }
 
   @override
@@ -68,12 +100,8 @@ class _GroupHeaderChip extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme
-        .of(context)
-        .colorScheme;
-    final typography = Theme
-        .of(context)
-        .textTheme;
+    final colors = Theme.of(context).colorScheme;
+    final typography = Theme.of(context).textTheme;
     return Center(
       child: Container(
         padding: const EdgeInsets.symmetric(vertical: 8, horizontal: 12),

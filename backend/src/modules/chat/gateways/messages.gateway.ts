@@ -49,7 +49,7 @@ export class MessageGateway
       userId,
       message: "User joined this chat.",
     });
-    await this.emitMessagesToChat(this.server, chatId);
+    await this.emitMessagesToChat(this.server, chatId, 1);
   }
 
   async handleDisconnect(client: Socket) {
@@ -72,7 +72,8 @@ export class MessageGateway
   @SubscribeMessage("sendMessage")
   async handleSendMessage(
     @ConnectedSocket() client: Socket,
-    @MessageBody() data: { message: CreateMessageDto; chatId: string }
+    @MessageBody()
+    data: { message: CreateMessageDto; chatId: string }
   ) {
     const { chatId, message } = data;
     if (!chatId || !message) {
@@ -87,12 +88,37 @@ export class MessageGateway
     }
   }
 
-  private async emitMessagesToChat(client: Socket | Server, chatId: string) {
-    const messages = await this.datasource.getByChat(chatId);
-    if (messages.isSuccess) {
-      client.to(chatId).emit("messages", messages.data);
+  @SubscribeMessage("addOldMessages")
+  async handleAddOldMessages(
+    @ConnectedSocket() client: Socket,
+    @MessageBody()
+    data: { message: CreateMessageDto; chatId: string; page: number }
+  ) {
+    const { chatId, page } = data;
+    if (!chatId || !page) {
+      return new BadRequestError("chatId and message are required.");
     }
-    return messages.error;
+
+    return this.emitMessagesToChat(this.server, chatId, page);
+  }
+
+  private async emitMessagesToChat(
+    client: Socket | Server,
+    chatId: string,
+    page?: number
+  ) {
+    let allMessages = [];
+
+    for (let i = 1; i <= page; i++) {
+      const messages = await this.datasource.getByChat(chatId, i);
+      if (messages.isSuccess) {
+        allMessages = [...messages.data, ...allMessages]; // Adiciona mensagens na ordem correta (mais antigas primeiro)
+      } else {
+        return messages.error;
+      }
+    }
+
+    client.to(chatId).emit("messages", allMessages);
   }
 
   private async leaveChatRoom(client: Socket, chatId: string) {

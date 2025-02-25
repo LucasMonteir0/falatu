@@ -6,8 +6,8 @@ export class MessageController {
   constructor(private readonly datasource: MessageDatasource) {}
 
   @Get()
-  async getChatsByUserId(@Query("chatId") userId: string) {
-    const result = await this.datasource.getByChat(userId);
+  async getByChat(@Query("chatId") userId: string, @Query("page")page: number) {
+    const result = await this.datasource.getByChat(userId, page);
     if (result.isSuccess) {
       return result.data;
     }

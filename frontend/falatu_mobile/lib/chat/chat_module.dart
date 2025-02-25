@@ -6,6 +6,8 @@ import "package:falatu_mobile/chat/core/data/repositories/chat/chat_repository_i
 import "package:falatu_mobile/chat/core/data/repositories/messages/messages_repository_impl.dart";
 import "package:falatu_mobile/chat/core/domain/repositories/chat/chat_repository.dart";
 import "package:falatu_mobile/chat/core/domain/repositories/messages/messages_repository.dart";
+import "package:falatu_mobile/chat/core/domain/usecases/get_old_messages/add_old_messages_use_case.dart";
+import "package:falatu_mobile/chat/core/domain/usecases/get_old_messages/add_old_messages_use_case_impl.dart";
 import "package:falatu_mobile/chat/core/domain/usecases/load_chats/load_chats_use_case.dart";
 import "package:falatu_mobile/chat/core/domain/usecases/load_chats/load_chats_use_case_impl.dart";
 import "package:falatu_mobile/chat/core/domain/usecases/load_messages/load_messages_use_case.dart";
@@ -13,6 +15,7 @@ import "package:falatu_mobile/chat/core/domain/usecases/load_messages/load_messa
 import "package:falatu_mobile/chat/core/domain/usecases/send_message/send_message_use_case.dart";
 import "package:falatu_mobile/chat/core/domain/usecases/update_last_message/update_last_message_use_case.dart";
 import "package:falatu_mobile/chat/core/domain/usecases/update_last_message/update_last_message_use_case_impl.dart";
+import "package:falatu_mobile/chat/ui/blocs/add_old_messages/add_old_messages.dart";
 import "package:falatu_mobile/chat/ui/blocs/load_chats/load_chats_bloc.dart";
 import "package:falatu_mobile/chat/ui/blocs/load_messages/load_messages_bloc.dart";
 import "package:falatu_mobile/chat/ui/blocs/send_message/send_messge_bloc.dart";
@@ -29,7 +32,7 @@ class ChatModule extends Module {
         //DATASOURCES
         Bind.factory<ChatDatasource>((i) => ChatDatasourceImpl(i(), i())),
         Bind.factory<MessagesDatasource>(
-            (i) => MessagesDatasourceImpl(i(), i())),
+            (i) => MessagesDatasourceImpl(i(), i(), i())),
 
         //REPOSITORIES
         Bind.factory<ChatRepository>((i) => ChatRepositoryImpl(i())),
@@ -41,10 +44,13 @@ class ChatModule extends Module {
         Bind.factory<SendMessageUseCase>((i) => SendMessageUseCaseImpl(i())),
         Bind.factory<UpdateLastMessageUseCase>(
             (i) => UpdateLastMessageUseCaseImpl(i())),
+        Bind.factory<AddOldMessagesUseCase>(
+            (i) => AddOldMessagesUseCaseImpl(i())),
 
         //BLOCS
         Bind.lazySingleton<LoadChatsBloc>((i) => LoadChatsBloc(i())),
         Bind.factory<LoadMessagesBloc>((i) => LoadMessagesBloc(i())),
+        Bind.factory<AddOldMessagesBloc>((i) => AddOldMessagesBloc(i())),
         Bind.factory<SendMessageBloc>((i) => SendMessageBloc(i(), i())),
       ];
 

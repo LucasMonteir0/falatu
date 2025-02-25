@@ -7,7 +7,11 @@ export abstract class MessageDatasource {
     message: CreateMessageDto,
     chatId: string
   ): Promise<ResultWrapper<MessageEntity>>;
-  abstract getByChat(id: string): Promise<ResultWrapper<MessageEntity[]>>;
+  abstract getByChat(
+    id: string,
+    page?: number,
+    pageSize?: number
+  ): Promise<ResultWrapper<MessageEntity[]>>;
   abstract updateMessageRead(
     messageId: string,
     userId: string

@@ -2,6 +2,7 @@ import "package:falatu_mobile/chat/core/domain/entities/chat/private_chat_entity
 import "package:falatu_mobile/chat/core/domain/entities/message/message_entity.dart";
 import "package:falatu_mobile/chat/core/domain/entities/message/send_message_entity.dart";
 import "package:falatu_mobile/chat/core/domain/entities/message/text_message_entity.dart";
+import "package:falatu_mobile/chat/ui/blocs/add_old_messages/add_old_messages.dart";
 import "package:falatu_mobile/chat/ui/blocs/load_messages/load_messages_bloc.dart";
 import "package:falatu_mobile/chat/ui/blocs/load_messages/message_events.dart";
 import "package:falatu_mobile/chat/ui/blocs/send_message/send_messge_bloc.dart";
@@ -37,9 +38,12 @@ class _PrivateChatPageState extends State<PrivateChatPage> {
       TextEditingController();
 
   late final LoadMessagesBloc _loadMessagesBloc;
+  late final AddOldMessagesBloc _addOldMessagesBloc;
   late final SendMessageBloc _sendMessageBloc;
   late final SharedPreferencesService _preferences;
   late final ScrollController _scrollController;
+
+  int page = 1;
 
   @override
   void initState() {
@@ -47,15 +51,9 @@ class _PrivateChatPageState extends State<PrivateChatPage> {
     _loadMessagesBloc = Modular.get<LoadMessagesBloc>();
     _sendMessageBloc = Modular.get<SendMessageBloc>();
     _preferences = Modular.get<SharedPreferencesService>();
+    _addOldMessagesBloc = Modular.get<AddOldMessagesBloc>();
     _scrollController = ScrollController();
-
     _loadMessagesBloc.add(LoadMessages(widget.chat.id));
-  }
-
-  @override
-  void dispose() {
-    _loadMessagesBloc.close();
-    super.dispose();
   }
 
   @override
@@ -91,6 +89,7 @@ class _PrivateChatPageState extends State<PrivateChatPage> {
               child: BlocConsumer<LoadMessagesBloc, BaseState>(
                 bloc: _loadMessagesBloc,
                 listener: (context, state) async {
+
                   if (state is SuccessState<List<MessageEntity>>) {
                     await Future.delayed(const Duration(milliseconds: 500));
                     if (_scrollController.positions.isEmpty) {
@@ -107,13 +106,28 @@ class _PrivateChatPageState extends State<PrivateChatPage> {
                     return MessagesListView(
                       data: state.data,
                       controller: _scrollController,
+                      onMaxExtent: () {
+                        page += 1;
+                        _addOldMessagesBloc.call(widget.chat.id, page);
+                      },
                       builder: (context, message, index) {
+                        if (index >= state.data.length) {
+                          return const Padding(
+                            padding: EdgeInsets.all(8.0),
+                            child: Center(
+                              child: FalaTuCircularProgressIndicator(
+                                strokeWidth: 4,
+                                padding: 6,
+                              ),
+                            ),
+                          );
+                        }
+
                         final bool isMe =
                             message.sender.id == _preferences.getUserId();
 
                         if (message is TextMessageEntity) {
-                          return TextMessageCard(
-                              message: message, isMe: isMe);
+                          return TextMessageCard(message: message, isMe: isMe);
                         }
                         return Text(message.id);
                       },
@@ -137,8 +151,8 @@ class _PrivateChatPageState extends State<PrivateChatPage> {
             ),
             SafeArea(
               child: Padding(
-                padding: const EdgeInsets.symmetric(
-                    horizontal: 16.0, vertical: 8.0),
+                padding:
+                    const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
                 child: Row(
                   children: [
                     Expanded(
