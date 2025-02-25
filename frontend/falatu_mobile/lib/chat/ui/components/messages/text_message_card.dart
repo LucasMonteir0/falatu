@@ -21,7 +21,7 @@ class TextMessageCard extends StatelessWidget {
         content: Text(
           message.text,
           style: typography.bodyMedium!.copyWith(
-            color: isMe ? colors.surfaceBright : colors.onSurface,
+            color: isMe ? colors.onSurface : colors.surfaceBright,
           ),
         ),
       ),

@@ -14,16 +14,23 @@ class TextMessageModel extends MessageModel {
     required super.createdAt,
   });
 
-  factory TextMessageModel.fromJson(Map<String, dynamic> json) =>
-      TextMessageModel(
-        id: json["id"],
-        text: json["text"],
-        sender: UserModel.fromJson(json["sender"]),
-        type: MessageType.fromValue(json["type"]),
-        createdAt: DateTime.parse(json["createdAt"]),
-      );
+  factory TextMessageModel.fromJson(Map<String, dynamic> json) {
+    final createdAt = DateTime.parse(json["createdAt"]).toLocal();
+    return TextMessageModel(
+      id: json["id"],
+      text: json["text"],
+      sender: UserModel.fromJson(json["sender"]),
+      type: MessageType.fromValue(json["type"]),
+      createdAt: createdAt,
+    );
+  }
 
   @override
   TextMessageEntity toEntity() => TextMessageEntity(
-      id: id, sender: sender, type: type, createdAt: createdAt, text: text, );
+        id: id,
+        sender: sender,
+        type: type,
+        createdAt: createdAt,
+        text: text,
+      );
 }

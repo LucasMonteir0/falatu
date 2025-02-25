@@ -20,7 +20,7 @@ extension DateTimeFormatter on DateTime {
   }
 
   String toTime() {
-    return DateFormat("hh:MM").format(this);
+    return DateFormat("HH:mm").format(this);
   }
 
   DateTime subtractHours(int hours) {

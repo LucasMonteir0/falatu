@@ -1,14 +1,18 @@
+import "package:falatu_mobile/chat/core/domain/entities/chat/private_chat_entity.dart";
 import "package:falatu_mobile/chat/core/domain/entities/message/message_entity.dart";
 import "package:falatu_mobile/chat/core/domain/entities/message/send_message_entity.dart";
 import "package:falatu_mobile/chat/core/domain/entities/message/text_message_entity.dart";
 import "package:falatu_mobile/chat/ui/blocs/load_messages/load_messages_bloc.dart";
 import "package:falatu_mobile/chat/ui/blocs/load_messages/message_events.dart";
 import "package:falatu_mobile/chat/ui/blocs/send_message/send_messge_bloc.dart";
+import "package:falatu_mobile/chat/ui/components/chat_app_bar_content.dart";
 import "package:falatu_mobile/chat/ui/components/messages/text_message_card.dart";
 import "package:falatu_mobile/chat/utils/enums/message_type.dart";
+import "package:falatu_mobile/chat/utils/strings/tags.dart";
 import "package:falatu_mobile/commons/core/data/services/shared_preferences_services/shared_preferences_services.dart";
 import "package:falatu_mobile/commons/core/domain/entities/auth_credentials_entity.dart";
 import "package:falatu_mobile/commons/ui/blocs/update_access_token_bloc.dart";
+import "package:falatu_mobile/commons/ui/components/falatu_circular_progress_indicator.dart";
 import "package:falatu_mobile/commons/utils/enums/images_enum.dart";
 import "package:falatu_mobile/commons/utils/extensions/num_extensions.dart";
 import "package:falatu_mobile/commons/utils/states/base_state.dart";
@@ -17,9 +21,9 @@ import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter_modular/flutter_modular.dart";
 
 class PrivateChatPage extends StatefulWidget {
-  final String chatId;
+  final PrivateChatEntity chat;
 
-  const PrivateChatPage({required this.chatId, super.key});
+  const PrivateChatPage({required this.chat, super.key});
 
   @override
   State<PrivateChatPage> createState() => _PrivateChatPageState();
@@ -33,6 +37,7 @@ class _PrivateChatPageState extends State<PrivateChatPage> {
   late final SendMessageBloc _sendMessageBloc;
   late final UpdateAccessTokenBloc _updateAccessTokenBloc;
   late final SharedPreferencesService _preferences;
+  late final ScrollController _scrollController;
 
   @override
   void initState() {
@@ -40,8 +45,8 @@ class _PrivateChatPageState extends State<PrivateChatPage> {
     _loadMessagesBloc = Modular.get<LoadMessagesBloc>();
     _sendMessageBloc = Modular.get<SendMessageBloc>();
     _preferences = Modular.get<SharedPreferencesService>();
-
     _updateAccessTokenBloc = Modular.get<UpdateAccessTokenBloc>();
+    _scrollController = ScrollController();
 
     _updateAccessTokenBloc.call();
   }
@@ -58,7 +63,7 @@ class _PrivateChatPageState extends State<PrivateChatPage> {
       bloc: _updateAccessTokenBloc,
       listener: (context, state) {
         if (state is SuccessState<AuthCredentialsEntity>) {
-          _loadMessagesBloc.add(LoadMessages(widget.chatId));
+          _loadMessagesBloc.add(LoadMessages(widget.chat.id));
         }
       },
       child: Container(
@@ -74,35 +79,69 @@ class _PrivateChatPageState extends State<PrivateChatPage> {
           backgroundColor: Colors.transparent,
           appBar: AppBar(
             backgroundColor: Colors.transparent,
-            title: const Text("Bla Bla Bla Bla"),
+            leadingWidth: 30,
+            centerTitle: false,
+            title: Hero(
+              tag: Tags.chatTileToHeader,
+              child: ChatAppBarContent(
+                title: widget.chat.otherUser.name,
+                pictureUrl: widget.chat.otherUser.pictureUrl,
+              ),
+            ),
           ),
           body: Column(
             crossAxisAlignment: CrossAxisAlignment.stretch,
             children: [
               Expanded(
-                  child: BlocBuilder<LoadMessagesBloc, BaseState>(
-                      bloc: _loadMessagesBloc,
-                      builder: (context, state) {
-                        if (state is SuccessState<List<MessageEntity>>) {
-                          return ListView.separated(
-                            itemCount: state.data.length,
-                            padding: const EdgeInsets.all(8),
-                            separatorBuilder: (context, index) => 8.ph,
-                            itemBuilder: (context, index) {
-                              final message = state.data[index];
-                              final bool isMe =
-                                  message.sender.id == _preferences.getUserId();
+                child: BlocConsumer<LoadMessagesBloc, BaseState>(
+                  bloc: _loadMessagesBloc,
+                  listener: (context, state) {
+                    if (state is SuccessState<List<MessageEntity>>) {
+                      _scrollController.animateTo(
+                        _scrollController.position.minScrollExtent,
+                        duration: const Duration(milliseconds: 150),
+                        curve: Curves.easeOut,
+                      );
+                    }
+                  },
+                  builder: (context, state) {
+                    if (state is SuccessState<List<MessageEntity>>) {
+                      return ListView.separated(
+                        itemCount: state.data.length,
+                        controller: _scrollController,
+                        reverse: true,
+                        padding: const EdgeInsets.all(8),
+                        separatorBuilder: (context, index) => 8.ph,
+                        itemBuilder: (context, index) {
+                          final message = state.data[index];
+                          final bool isMe =
+                              message.sender.id == _preferences.getUserId();
 
-                              if (message is TextMessageEntity) {
-                                return TextMessageCard(
-                                    message: message, isMe: isMe);
-                              }
-                              return Text(message.id);
-                            },
-                          );
-                        }
-                        return const CircularProgressIndicator();
-                      })),
+                          if (message is TextMessageEntity) {
+                            return TextMessageCard(
+                                message: message, isMe: isMe);
+                          }
+                          return Text(message.id);
+                        },
+                      );
+                    }
+                    if (state is LoadingState) {
+                      return const Align(
+                        alignment: Alignment.topCenter,
+                        child: Padding(
+                          padding: EdgeInsets.all(8.0),
+                          child: FalaTuCircularProgressIndicator(
+                            size: 30,
+                            strokeWidth: 4,
+                            padding: 6,
+                          ),
+                        ),
+                      );
+                    }
+                    return const CircularProgressIndicator();
+                  },
+                ),
+              ),
               SafeArea(
                 child: Row(
                   children: [
@@ -120,7 +159,7 @@ class _PrivateChatPageState extends State<PrivateChatPage> {
                               type: MessageType.text,
                               text: _textMessageController.text.trim());
 
-                          _sendMessageBloc.call(widget.chatId, message);
+                          _sendMessageBloc.call(widget.chat.id, message);
 
                           _textMessageController.clear();
                         },

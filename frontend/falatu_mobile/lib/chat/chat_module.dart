@@ -51,6 +51,6 @@ class ChatModule extends Module {
   List<ModularRoute> get routes => [
         ChildRoute(Routes.root, child: (_, __) => const ChatsPage()),
         ChildRoute(Routes.privateChat,
-            child: (_, args) => PrivateChatPage(chatId: args.data)),
+            child: (_, args) => PrivateChatPage(chat: args.data)),
       ];
 }

@@ -1,8 +1,7 @@
 import "package:falatu_mobile/chat/core/domain/entities/message/message_entity.dart";
 import "package:falatu_mobile/chat/utils/strings/tags.dart";
 import "package:falatu_mobile/commons/core/data/services/shared_preferences_services/shared_preferences_services.dart";
-import "package:falatu_mobile/commons/ui/components/falatu_cached_network_image.dart";
-import "package:falatu_mobile/commons/ui/components/falatu_shimmer.dart";
+import "package:falatu_mobile/commons/ui/components/falatu_user_avatar.dart";
 import "package:falatu_mobile/commons/utils/extensions/context_extensions.dart";
 import "package:falatu_mobile/commons/utils/extensions/date_extensions.dart";
 import "package:falatu_mobile/commons/utils/extensions/message_extensions.dart";
@@ -26,7 +25,6 @@ class ChatTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final typography = Theme.of(context).textTheme;
-    final colors = Theme.of(context).colorScheme;
     return Material(
       color: Colors.transparent,
       child: InkWell(
@@ -39,24 +37,7 @@ class ChatTile extends StatelessWidget {
             tag: Tags.chatTileToHeader,
             child: Row(
               children: [
-                Container(
-                  width: 60,
-                  height: 60,
-                  clipBehavior: Clip.antiAlias,
-                  decoration: BoxDecoration(
-                    color: colors.surface,
-                    shape: BoxShape.circle,
-                  ),
-                  child: pictureUrl != null
-                      ? FalaTuCachedNetworkImage(
-                          url: pictureUrl!,
-                          placeholder: const FalaTuShimmer.circle(size: 50),
-                          fit: BoxFit.cover,
-                        )
-                      : const Center(
-                          child: Icon(Icons.person_rounded),
-                        ),
-                ),
+                FalaTuUserAvatar(size: 60, pictureUrl: pictureUrl),
                 Expanded(
                   child: Padding(
                     padding: const EdgeInsets.only(left: 8.0),
@@ -73,24 +54,24 @@ class ChatTile extends StatelessWidget {
                                       .copyWith(fontWeight: FontWeight.w700),
                                 ),
                               ),
-                              if(lastMessage != null)
-                              Padding(
-                                padding: const EdgeInsets.only(left: 8),
-                                child: Text(
-                                  lastMessage!.createdAt.formatForChat(context),
-                                  style: typography.bodyMedium,
+                              if (lastMessage != null)
+                                Padding(
+                                  padding: const EdgeInsets.only(left: 8),
+                                  child: Text(
+                                    lastMessage!.createdAt
+                                        .formatForChat(context),
+                                    style: typography.bodyMedium,
+                                  ),
                                 ),
-                              ),
                             ],
                           ),
                           if (lastMessage != null)
                             Expanded(
                               child: Builder(builder: (context) {
-                                final userId = Modular.get<
-                                        SharedPreferencesService>()
-                                    .getUserId();
-                                final isMe =
-                                    userId == lastMessage!.sender.id;
+                                final userId =
+                                    Modular.get<SharedPreferencesService>()
+                                        .getUserId();
+                                final isMe = userId == lastMessage!.sender.id;
                                 return Text(
                                   "${isMe ? "${context.i18n.you}: " : ""}${lastMessage!.getLastMessageText(context)}",
                                   maxLines: 2,

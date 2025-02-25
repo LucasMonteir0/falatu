@@ -42,8 +42,8 @@ class MessageContainer extends StatelessWidget {
                     topRight: isMe ? Radius.zero : _radius,
                     topLeft: isMe ? _radius : Radius.zero,
                   ),
-                  color: (isMe ? colors.primaryContainer : colors.surface)
-                      .withValues(alpha: 0.8),
+                  color: (isMe ? colors.surfaceContainerLow : colors.secondaryContainer)
+                      .withValues(alpha: 0.9),
                 ),
                 child: content,
               ),

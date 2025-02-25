@@ -16,7 +16,10 @@ class LoadMessagesBloc extends Bloc<MessageEvents, BaseState> {
     if (result.success) {
       await emit.forEach(
         result.data!,
-        onData: SuccessState<List<MessageEntity>>.new,
+        onData:(data) {
+          data.sort((a, b) => b.createdAt.compareTo(a.createdAt));
+           return SuccessState<List<MessageEntity>>(data);
+        },
       );
     } else {
       emit(ErrorState(result.error));

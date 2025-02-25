@@ -17,7 +17,6 @@ class ChatsListView<T extends ChatEntity> extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final colors = Theme.of(context).colorScheme;
     return Builder(
       builder: (context) {
         if (state is SuccessState<List<ChatEntity>>) {
@@ -42,7 +41,7 @@ class ChatsListView<T extends ChatEntity> extends StatelessWidget {
                     lastMessage: chat.lastMessage,
                     onTap: () => Modular.to.pushNamed(
                         Routes.chats + Routes.privateChat,
-                        arguments: chat.id),
+                        arguments: chat),
                   );
                 case ChatType.group:
                   // TODO: Handle this case.

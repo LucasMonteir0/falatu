@@ -1,16 +1,18 @@
 import "package:cached_network_image/cached_network_image.dart";
 import "package:flutter/material.dart";
 
-class FalaTuCachedNetworkImage extends StatelessWidget {
+class FalaTuNetworkImage extends StatelessWidget {
   final String url;
   final Widget? placeholder;
   final BoxFit fit;
+  final double? width;
+  final double? height;
 
-  const FalaTuCachedNetworkImage(
+  const FalaTuNetworkImage(
       {required this.url,
       super.key,
       this.placeholder,
-      this.fit = BoxFit.contain});
+      this.fit = BoxFit.contain, this.width, this.height});
 
   @override
   Widget build(BuildContext context) {
@@ -19,6 +21,8 @@ class FalaTuCachedNetworkImage extends StatelessWidget {
       placeholder: (_, __) => placeholder ?? const SizedBox.shrink(),
       errorWidget: (_, __, error) => const Icon(Icons.error),
       fit: fit,
+      width: width,
+      height: height,
     );
   }
 }
