@@ -25,9 +25,11 @@ class ChatTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final typography = Theme.of(context).textTheme;
+    final colors = Theme.of(context).colorScheme;
     return Material(
       color: Colors.transparent,
       child: InkWell(
+        splashColor: colors.secondaryContainer.withValues(alpha: 0.1),
         onTap: onTap,
         child: Ink(
           width: double.infinity,
