@@ -261,6 +261,12 @@ abstract class AppLocalizations {
   /// **'ontem'**
   String get yesterday;
 
+  /// No description provided for @today.
+  ///
+  /// In pt, this message translates to:
+  /// **'hoje'**
+  String get today;
+
   /// No description provided for @audio.
   ///
   /// In pt, this message translates to:

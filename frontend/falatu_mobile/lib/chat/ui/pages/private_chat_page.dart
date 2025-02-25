@@ -7,6 +7,7 @@ import "package:falatu_mobile/chat/ui/blocs/load_messages/message_events.dart";
 import "package:falatu_mobile/chat/ui/blocs/send_message/send_messge_bloc.dart";
 import "package:falatu_mobile/chat/ui/components/chat_app_bar_content.dart";
 import "package:falatu_mobile/chat/ui/components/message_input.dart";
+import "package:falatu_mobile/chat/ui/components/messages/messages_list_view.dart";
 import "package:falatu_mobile/chat/ui/components/messages/text_message_card.dart";
 import "package:falatu_mobile/chat/utils/enums/message_type.dart";
 import "package:falatu_mobile/chat/utils/strings/tags.dart";
@@ -112,14 +113,10 @@ class _PrivateChatPageState extends State<PrivateChatPage> {
                   },
                   builder: (context, state) {
                     if (state is SuccessState<List<MessageEntity>>) {
-                      return ListView.separated(
-                        itemCount: state.data.length,
+                      return MessagesListView(
+                        data: state.data,
                         controller: _scrollController,
-                        reverse: true,
-                        padding: const EdgeInsets.all(8),
-                        separatorBuilder: (context, index) => 20.ph,
-                        itemBuilder: (context, index) {
-                          final message = state.data[index];
+                        builder: (context, message, index) {
                           final bool isMe =
                               message.sender.id == _preferences.getUserId();
 
@@ -154,11 +151,16 @@ class _PrivateChatPageState extends State<PrivateChatPage> {
                       horizontal: 16.0, vertical: 8.0),
                   child: Row(
                     children: [
-                      const Expanded(child: MessageInput()),
+                      Expanded(
+                        child: MessageInput(controller: _textMessageController),
+                      ),
                       4.pw,
                       FalaTuSplashEffect(
                         borderRadius: BorderRadius.circular(100),
                         onTap: () {
+                          if (_textMessageController.text.trim().isEmpty) {
+                            return;
+                          }
                           final userId = _preferences.getUserId();
                           final message = SendMessageEntity(
                               senderId: userId!,

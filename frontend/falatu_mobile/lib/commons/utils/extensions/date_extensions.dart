@@ -19,11 +19,29 @@ extension DateTimeFormatter on DateTime {
     }
   }
 
+  String formatToMessageList(BuildContext context) {
+    final now = DateTime.now();
+    final locale = Localizations.localeOf(context).toString();
+
+    final today = DateTime(now.year, now.month, now.day);
+    final date = DateTime(this.year, this.month, this.day);
+    final difference = today.difference(date).inDays;
+    if (difference == 0) {
+      return context.i18n.today;
+    } else if (difference == 1) {
+      return context.i18n.yesterday;
+    } else if (difference < 7) {
+      return DateFormat.EEEE(locale).format(this); // Nome do dia da semana
+    } else {
+      return DateFormat("MMM d, y", locale).format(this); // Ex: Jun 16, 2023
+    }
+  }
+
   String toTime() {
     return DateFormat("HH:mm").format(this);
   }
 
   DateTime subtractHours(int hours) {
-  return subtract(Duration(hours: hours));
+    return subtract(Duration(hours: hours));
   }
 }

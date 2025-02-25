@@ -91,6 +91,9 @@ class AppLocalizationsPt extends AppLocalizations {
   String get yesterday => 'ontem';
 
   @override
+  String get today => 'hoje';
+
+  @override
   String get audio => 'Àudio';
 
   @override
