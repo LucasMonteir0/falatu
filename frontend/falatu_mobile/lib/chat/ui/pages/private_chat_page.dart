@@ -6,6 +6,7 @@ import "package:falatu_mobile/chat/ui/blocs/load_messages/load_messages_bloc.dar
 import "package:falatu_mobile/chat/ui/blocs/load_messages/message_events.dart";
 import "package:falatu_mobile/chat/ui/blocs/send_message/send_messge_bloc.dart";
 import "package:falatu_mobile/chat/ui/components/chat_app_bar_content.dart";
+import "package:falatu_mobile/chat/ui/components/message_input.dart";
 import "package:falatu_mobile/chat/ui/components/messages/text_message_card.dart";
 import "package:falatu_mobile/chat/utils/enums/message_type.dart";
 import "package:falatu_mobile/chat/utils/strings/tags.dart";
@@ -13,6 +14,9 @@ import "package:falatu_mobile/commons/core/data/services/shared_preferences_serv
 import "package:falatu_mobile/commons/core/domain/entities/auth_credentials_entity.dart";
 import "package:falatu_mobile/commons/ui/blocs/update_access_token_bloc.dart";
 import "package:falatu_mobile/commons/ui/components/falatu_circular_progress_indicator.dart";
+import "package:falatu_mobile/commons/ui/components/falatu_icon.dart";
+import "package:falatu_mobile/commons/ui/components/falatu_splash_effect.dart";
+import "package:falatu_mobile/commons/utils/enums/icons_enum.dart";
 import "package:falatu_mobile/commons/utils/enums/images_enum.dart";
 import "package:falatu_mobile/commons/utils/extensions/num_extensions.dart";
 import "package:falatu_mobile/commons/utils/states/base_state.dart";
@@ -81,6 +85,7 @@ class _PrivateChatPageState extends State<PrivateChatPage> {
             backgroundColor: Colors.transparent,
             leadingWidth: 30,
             centerTitle: false,
+            forceMaterialTransparency: true,
             title: Hero(
               tag: Tags.chatTileToHeader,
               child: ChatAppBarContent(
@@ -95,8 +100,9 @@ class _PrivateChatPageState extends State<PrivateChatPage> {
               Expanded(
                 child: BlocConsumer<LoadMessagesBloc, BaseState>(
                   bloc: _loadMessagesBloc,
-                  listener: (context, state) {
+                  listener: (context, state) async {
                     if (state is SuccessState<List<MessageEntity>>) {
+                      await Future.delayed(const Duration(milliseconds: 500));
                       _scrollController.animateTo(
                         _scrollController.position.minScrollExtent,
                         duration: const Duration(milliseconds: 150),
@@ -111,7 +117,7 @@ class _PrivateChatPageState extends State<PrivateChatPage> {
                         controller: _scrollController,
                         reverse: true,
                         padding: const EdgeInsets.all(8),
-                        separatorBuilder: (context, index) => 8.ph,
+                        separatorBuilder: (context, index) => 20.ph,
                         itemBuilder: (context, index) {
                           final message = state.data[index];
                           final bool isMe =
@@ -143,16 +149,16 @@ class _PrivateChatPageState extends State<PrivateChatPage> {
                 ),
               ),
               SafeArea(
-                child: Row(
-                  children: [
-                    Expanded(
-                        child: Container(
-                            color: Colors.red,
-                            margin: const EdgeInsets.all(8.0),
-                            child:
-                                TextField(controller: _textMessageController))),
-                    IconButton(
-                        onPressed: () {
+                child: Padding(
+                  padding: const EdgeInsets.symmetric(
+                      horizontal: 16.0, vertical: 8.0),
+                  child: Row(
+                    children: [
+                      const Expanded(child: MessageInput()),
+                      4.pw,
+                      FalaTuSplashEffect(
+                        borderRadius: BorderRadius.circular(100),
+                        onTap: () {
                           final userId = _preferences.getUserId();
                           final message = SendMessageEntity(
                               senderId: userId!,
@@ -163,8 +169,12 @@ class _PrivateChatPageState extends State<PrivateChatPage> {
 
                           _textMessageController.clear();
                         },
-                        icon: const Icon(Icons.send)),
-                  ],
+                        child: const FalaTuIcon(
+                          icon: FalaTuIconsEnum.sendFilled,
+                        ),
+                      ),
+                    ],
+                  ),
                 ),
               )
             ],

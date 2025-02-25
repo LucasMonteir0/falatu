@@ -320,6 +320,12 @@ abstract class AppLocalizations {
   /// In pt, this message translates to:
   /// **'Você'**
   String get you;
+
+  /// No description provided for @writeYourMessage.
+  ///
+  /// In pt, this message translates to:
+  /// **'Escreva sua mensagem...'**
+  String get writeYourMessage;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

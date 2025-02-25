@@ -119,4 +119,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get you => 'Você';
+
+  @override
+  String get writeYourMessage => 'Escreva sua mensagem...';
 }

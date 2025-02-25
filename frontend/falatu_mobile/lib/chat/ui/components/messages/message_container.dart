@@ -37,25 +37,27 @@ class MessageContainer extends StatelessWidget {
                 constraints: const BoxConstraints(minWidth: 100),
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.only(
-                    bottomRight: _radius,
-                    bottomLeft: _radius,
-                    topRight: isMe ? Radius.zero : _radius,
-                    topLeft: isMe ? _radius : Radius.zero,
+                    topRight: _radius,
+                    topLeft: _radius,
+                    bottomRight: isMe ? Radius.zero : _radius,
+                    bottomLeft: isMe ? _radius : Radius.zero,
                   ),
-                  color: (isMe ? colors.surfaceContainerLow : colors.secondaryContainer)
+                  color: (isMe
+                          ? colors.surfaceContainerLow
+                          : colors.secondaryContainer)
                       .withValues(alpha: 0.9),
                 ),
                 child: content,
               ),
               Align(
-                alignment: Alignment.centerRight,
+                alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
                 child: Padding(
-                  padding: const EdgeInsets.only(right: 12.0, top: 4),
+                  padding: const EdgeInsets.only(right: 8.0, top: 4, left: 8),
                   child: Text(
                     createdAt.toTime(),
                     style: typography.bodyMedium!.copyWith(
                       color: colors.surfaceBright,
-                      fontWeight: FontWeight.w600,
+                      fontWeight: FontWeight.w400,
                     ),
                   ),
                 ),
