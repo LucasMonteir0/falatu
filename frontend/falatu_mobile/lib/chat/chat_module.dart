@@ -32,7 +32,7 @@ class ChatModule extends Module {
         //DATASOURCES
         Bind.factory<ChatDatasource>((i) => ChatDatasourceImpl(i(), i())),
         Bind.factory<MessagesDatasource>(
-            (i) => MessagesDatasourceImpl(i(), i(), i())),
+            (i) => MessagesDatasourceImpl(i(), i())),
 
         //REPOSITORIES
         Bind.factory<ChatRepository>((i) => ChatRepositoryImpl(i())),
