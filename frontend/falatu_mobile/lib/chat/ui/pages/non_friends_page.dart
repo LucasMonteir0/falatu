@@ -145,7 +145,7 @@ class _Loading extends StatelessWidget {
                               ),
                               12.ph,
                               ConstrainedBox(
-                                constraints: BoxConstraints(maxWidth: 130),
+                                constraints: const BoxConstraints(maxWidth: 130),
                                 child: FalaTuShimmer.customBorder(
                                   border: BorderRadius.circular(100),
                                   height: 25,
