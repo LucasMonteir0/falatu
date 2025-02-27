@@ -15,6 +15,8 @@ import { PrismaService } from "src/utils/config/database/prisma.service";
 import { BadRequestError } from "src/utils/result/AppError";
 import { MessageDatasource } from "../datasources/message/message.datasource";
 import { CreateMessageDto } from "../dtos/create_message_dto";
+import { ChatGateway } from "./chat.gateway";
+import { ChatDatasource } from "../datasources/chat/chat.datasource";
 
 @WebSocketGateway(81, { namespace: "/messages" })
 export class MessageGateway
@@ -22,8 +24,10 @@ export class MessageGateway
 {
   constructor(
     private readonly datasource: MessageDatasource,
+    private readonly chatDatasource: ChatDatasource,
     private readonly jwtService: JwtService,
-    private readonly prismaService: PrismaService
+    private readonly prismaService: PrismaService,
+    private readonly chatGateway: ChatGateway
   ) {}
 
   @WebSocketServer()
@@ -82,7 +86,13 @@ export class MessageGateway
 
     const newMessage = await this.datasource.create(message, chatId);
     if (newMessage.isSuccess) {
-      await this.emitMessagesToChat(this.server, chatId);
+      await this.emitMessagesToChat(this.server, chatId, 1);
+      const chat = await this.chatDatasource.getChatById(chatId);
+      if (chat.isSuccess) {
+        await this.chatGateway.emitChatsToUsers(
+          chat.data.users.map((e) => e.id)
+        );
+      }
     } else {
       return newMessage.error;
     }
@@ -105,7 +115,7 @@ export class MessageGateway
   private async emitMessagesToChat(
     client: Socket | Server,
     chatId: string,
-    page?: number
+    page: number
   ) {
     let allMessages = [];
 

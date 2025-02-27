@@ -125,4 +125,10 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get writeYourMessage => 'Escreva sua mensagem...';
+
+  @override
+  String get nonFriendsPageTitle => 'Inicie uma conversa';
+
+  @override
+  String get startConversation => 'Iniciar conversa';
 }

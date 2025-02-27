@@ -54,7 +54,7 @@ class HttpServiceImpl extends HttpService {
           if (access != null && access.isNotEmpty) {
 
             //Verifica se o access token está expirado.
-            if (JwtDecoder.isExpired(access)) {
+            if (JwtDecoder.isExpired(access) && !options.path.contains("refresh-token")) {
 
               //Se o refresh estiver expirado, então deslogará o usuário.
               if (refresh != null &&

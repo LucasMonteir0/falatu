@@ -81,12 +81,24 @@ export class PrismaChatDatasourceImpl implements ChatDatasource {
             },
           },
         },
+        orderBy: [
+          {
+            createdAt: "desc",
+          },
+        ],
         include: QueryHelper.includesOnChat(),
+      });
+
+      chats.sort((a, b) => {
+        const dateA = a.lastMessage?.createdAt ?? a.createdAt;
+        const dateB = b.lastMessage?.createdAt ?? b.createdAt;
+        return dateB.getTime() - dateA.getTime(); // Descendente
       });
 
       const result = chats.map((c) => ChatEntity.fromPrisma(c));
       return ResultWrapper.success(result);
     } catch (e) {
+      console.log(e);
       return ResultWrapper.error(new UnknownError(e));
     }
   }

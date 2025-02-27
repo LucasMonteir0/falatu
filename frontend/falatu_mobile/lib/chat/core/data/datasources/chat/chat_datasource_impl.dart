@@ -1,7 +1,7 @@
 import "dart:async";
-
 import "package:falatu_mobile/chat/core/data/datasources/chat/chat_datasource.dart";
 import "package:falatu_mobile/chat/core/data/models/chat/chat_model.dart";
+import "package:falatu_mobile/chat/core/data/models/chat/create_chat_model.dart";
 import "package:falatu_mobile/chat/core/domain/entities/chat/chat_entity.dart";
 import "package:falatu_mobile/chat/utils/enums/chat_type.dart";
 import "package:falatu_mobile/commons/core/data/services/shared_preferences_services/shared_preferences_services.dart";
@@ -22,6 +22,9 @@ class ChatDatasourceImpl extends ChatDatasource {
   final StreamController<List<ChatEntity>> _controller =
       StreamController.broadcast();
 
+  final StreamController<ChatEntity> _createdChatStream =
+      StreamController.broadcast();
+
   Future<BaseError?> _connect() async {
     final String url = UrlHelpers.getChatsSocketUrl();
     BaseError? error;
@@ -33,13 +36,6 @@ class ChatDatasourceImpl extends ChatDatasource {
       },
     );
     return error;
-  }
-
-  @override
-  void dispose() {
-    _socket.disconnect();
-    _controller.close();
-    _socket.dispose();
   }
 
   @override
@@ -59,9 +55,16 @@ class ChatDatasourceImpl extends ChatDatasource {
   }
 
   @override
-  Future<ResultWrapper<ChatEntity>> create() {
-    // TODO: implement create
-    throw UnimplementedError();
+  ResultWrapper<Stream<ChatEntity>> createChat(CreateChatModel params) {
+    _socket.emit("create", params.toJson());
+    _socket.on(
+      "createdChat",
+      (e) {
+        _createdChatStream
+            .add(ChatModel.fromJson(e, _extractOtherUser(e)).toEntity());
+      },
+    );
+    return ResultWrapper.success(_createdChatStream.stream);
   }
 
   Map<String, dynamic> _extractOtherUser(Map<String, dynamic> json) {

@@ -1,5 +1,7 @@
 import "package:falatu_mobile/chat/core/data/datasources/chat/chat_datasource.dart";
+import "package:falatu_mobile/chat/core/data/models/chat/create_chat_model.dart";
 import "package:falatu_mobile/chat/core/domain/entities/chat/chat_entity.dart";
+import "package:falatu_mobile/chat/core/domain/entities/chat/create_chat_entity.dart";
 import "package:falatu_mobile/chat/core/domain/repositories/chat/chat_repository.dart";
 import "package:falatu_mobile/commons/core/domain/entities/result_wrapper.dart";
 
@@ -9,8 +11,9 @@ class ChatRepositoryImpl implements ChatRepository {
   ChatRepositoryImpl(this._datasource);
 
   @override
-  Future<ResultWrapper<ChatEntity>> create() {
-    return _datasource.create();
+  ResultWrapper<Stream<ChatEntity>> createChat(CreateChatEntity params) {
+    final model = CreateChatModel.fromObject(params);
+    return _datasource.createChat(model);
   }
 
   @override

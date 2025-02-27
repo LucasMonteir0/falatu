@@ -332,6 +332,18 @@ abstract class AppLocalizations {
   /// In pt, this message translates to:
   /// **'Escreva sua mensagem...'**
   String get writeYourMessage;
+
+  /// No description provided for @nonFriendsPageTitle.
+  ///
+  /// In pt, this message translates to:
+  /// **'Inicie uma conversa'**
+  String get nonFriendsPageTitle;
+
+  /// No description provided for @startConversation.
+  ///
+  /// In pt, this message translates to:
+  /// **'Iniciar conversa'**
+  String get startConversation;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

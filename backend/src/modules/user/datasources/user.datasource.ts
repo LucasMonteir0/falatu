@@ -10,4 +10,8 @@ export abstract class UserDatasource {
   abstract getUserById(id: string): Promise<ResultWrapper<UserEntity>>;
 
   abstract getUsers(): Promise<ResultWrapper<Array<UserEntity>>>;
+
+  abstract getNonFriends(
+    userId: string
+  ): Promise<ResultWrapper<Array<UserEntity>>>;
 }

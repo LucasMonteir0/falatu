@@ -6,6 +6,8 @@ class FalaTuSplashEffect extends StatelessWidget {
   final VoidCallback? onTap;
   final BorderRadiusGeometry? borderRadius;
   final EdgeInsetsGeometry? padding;
+  final double elevation;
+  final Color? shadowColor;
   final double? size;
 
   const FalaTuSplashEffect(
@@ -14,15 +16,20 @@ class FalaTuSplashEffect extends StatelessWidget {
       this.borderRadius,
       this.padding,
       this.onTap,
-      this.size});
+      this.elevation = 0.0,
+      this.size, this.shadowColor});
 
   @override
   Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
     return Material(
       color: Colors.transparent,
       borderRadius: borderRadius,
       clipBehavior: Clip.antiAlias,
+      elevation: elevation,
+      shadowColor: shadowColor,
       child: InkWell(
+        splashColor: colors.secondaryContainer.withValues(alpha: 0.1),
         onTap: onTap,
         child: Ink(
           width: size,

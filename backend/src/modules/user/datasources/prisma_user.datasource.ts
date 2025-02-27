@@ -103,4 +103,35 @@ export class PrismaUserDatasourceImpl implements UserDatasource {
       return ResultWrapper.error(e);
     }
   }
+
+  async getNonFriends(
+    userId: string
+  ): Promise<ResultWrapper<Array<UserEntity>>> {
+    try {
+      const users = await this.database.user.findMany({
+        where: {
+          id: {
+            not: userId,
+          },
+          userChats: {
+            none: {
+              chat: {
+                userChats: {
+                  some: {
+                    userId: userId,
+                  },
+                },
+              },
+            },
+          },
+        },
+      });
+
+      const result: UserEntity[] = users.map((v) => UserEntity.fromPrisma(v));
+
+      return ResultWrapper.success(result);
+    } catch (e) {
+      return ResultWrapper.error(e);
+    }
+  }
 }

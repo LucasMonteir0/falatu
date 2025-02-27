@@ -24,7 +24,8 @@ class ChatsPage extends StatefulWidget {
   State<ChatsPage> createState() => _ChatsPageState();
 }
 
-class _ChatsPageState extends State<ChatsPage> {
+class _ChatsPageState extends State<ChatsPage>
+    with SingleTickerProviderStateMixin {
   late final LoadChatsBloc _bloc;
 
   @override
@@ -47,11 +48,17 @@ class _ChatsPageState extends State<ChatsPage> {
       ),
       child: FalaTuScaffold(
         title: context.i18n.messages,
+        titleColor: Colors.white,
         backgroundColor: Colors.transparent,
+        floatingButton: ScaffoldAction(
+          icon: FalaTuIconsEnum.chatFilled,
+          onTap: () => Modular.to.pushNamed(Routes.chats + Routes.nonFriends),
+        ),
         actions: [
           ScaffoldAction(
-              icon: FalaTuIconsEnum.settinsFilled,
-              onTap: () => Modular.to.pushNamed(Routes.settings)),
+            icon: FalaTuIconsEnum.settinsFilled,
+            onTap: () => Modular.to.pushNamed(Routes.settings),
+          ),
         ],
         body: BlocBuilder<LoadChatsBloc, BaseState>(
             bloc: _bloc,
@@ -97,6 +104,7 @@ class _TabBarComponent extends StatelessWidget {
     final colors = Theme.of(context).colorScheme;
     if (state is LoadingState) {
       return SingleChildScrollView(
+        scrollDirection: Axis.horizontal,
         child: Row(
           children: List.generate(
             4,
@@ -126,7 +134,9 @@ class _TabBarComponent extends StatelessWidget {
           labelStyle: typography.bodyMedium!
               .copyWith(fontWeight: FontWeight.w700, color: colors.primary),
           unselectedLabelColor: Colors.white,
-          tabs: ChatTabs.values.map((e) => Tab(text: e.getLabel(context))).toList(),
+          tabs: ChatTabs.values
+              .map((e) => Tab(text: e.getLabel(context)))
+              .toList(),
         ),
       ),
     );

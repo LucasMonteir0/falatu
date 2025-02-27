@@ -1,5 +1,5 @@
 class Tags {
   Tags._();
 
-  static const String chatTileToHeader = "chatTileToHeader";
+  static const String chatTile = "chatTileToHeader";
 }

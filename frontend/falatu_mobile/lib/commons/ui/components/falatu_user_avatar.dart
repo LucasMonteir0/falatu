@@ -16,7 +16,7 @@ class FalaTuUserAvatar extends StatelessWidget {
       height: size,
       clipBehavior: Clip.antiAlias,
       decoration: BoxDecoration(
-        color: colors.surface,
+        color: colors.surfaceContainerLow,
         shape: BoxShape.circle,
       ),
       child: pictureUrl != null
@@ -28,7 +28,7 @@ class FalaTuUserAvatar extends StatelessWidget {
           : Center(
               child: Icon(
                 Icons.person_rounded,
-                size: size * 0.7,
+                size: size * 0.5,
                 color: colors.onSurface,
               ),
             ),

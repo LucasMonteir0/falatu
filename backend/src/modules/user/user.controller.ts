@@ -60,4 +60,15 @@ export class UserController {
     }
     throw result.error;
   }
+
+  @Get("non-friends")
+  public async getNonFriends(
+    @Query("userId") userId: string
+  ): Promise<UserEntity | UserEntity[]> {
+    const result = await this.datasource.getNonFriends(userId);
+    if (result.isSuccess) {
+      return result.data;
+    }
+    throw result.error;
+  }
 }

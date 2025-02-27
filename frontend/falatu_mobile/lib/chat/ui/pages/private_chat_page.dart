@@ -75,7 +75,7 @@ class _PrivateChatPageState extends State<PrivateChatPage> {
           centerTitle: false,
           forceMaterialTransparency: true,
           title: Hero(
-            tag: Tags.chatTileToHeader,
+            tag: Tags.chatTile + widget.chat.id,
             child: ChatAppBarContent(
               title: widget.chat.otherUser.name,
               pictureUrl: widget.chat.otherUser.pictureUrl,
@@ -89,7 +89,6 @@ class _PrivateChatPageState extends State<PrivateChatPage> {
               child: BlocConsumer<LoadMessagesBloc, BaseState>(
                 bloc: _loadMessagesBloc,
                 listener: (context, state) async {
-
                   if (state is SuccessState<List<MessageEntity>>) {
                     await Future.delayed(const Duration(milliseconds: 500));
                     if (_scrollController.positions.isEmpty) {

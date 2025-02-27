@@ -9,10 +9,12 @@ enum FalaTuIconsEnum {
   add("add.svg"),
   personFilled("person_filled.svg"),
   image("image.svg"),
+  chatFilled("chat_filled.svg"),
   falatuLogomarca("falatu_logomarca.svg"),
   checkCircleOutlined("check_circle_outlined.svg"),
   closeCircleOutlined("close_circle_outlined.svg"),
   sendFilled("send_filled.svg"),
+  personAdd("person_add.svg"),
   visibilityOffFilled("visibility_off_filled.svg");
     
 

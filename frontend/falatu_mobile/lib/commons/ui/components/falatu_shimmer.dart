@@ -33,14 +33,14 @@ class FalaTuShimmer extends StatelessWidget {
   Widget build(BuildContext context) {
     final color = Theme.of(context).colorScheme;
     return Shimmer.fromColors(
-      baseColor: color.surfaceContainerHighest,
-      highlightColor: color.surfaceContainer,
+      baseColor: color.surfaceContainerHighest.withValues(alpha: 0.7),
+      highlightColor: color.surfaceContainer.withValues(alpha: 0.7),
       child: SizedBox(
         height: _size ?? height ?? double.infinity,
         width: _size ?? width ?? double.infinity,
         child: Container(
           decoration: BoxDecoration(
-            color: color.onPrimaryContainer.withOpacity(0.5),
+            color: color.onPrimaryContainer.withValues(alpha: 0.5),
             borderRadius: _customBorder ??
                 (isCircle
                     ? BorderRadius.circular(_size! / 2)

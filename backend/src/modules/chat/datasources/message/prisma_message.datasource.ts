@@ -130,9 +130,9 @@ export class PrismaMessageDatasourceImpl implements MessageDatasource {
           messageReads: QueryHelper.includeReadsWithUser(),
         },
         orderBy: {
-          createdAt: "desc", // Pegando as mensagens mais recentes primeiro
+          createdAt: "desc",
         },
-        skip: (page - 1) * pageSize, // Paginação baseada no número da página
+        skip: (page - 1) * pageSize,
         take: pageSize,
       });
 

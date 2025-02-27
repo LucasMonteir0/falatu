@@ -6,10 +6,9 @@ COPY package*.json ./
 
 RUN npm install --quiet --no-optional --no-fund --loglevel=error
 
-RUN npx prisma generate
-
 COPY . .
 
+RUN npx prisma generate
 
 RUN npm run build
 

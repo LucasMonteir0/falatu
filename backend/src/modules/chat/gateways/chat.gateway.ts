@@ -6,6 +6,7 @@ import {
   OnGatewayInit,
   MessageBody,
   SubscribeMessage,
+  ConnectedSocket,
 } from "@nestjs/websockets";
 import { Server, Socket } from "socket.io";
 import { BadRequestError } from "src/utils/result/AppError";
@@ -56,14 +57,21 @@ export class ChatGateway
     }
   }
 
-  async createChat(client: Socket, @MessageBody() data: CreateChatDTO) {
+  @SubscribeMessage("create")
+  async create(
+    @ConnectedSocket() client: Socket,
+    @MessageBody() data: CreateChatDTO
+  ) {
     const result = await this.chatDatasource.createChat(data);
     if (result.isSuccess) {
       const ids = result.data.users.map((e) => e.id);
+      client.emit("createdChat", result.data);
       this.emitChatsToUsers(ids);
+    } else {
+      throw result.error;
     }
   }
-  
+
   @SubscribeMessage("updateLastMessage")
   async updateLastMessage(
     client: Socket,
@@ -83,7 +91,7 @@ export class ChatGateway
     }
   }
 
-  private async emitChatsToUsers(usersIds: string[]) {
+  public async emitChatsToUsers(usersIds: string[]) {
     for (const id of usersIds) {
       const sockets = this.userSockets.get(id);
       if (!sockets) return;

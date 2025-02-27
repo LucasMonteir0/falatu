@@ -38,5 +38,7 @@
 "groupsTab": "Grupos",
 "emptyChatsMessage": "Ainda nao existem chats aqui.",
 "you": "Você",
-"writeYourMessage": "Escreva sua mensagem..."
+"writeYourMessage": "Escreva sua mensagem...",
+"nonFriendsPageTitle": "Inicie uma conversa",
+"startConversation": "Iniciar conversa"
 }

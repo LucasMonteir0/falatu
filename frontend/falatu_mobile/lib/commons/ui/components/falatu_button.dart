@@ -6,6 +6,7 @@ class FalaTuButton extends StatelessWidget {
   final String label;
   final ButtonType type;
   final VoidCallback? onTap;
+  final EdgeInsets? padding;
   final bool isLoading;
 
   const FalaTuButton(
@@ -13,7 +14,8 @@ class FalaTuButton extends StatelessWidget {
       this.isLoading = false,
       super.key,
       this.type = ButtonType.filled,
-      this.onTap});
+      this.onTap,
+      this.padding});
 
   @override
   Widget build(BuildContext context) {
@@ -22,6 +24,7 @@ class FalaTuButton extends StatelessWidget {
       case ButtonType.filled:
         return FilledButton(
           onPressed: isLoading ? null : onTap,
+          style: FilledButton.styleFrom(padding: padding),
           child: isLoading
               ? const SizedBox.square(
                   dimension: 18,
@@ -33,6 +36,7 @@ class FalaTuButton extends StatelessWidget {
         return OutlinedButton(
           onPressed: isLoading ? null : onTap,
           style: OutlinedButton.styleFrom(
+              padding: padding,
               side: BorderSide(color: colors.primary, width: 2)),
           child: isLoading
               ? SizedBox.square(
@@ -46,13 +50,14 @@ class FalaTuButton extends StatelessWidget {
           onPressed: onTap,
           style: TextButton.styleFrom(
               visualDensity: VisualDensity.compact,
-              padding: const EdgeInsets.symmetric(horizontal: 8)),
+              padding: padding ?? const EdgeInsets.symmetric(horizontal: 8)),
           child: _Text(label, color: colors.primary),
         );
       case ButtonType.link:
         return TextButton(
           onPressed: onTap,
-          style: TextButton.styleFrom(visualDensity: VisualDensity.compact),
+          style: TextButton.styleFrom(
+              padding: padding, visualDensity: VisualDensity.compact),
           child: _Text(label, color: colors.primary, hasUnderline: true),
         );
     }
