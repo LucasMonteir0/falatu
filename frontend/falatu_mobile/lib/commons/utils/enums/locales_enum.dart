@@ -1,5 +1,3 @@
-import "dart:ui";
-
 import "package:falatu_mobile/commons/utils/extensions/context_extensions.dart";
 import "package:flutter/cupertino.dart";
 

@@ -1,4 +1,4 @@
-import "package:falatu_mobile/commons/core/data/services/shared_preferences_services/shared_preferences_services.dart";
+import "package:falatu_mobile/commons/utils/resources/resources_manager.dart";
 import "package:falatu_mobile/commons/utils/routes.dart";
 import "package:flutter_modular/flutter_modular.dart";
 
@@ -7,11 +7,6 @@ class WelcomeGuard extends RouteGuard {
 
   @override
   Future<bool> canActivate(String path, ModularRoute route) async {
-    final preferences = Modular.get<SharedPreferencesService>();
-    await preferences.init();
-    final locale = preferences.getLocale();
-    final theme = preferences.getThemeMode();
-
-    return locale != null && theme != null;
+    return ResourcesManager.i.isAlreadySet();
   }
 }
