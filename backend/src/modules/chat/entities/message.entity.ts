@@ -3,7 +3,6 @@ import { MessageType } from "../enums/message_type.enum";
 import { UserEntity } from "../../commons/entities/user.entity";
 import { MessageUtils } from "../utils/message.utils";
 import { MessageReadEntity } from "./message_read.entity";
-import { ChatUserEntity } from "./chat_user.entity";
 
 export class MessageEntity {
   id: string;

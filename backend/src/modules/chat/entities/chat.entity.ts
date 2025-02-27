@@ -34,10 +34,10 @@ export class ChatEntity {
   static fromPrisma(
     chat: Chat & {
       userChats: (UserChat & { user: User })[];
-      lastMessage: Message & {
+      lastMessage?: Message & {
         messageReads: (MessageRead & { user: User })[];
         sender: User;
-      };
+      } | null;
     }
   ): ChatEntity {
     return new ChatEntity(
@@ -48,7 +48,7 @@ export class ChatEntity {
       chat.userChats.map((e) =>
         ChatUserEntity.fromPrisma(e.user, ChatUtils.roleFromValue(e.role))
       ),
-      MessageEntity.fromPrisma(chat.lastMessage),
+      chat.lastMessage ? MessageEntity.fromPrisma(chat.lastMessage) : null,
       chat.createdAt
     );
   }
