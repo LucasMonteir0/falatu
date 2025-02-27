@@ -9,11 +9,13 @@ import "package:falatu_mobile/app/core/domain/usecases/sign_up/sign_up_use_case_
 import "package:falatu_mobile/app/ui/blocs/sign_in_bloc.dart";
 import "package:falatu_mobile/app/ui/blocs/sign_up_bloc.dart";
 import "package:falatu_mobile/app/ui/pages/settings/settings_page.dart";
+import "package:falatu_mobile/app/ui/pages/settings/welcome_page.dart";
 import "package:falatu_mobile/app/ui/pages/sign_in/sign_in_page.dart";
 import "package:falatu_mobile/app/ui/pages/sign_up/sign_up_page.dart";
 import "package:falatu_mobile/chat/chat_module.dart";
 import "package:falatu_mobile/commons/commons_module.dart";
 import "package:falatu_mobile/commons/utils/guards/auth_guard.dart";
+import "package:falatu_mobile/commons/utils/guards/welcome_guard.dart";
 import "package:falatu_mobile/commons/utils/routes.dart";
 import "package:flutter_modular/flutter_modular.dart";
 
@@ -40,18 +42,20 @@ class AppModule extends Module {
 
   @override
   List<ModularRoute> get routes => [
-        ModuleRoute(Routes.chats, module: ChatModule(), guards: [AuthGuard()]),
+        ModuleRoute(Routes.chats,
+            module: ChatModule(), guards: [AuthGuard(), WelcomeGuard()]),
+        ChildRoute(Routes.signIn,
+            child: (_, __) => const SignInPage(), guards: [WelcomeGuard()]),
+        ChildRoute(Routes.signUp,
+            child: (_, __) => const SignUpPage(), guards: [WelcomeGuard()]),
         ChildRoute(
-          Routes.signIn,
-          child: (_, __) => const SignInPage(),
-        ),
-        ChildRoute(
-          Routes.signUp,
-          child: (_, __) => const SignUpPage(),
+          Routes.welcome,
+          child: (_, __) => const WelcomePage(),
         ),
         ChildRoute(
           Routes.settings,
           child: (_, __) => const SettingsPage(),
+          guards: [AuthGuard(), WelcomeGuard()],
         ),
       ];
 }

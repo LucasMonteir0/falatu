@@ -1,3 +1,4 @@
+import "package:falatu_mobile/commons/utils/enums/locales_enum.dart";
 import "package:flutter/material.dart";
 
 abstract class SharedPreferencesService {
@@ -20,4 +21,8 @@ abstract class SharedPreferencesService {
   Future<bool> setThemeMode(ThemeMode mode);
 
   ThemeMode? getThemeMode();
+
+  Future<bool> setLocale(LocalesEnum locale);
+
+  LocalesEnum? getLocale();
 }

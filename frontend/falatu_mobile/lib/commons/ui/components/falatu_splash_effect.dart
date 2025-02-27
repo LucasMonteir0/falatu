@@ -29,7 +29,9 @@ class FalaTuSplashEffect extends StatelessWidget {
       elevation: elevation,
       shadowColor: shadowColor,
       child: InkWell(
-        splashColor: colors.secondaryContainer.withValues(alpha: 0.1),
+        splashColor: colors.secondaryContainer.withValues(alpha: 0.15),
+        highlightColor: colors.secondaryContainer.withValues(alpha: 0.06),
+
         onTap: onTap,
         child: Ink(
           width: size,

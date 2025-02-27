@@ -5,6 +5,7 @@ import 'package:flutter/widgets.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
 import 'package:intl/intl.dart' as intl;
 
+import 'app_localizations_en.dart';
 import 'app_localizations_pt.dart';
 
 // ignore_for_file: type=lint
@@ -90,6 +91,7 @@ abstract class AppLocalizations {
 
   /// A list of this localizations delegate's supported locales.
   static const List<Locale> supportedLocales = <Locale>[
+    Locale('en'),
     Locale('pt')
   ];
 
@@ -344,6 +346,48 @@ abstract class AppLocalizations {
   /// In pt, this message translates to:
   /// **'Iniciar conversa'**
   String get startConversation;
+
+  /// No description provided for @portuguese.
+  ///
+  /// In pt, this message translates to:
+  /// **'Português'**
+  String get portuguese;
+
+  /// No description provided for @english.
+  ///
+  /// In pt, this message translates to:
+  /// **'Inglês'**
+  String get english;
+
+  /// No description provided for @darkTheme.
+  ///
+  /// In pt, this message translates to:
+  /// **'Tema escuro'**
+  String get darkTheme;
+
+  /// No description provided for @selectLanguage.
+  ///
+  /// In pt, this message translates to:
+  /// **'Selecionar idioma'**
+  String get selectLanguage;
+
+  /// No description provided for @signOut.
+  ///
+  /// In pt, this message translates to:
+  /// **'Sair da conta'**
+  String get signOut;
+
+  /// No description provided for @welcomeText.
+  ///
+  /// In pt, this message translates to:
+  /// **'Olá, seja bem-vindo ao FalaTu! Antes de começar, vamos personalizar sua experiência configurando algumas preferências.'**
+  String get welcomeText;
+
+  /// No description provided for @continueLabel.
+  ///
+  /// In pt, this message translates to:
+  /// **'Prosseguir'**
+  String get continueLabel;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
@@ -355,7 +399,7 @@ class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> 
   }
 
   @override
-  bool isSupported(Locale locale) => <String>['pt'].contains(locale.languageCode);
+  bool isSupported(Locale locale) => <String>['en', 'pt'].contains(locale.languageCode);
 
   @override
   bool shouldReload(_AppLocalizationsDelegate old) => false;
@@ -366,6 +410,7 @@ AppLocalizations lookupAppLocalizations(Locale locale) {
 
   // Lookup logic when only language code is specified.
   switch (locale.languageCode) {
+    case 'en': return AppLocalizationsEn();
     case 'pt': return AppLocalizationsPt();
   }
 

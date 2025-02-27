@@ -1,4 +1,5 @@
 import "package:falatu_mobile/commons/core/data/services/shared_preferences_services/shared_preferences_services.dart";
+import "package:falatu_mobile/commons/utils/enums/locales_enum.dart";
 import "package:falatu_mobile/commons/utils/extensions/nullable_extensions.dart";
 import "package:flutter/src/material/app.dart";
 import "package:shared_preferences/shared_preferences.dart";
@@ -98,5 +99,22 @@ class SharedPreferencesServiceImpl implements SharedPreferencesService {
       return false;
     }
     return await _prefs!.setString("themeMode", mode.name);
+  }
+
+  @override
+  LocalesEnum? getLocale() {
+    if (_prefs == null) {
+      return null;
+    }
+    final String? locale = _prefs!.getString("locale");
+    return locale.let((m) => LocalesEnum.values.firstWhere((e) => e.name == m));
+  }
+
+  @override
+  Future<bool> setLocale(LocalesEnum locale) async {
+    if (_prefs == null) {
+      return false;
+    }
+    return await _prefs!.setString("locale", locale.name);
   }
 }

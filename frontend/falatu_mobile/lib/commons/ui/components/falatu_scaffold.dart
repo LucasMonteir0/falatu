@@ -15,6 +15,7 @@ class ScaffoldAction {
 
 class FalaTuScaffold extends StatelessWidget {
   final Widget? body;
+  final Widget? bottomNavigationBar;
   final String? title;
   final Color? titleColor;
   final bool hasSafeArea;
@@ -30,7 +31,8 @@ class FalaTuScaffold extends StatelessWidget {
       this.backgroundColor,
       this.actions,
       this.floatingButton,
-      this.titleColor});
+      this.titleColor,
+      this.bottomNavigationBar});
 
   @override
   Widget build(BuildContext context) {
@@ -44,6 +46,7 @@ class FalaTuScaffold extends StatelessWidget {
       },
       child: Scaffold(
         backgroundColor: backgroundColor ?? colors.surface,
+        bottomNavigationBar: bottomNavigationBar,
         floatingActionButton: floatingButton.let(
           (e) => SafeArea(
             child: Padding(

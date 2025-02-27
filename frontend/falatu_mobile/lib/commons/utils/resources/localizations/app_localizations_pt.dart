@@ -131,4 +131,25 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get startConversation => 'Iniciar conversa';
+
+  @override
+  String get portuguese => 'Português';
+
+  @override
+  String get english => 'Inglês';
+
+  @override
+  String get darkTheme => 'Tema escuro';
+
+  @override
+  String get selectLanguage => 'Selecionar idioma';
+
+  @override
+  String get signOut => 'Sair da conta';
+
+  @override
+  String get welcomeText => 'Olá, seja bem-vindo ao FalaTu! Antes de começar, vamos personalizar sua experiência configurando algumas preferências.';
+
+  @override
+  String get continueLabel => 'Prosseguir';
 }

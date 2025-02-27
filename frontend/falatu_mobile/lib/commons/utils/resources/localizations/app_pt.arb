@@ -40,5 +40,12 @@
 "you": "Você",
 "writeYourMessage": "Escreva sua mensagem...",
 "nonFriendsPageTitle": "Inicie uma conversa",
-"startConversation": "Iniciar conversa"
+"startConversation": "Iniciar conversa",
+"portuguese": "Português",
+"english": "Inglês",
+"darkTheme": "Tema escuro",
+"selectLanguage": "Selecionar idioma",
+"signOut": "Sair da conta",
+"welcomeText": "Olá, seja bem-vindo ao FalaTu! Antes de começar, vamos personalizar sua experiência configurando algumas preferências.",
+"continueLabel": "Prosseguir"
 }
