@@ -10,6 +10,7 @@ class GroupChatEntity extends ChatEntity {
     required super.createdAt,
     required super.users,
     required this.title,
+    required super.unreadCount,
     this.pictureUrl,
   });
 }

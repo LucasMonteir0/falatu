@@ -33,6 +33,8 @@ class FalaTuSwitch<T> extends StatelessWidget {
     final colors = Theme.of(context).colorScheme;
     return AnimatedToggleSwitch<T>.rolling(
       height: _size,
+      animationCurve: Curves.linear,
+      animationDuration: const Duration(milliseconds: 300),
       current: initialValue,
       values: items.map((e) => e.value).toList(),
       indicatorSize: Size.square(_size - 4),
@@ -46,9 +48,6 @@ class FalaTuSwitch<T> extends StatelessWidget {
         borderColor: Colors.transparent,
         indicatorColor: colors.primaryContainer,
         backgroundColor: colors.surfaceContainer,
-        boxShadow: [
-
-        ],
       ),
     );
   }

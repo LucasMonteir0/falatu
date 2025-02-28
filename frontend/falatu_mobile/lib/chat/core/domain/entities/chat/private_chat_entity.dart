@@ -10,6 +10,7 @@ class PrivateChatEntity extends ChatEntity {
     required super.createdAt,
     required super.users,
     required this.otherUser,
+    required super.unreadCount,
     required super.lastMessage,
   });
 }

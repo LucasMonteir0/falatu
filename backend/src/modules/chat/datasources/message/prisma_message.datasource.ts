@@ -6,45 +6,49 @@ import { CreateMessageDto } from "../../dtos/create_message_dto";
 import { MessageEntity } from "../../entities/message.entity";
 import { UnknownError, NotFoundError } from "src/utils/result/AppError";
 import { QueryHelper } from "src/utils/helpers/query.helper";
+import e from "express";
 
 @Injectable()
 export class PrismaMessageDatasourceImpl implements MessageDatasource {
   constructor(private readonly database: PrismaService) {}
-  async updateMessageRead(
-    messageId: string,
-    userId: string
-  ): Promise<ResultWrapper<MessageEntity>> {
-    try {
-      const messageExists = await this.database.message.findUnique({
-        where: { id: messageId },
-      });
 
+  async readMessagesByChat(
+    chatId: string,
+    userId: string
+  ): Promise<ResultWrapper<boolean>> {
+    try {
       const userExists = await this.database.user.findUnique({
         where: { id: userId },
       });
 
-      if (!messageExists || !userExists) {
-        ResultWrapper.error(
+      if (!userExists) {
+        return ResultWrapper.error(
           new NotFoundError("Message or User doesn't exists.")
         );
       }
 
-      const messageRead = await this.database.messageRead.create({
-        data: {
-          messageId,
-          userId,
+      const unreadMessages = await this.database.message.findMany({
+        where: {
+          chatMessages: {
+            some: { chatId },
+          },
+          messageReads: {
+            none: { userId: userId },
+          },
         },
       });
 
-      const result = await this.database.message.findUnique({
-        where: { id: messageRead.messageId },
-        include: {
-          sender: true,
-          messageReads: QueryHelper.includeReadsWithUser(),
-        },
-      });
+      if (unreadMessages.length > 0) {
+        await this.database.messageRead.createMany({
+          data: unreadMessages.map((message) => ({
+            messageId: message.id,
+            userId: userId,
+          })),
+        });
+        return ResultWrapper.success(true);
+      }
 
-      return ResultWrapper.success(MessageEntity.fromPrisma(result));
+      return ResultWrapper.success(false);
     } catch (e) {
       return ResultWrapper.error(new UnknownError(e));
     }
@@ -108,7 +112,7 @@ export class PrismaMessageDatasourceImpl implements MessageDatasource {
   async getByChat(
     id: string,
     page: number = 1,
-    pageSize: number = 100
+    pageSize: number = 10
   ): Promise<ResultWrapper<MessageEntity[]>> {
     try {
       const chatExists = await this.database.chat.findUnique({

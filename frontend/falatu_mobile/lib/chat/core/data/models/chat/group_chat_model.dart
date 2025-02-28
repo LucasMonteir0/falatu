@@ -4,7 +4,6 @@ import "package:falatu_mobile/chat/core/data/models/message/message_model.dart";
 import "package:falatu_mobile/chat/core/domain/entities/chat/group_chat_entity.dart";
 import "package:falatu_mobile/commons/utils/extensions/nullable_extensions.dart";
 
-
 class GroupChatModel extends ChatModel {
   final String title;
   final String? pictureUrl;
@@ -15,6 +14,7 @@ class GroupChatModel extends ChatModel {
     required super.createdAt,
     required super.users,
     required this.title,
+    required super.unreadCount,
     super.lastMessage,
     this.pictureUrl,
   });
@@ -36,6 +36,7 @@ class GroupChatModel extends ChatModel {
       title: json["title"],
       pictureUrl: json["pictureUrl"],
       lastMessage: lastMessage,
+      unreadCount: json["unreadCount"],
     );
   }
 
@@ -47,6 +48,7 @@ class GroupChatModel extends ChatModel {
       createdAt: createdAt,
       users: users,
       title: title,
+      unreadCount: unreadCount,
     );
   }
 }

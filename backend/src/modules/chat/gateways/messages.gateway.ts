@@ -17,6 +17,8 @@ import { MessageDatasource } from "../datasources/message/message.datasource";
 import { CreateMessageDto } from "../dtos/create_message_dto";
 import { ChatGateway } from "./chat.gateway";
 import { ChatDatasource } from "../datasources/chat/chat.datasource";
+import { MessageUtils } from "../utils/message.utils";
+import { MessageEntity } from "../entities/message.entity";
 
 @WebSocketGateway(81, { namespace: "/messages" })
 export class MessageGateway
@@ -53,7 +55,7 @@ export class MessageGateway
       userId,
       message: "User joined this chat.",
     });
-    await this.emitMessagesToChat(this.server, chatId, 1);
+    await this.emitMessagesToChat(this.server, chatId, userId, 1);
   }
 
   async handleDisconnect(client: Socket) {
@@ -77,16 +79,18 @@ export class MessageGateway
   async handleSendMessage(
     @ConnectedSocket() client: Socket,
     @MessageBody()
-    data: { message: CreateMessageDto; chatId: string }
+    data: { message: CreateMessageDto }
   ) {
-    const { chatId, message } = data;
+    const chatId = client.handshake.query.chatId as string;
+
+    const { message } = data;
     if (!chatId || !message) {
       return new BadRequestError("chatId and message are required.");
     }
 
     const newMessage = await this.datasource.create(message, chatId);
     if (newMessage.isSuccess) {
-      await this.emitMessagesToChat(this.server, chatId, 1);
+      await this.emitMessagesToChat(this.server, chatId, message.senderId, 1);
       const chat = await this.chatDatasource.getChatById(chatId);
       if (chat.isSuccess) {
         await this.chatGateway.emitChatsToUsers(
@@ -102,30 +106,39 @@ export class MessageGateway
   async handleAddOldMessages(
     @ConnectedSocket() client: Socket,
     @MessageBody()
-    data: { message: CreateMessageDto; chatId: string; page: number }
+    data: { page: number }
   ) {
-    const { chatId, page } = data;
+    const userId = client.handshake.query.userId as string;
+    const chatId = client.handshake.query.chatId as string;
+
+    const { page } = data;
     if (!chatId || !page) {
       return new BadRequestError("chatId and message are required.");
     }
 
-    return this.emitMessagesToChat(this.server, chatId, page);
+    return this.emitMessagesToChat(this.server, chatId, userId, page);
   }
 
   private async emitMessagesToChat(
     client: Socket | Server,
     chatId: string,
+    userId: string,
     page: number
   ) {
-    let allMessages = [];
+    let allMessages: MessageEntity[] = [];
 
     for (let i = 1; i <= page; i++) {
       const messages = await this.datasource.getByChat(chatId, i);
       if (messages.isSuccess) {
-        allMessages = [...messages.data, ...allMessages]; // Adiciona mensagens na ordem correta (mais antigas primeiro)
+        allMessages = [...messages.data, ...allMessages];
       } else {
         return messages.error;
       }
+    }
+
+    const read = await this.datasource.readMessagesByChat(chatId, userId);
+    if (read.isSuccess && read.data) {
+      await this.chatGateway.emitChatsToUsers([userId]);
     }
 
     client.to(chatId).emit("messages", allMessages);

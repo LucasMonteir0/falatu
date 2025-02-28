@@ -12,6 +12,7 @@ export class ChatEntity {
   createdAt: Date;
   users: ChatUserEntity[];
   lastMessage: MessageEntity | null;
+  unreadCount: number;
 
   constructor(
     id: string,
@@ -20,6 +21,7 @@ export class ChatEntity {
     pictureUrl: string | null,
     users: ChatUserEntity[],
     lastMessage: MessageEntity | null,
+    unreadCount: number = 0,
     createdAt: Date = new Date()
   ) {
     this.id = id;
@@ -28,17 +30,21 @@ export class ChatEntity {
     this.pictureUrl = pictureUrl;
     this.users = users;
     this.lastMessage = lastMessage;
+    this.unreadCount = unreadCount;
     this.createdAt = createdAt;
   }
 
   static fromPrisma(
     chat: Chat & {
       userChats: (UserChat & { user: User })[];
-      lastMessage?: Message & {
-        messageReads: (MessageRead & { user: User })[];
-        sender: User;
-      } | null;
-    }
+      lastMessage?:
+        | (Message & {
+            messageReads: (MessageRead & { user: User })[];
+            sender: User;
+          })
+        | null;
+    },
+    unreadCount?: number
   ): ChatEntity {
     return new ChatEntity(
       chat.id,
@@ -49,6 +55,7 @@ export class ChatEntity {
         ChatUserEntity.fromPrisma(e.user, ChatUtils.roleFromValue(e.role))
       ),
       chat.lastMessage ? MessageEntity.fromPrisma(chat.lastMessage) : null,
+      unreadCount,
       chat.createdAt
     );
   }

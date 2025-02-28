@@ -86,7 +86,18 @@ export class PrismaChatDatasourceImpl implements ChatDatasource {
             createdAt: "desc",
           },
         ],
-        include: QueryHelper.includesOnChat(),
+        include: {
+          ...QueryHelper.includesOnChat(),
+          chatMessages: {
+            include: {
+              message: {
+                include: {
+                  messageReads: true,
+                },
+              },
+            },
+          },
+        },
       });
 
       chats.sort((a, b) => {
@@ -95,10 +106,16 @@ export class PrismaChatDatasourceImpl implements ChatDatasource {
         return dateB.getTime() - dateA.getTime(); // Descendente
       });
 
-      const result = chats.map((c) => ChatEntity.fromPrisma(c));
+      const result = chats.map((c) => {
+        const unread = c.chatMessages.filter(
+          (chatMessage) =>
+            chatMessage.message.senderId !== id &&
+            !chatMessage.message.messageReads.some((read) => read.userId === id)
+        );
+        return ChatEntity.fromPrisma(c, unread.length);
+      });
       return ResultWrapper.success(result);
     } catch (e) {
-      console.log(e);
       return ResultWrapper.error(new UnknownError(e));
     }
   }

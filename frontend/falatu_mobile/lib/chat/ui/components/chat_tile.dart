@@ -12,6 +12,7 @@ class ChatTile extends StatelessWidget {
   final String? pictureUrl;
   final MessageEntity? lastMessage;
   final VoidCallback onTap;
+  final int unreadsCount;
   final String tag;
 
   const ChatTile({
@@ -19,6 +20,7 @@ class ChatTile extends StatelessWidget {
     required this.pictureUrl,
     required this.onTap,
     required this.tag,
+    required this.unreadsCount,
     super.key,
     this.lastMessage,
   });
@@ -63,7 +65,11 @@ class ChatTile extends StatelessWidget {
                                   child: Text(
                                     lastMessage!.createdAt
                                         .formatForChat(context),
-                                    style: typography.bodyMedium,
+                                    style: typography.bodyMedium!.copyWith(
+                                        color: unreadsCount > 0
+                                            ? colors.primary
+                                            : colors.onSurface,
+                                        fontWeight: FontWeight.w600),
                                   ),
                                 ),
                             ],
@@ -79,12 +85,25 @@ class ChatTile extends StatelessWidget {
                                     final userId =
                                         Modular.get<SharedPreferencesService>()
                                             .getUserId();
-                                    final isMe = userId == lastMessage!.sender.id;
-                                    return Text(
-                                      "${isMe ? "${context.i18n.you}: " : ""}${lastMessage!.getLastMessageText(context)} aopskd poaskd poaksdop kasopd kpaskd opask dopaskdopaksop dkpao",
-                                      maxLines: 1,
-                                      overflow: TextOverflow.ellipsis,
-                                      style: typography.bodyMedium,
+                                    final isMe =
+                                        userId == lastMessage!.sender.id;
+                                    return Row(
+                                      children: [
+                                        Expanded(
+                                          child: Text(
+                                            "${isMe ? "${context.i18n.you}: " : ""}${lastMessage!.getLastMessageText(context)} aopskd poaskd poaksdop kasopd kpaskd opask dopaskdopaksop dkpao",
+                                            maxLines: 1,
+                                            overflow: TextOverflow.ellipsis,
+                                            style: typography.bodyMedium,
+                                          ),
+                                        ),
+                                        if (unreadsCount > 0)
+                                          Padding(
+                                            padding: const EdgeInsets.only(
+                                                left: 8.0),
+                                            child: _Counter(unreadsCount),
+                                          ),
+                                      ],
                                     );
                                   }),
                                 ],
@@ -96,6 +115,41 @@ class ChatTile extends StatelessWidget {
                   ),
                 ),
               ],
+            ),
+          ),
+        ),
+      ),
+    );
+  }
+}
+
+class _Counter extends StatelessWidget {
+  final int num;
+
+  const _Counter(this.num);
+
+  @override
+  Widget build(BuildContext context) {
+    return DecoratedBox(
+      decoration: BoxDecoration(
+          color: Theme.of(context).colorScheme.primary,
+          borderRadius: BorderRadius.circular(22)),
+      child: ConstrainedBox(
+        constraints: const BoxConstraints(
+          maxHeight: 20,
+          minHeight: 20,
+          minWidth: 20,
+        ),
+        child: Center(
+          child: Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 4),
+            child: Text(
+              num > 999 ? "+999" : num.toString(),
+              style: Theme.of(context).textTheme.bodySmall!.copyWith(
+                    fontWeight: FontWeight.w600,
+                    color: Theme.of(context).colorScheme.surfaceBright,
+                    fontSize: 10,
+                  ),
             ),
           ),
         ),

@@ -16,6 +16,7 @@ class PrivateChatModel extends ChatModel {
     required super.users,
     required super.lastMessage,
     required this.otherUser,
+    required super.unreadCount,
   });
 
   factory PrivateChatModel.fromJson(
@@ -35,6 +36,7 @@ class PrivateChatModel extends ChatModel {
       users: users,
       otherUser: otherUser,
       lastMessage: lastMessage,
+      unreadCount: json["unreadCount"],
     );
   }
 
@@ -47,6 +49,7 @@ class PrivateChatModel extends ChatModel {
       users: users,
       otherUser: otherUser,
       lastMessage: lastMessage,
+      unreadCount: unreadCount,
     );
   }
 }

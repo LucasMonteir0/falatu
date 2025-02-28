@@ -9,15 +9,17 @@ class ChatEntity extends Equatable {
   final DateTime createdAt;
   final List<ChatUserEntity> users;
   final MessageEntity? lastMessage;
+  final int unreadCount;
 
   const ChatEntity({
     required this.id,
     required this.type,
     required this.createdAt,
     required this.users,
+    required this.unreadCount,
     this.lastMessage,
   });
 
   @override
-  List<Object?> get props => [id, type, createdAt, users];
+  List<Object?> get props => [id, type, createdAt, users, unreadCount];
 }

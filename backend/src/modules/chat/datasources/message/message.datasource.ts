@@ -3,17 +3,20 @@ import { MessageEntity } from "../../entities/message.entity";
 import { CreateMessageDto } from "../../dtos/create_message_dto";
 
 export abstract class MessageDatasource {
+
   abstract create(
     message: CreateMessageDto,
     chatId: string
   ): Promise<ResultWrapper<MessageEntity>>;
+
   abstract getByChat(
     id: string,
     page?: number,
     pageSize?: number
   ): Promise<ResultWrapper<MessageEntity[]>>;
-  abstract updateMessageRead(
-    messageId: string,
+
+  abstract readMessagesByChat(
+    chatId: string,
     userId: string
-  ): Promise<ResultWrapper<MessageEntity>>;
+  ): Promise<ResultWrapper<boolean>>;
 }

@@ -47,6 +47,7 @@ class ChatsListView<T extends ChatEntity> extends StatelessWidget {
                     pictureUrl: private.otherUser.pictureUrl,
                     lastMessage: chat.lastMessage,
                     tag: Tags.chatTile + private.id,
+                    unreadsCount: private.unreadCount,
                     onTap: () => Modular.to.pushNamed(
                         Routes.chats + Routes.privateChat,
                         arguments: chat),

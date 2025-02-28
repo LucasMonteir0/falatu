@@ -5,12 +5,14 @@ import "package:falatu_mobile/chat/core/domain/entities/chat/chat_entity.dart";
 import "package:falatu_mobile/chat/utils/enums/chat_type.dart";
 
 class ChatModel extends ChatEntity {
-  const ChatModel(
-      {required super.id,
-      required super.type,
-      required super.createdAt,
-      required super.users,
-      required super.lastMessage});
+  const ChatModel({
+    required super.id,
+    required super.type,
+    required super.createdAt,
+    required super.users,
+    required super.lastMessage,
+    required super.unreadCount,
+  });
 
   factory ChatModel.fromJson(
       Map<String, dynamic> json, Map<String, dynamic> otherUser) {
