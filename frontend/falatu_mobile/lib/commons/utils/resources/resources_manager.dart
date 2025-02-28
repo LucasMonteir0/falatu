@@ -27,7 +27,7 @@ class ResourcesManager {
 
   ResourcesManager._();
 
-  final ValueNotifier<Resources> resourcesNotifier = ValueNotifier(
+  final ValueNotifier<Resources> notifier = ValueNotifier(
     const Resources(themeMode: ThemeMode.system, locale: LocalesEnum.english),
   );
 
@@ -39,7 +39,7 @@ class ResourcesManager {
     final theme = _preferences.getThemeMode() ?? ThemeMode.system;
     final locale = _preferences.getLocale() ?? LocalesEnum.english;
 
-    resourcesNotifier.value = Resources(
+    notifier.value = Resources(
       themeMode: theme,
       locale: locale,
     );
@@ -51,12 +51,12 @@ class ResourcesManager {
 
   void setThemeMode(ThemeMode mode) {
     _preferences.setThemeMode(mode);
-    resourcesNotifier.value = resourcesNotifier.value.copyWith(themeMode: mode);
+    notifier.value = notifier.value.copyWith(themeMode: mode);
   }
 
   void selectLocale(LocalesEnum locale) {
     _preferences.setLocale(locale);
-    resourcesNotifier.value = resourcesNotifier.value.copyWith(locale: locale);
+    notifier.value = notifier.value.copyWith(locale: locale);
   }
 
   bool isAlreadySet() {

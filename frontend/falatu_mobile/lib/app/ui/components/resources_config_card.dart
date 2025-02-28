@@ -30,7 +30,7 @@ class ResourcesConfigCard extends StatelessWidget {
     return FalaTuCard(
       padding: const EdgeInsets.all(16),
       child: ValueListenableBuilder<Resources>(
-        valueListenable: ResourcesManager.i.resourcesNotifier,
+        valueListenable: ResourcesManager.i.notifier,
         builder: (context, value, child) {
           return Column(
             mainAxisAlignment: MainAxisAlignment.center,
@@ -39,7 +39,7 @@ class ResourcesConfigCard extends StatelessWidget {
                 padding: const EdgeInsets.only(bottom: 16.0),
                 child: Row(
                   children: [
-                    Expanded(child: Text(context.i18n.darkTheme)),
+                    Expanded(child: Text(context.i18n.chooseTheme)),
                     FalaTuSwitch<ThemeMode>(
                       initialValue: value.themeMode,
                       items: _themeItems(),

@@ -359,11 +359,11 @@ abstract class AppLocalizations {
   /// **'Inglês'**
   String get english;
 
-  /// No description provided for @darkTheme.
+  /// No description provided for @chooseTheme.
   ///
   /// In pt, this message translates to:
-  /// **'Tema escuro'**
-  String get darkTheme;
+  /// **'Escolha o tema'**
+  String get chooseTheme;
 
   /// No description provided for @selectLanguage.
   ///

@@ -17,7 +17,7 @@ class FalaTu extends StatelessWidget {
     Modular.setInitialRoute(Routes.chats + Routes.root);
     MaterialTheme.loadTextTheme(context);
     return ValueListenableBuilder<Resources>(
-        valueListenable: ResourcesManager.i.resourcesNotifier,
+        valueListenable: ResourcesManager.i.notifier,
         builder: (context, resources, child) {
           return MaterialApp.router(
             onGenerateTitle: (context) => context.i18n.appName,

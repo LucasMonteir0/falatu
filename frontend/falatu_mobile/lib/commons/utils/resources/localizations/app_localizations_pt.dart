@@ -139,7 +139,7 @@ class AppLocalizationsPt extends AppLocalizations {
   String get english => 'Inglês';
 
   @override
-  String get darkTheme => 'Tema escuro';
+  String get chooseTheme => 'Escolha o tema';
 
   @override
   String get selectLanguage => 'Selecionar idioma';

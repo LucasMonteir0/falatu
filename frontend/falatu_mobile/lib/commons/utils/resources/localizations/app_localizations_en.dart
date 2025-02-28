@@ -139,7 +139,7 @@ class AppLocalizationsEn extends AppLocalizations {
   String get english => 'English';
 
   @override
-  String get darkTheme => 'Dark theme';
+  String get chooseTheme => 'Choose your theme';
 
   @override
   String get selectLanguage => 'Select language';
