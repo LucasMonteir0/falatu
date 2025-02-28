@@ -47,5 +47,6 @@
 "selectLanguage": "Selecionar idioma",
 "signOut": "Sair da conta",
 "welcomeText": "Olá, seja bem-vindo ao FalaTu! Antes de começar, vamos personalizar sua experiência configurando algumas preferências.",
-"continueLabel": "Prosseguir"
+"continueLabel": "Prosseguir",
+"settings": "Configurações"
 }

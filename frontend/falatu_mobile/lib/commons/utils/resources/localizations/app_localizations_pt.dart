@@ -152,4 +152,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get continueLabel => 'Prosseguir';
+
+  @override
+  String get settings => 'Configurações';
 }

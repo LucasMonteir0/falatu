@@ -7,7 +7,9 @@ import "package:falatu_mobile/commons/ui/components/round_background_container.d
 import "package:falatu_mobile/commons/utils/enums/icons_enum.dart";
 import "package:falatu_mobile/commons/utils/enums/images_enum.dart";
 import "package:falatu_mobile/commons/utils/extensions/context_extensions.dart";
+import "package:falatu_mobile/commons/utils/routes.dart";
 import "package:flutter/material.dart";
+import "package:flutter_modular/flutter_modular.dart";
 
 class WelcomePage extends StatelessWidget {
   const WelcomePage({super.key});
@@ -53,7 +55,8 @@ class WelcomePage extends StatelessWidget {
                     padding: const EdgeInsets.only(top: 24.0),
                     child: FalaTuButton(
                       label: context.i18n.continueLabel,
-                      onTap: () {},
+                      onTap: () => Modular.to
+                          .pushReplacementNamed(Routes.chats + Routes.root),
                     ),
                   )
                 ],

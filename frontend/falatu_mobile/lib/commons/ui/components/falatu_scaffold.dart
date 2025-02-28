@@ -18,21 +18,26 @@ class FalaTuScaffold extends StatelessWidget {
   final Widget? bottomNavigationBar;
   final String? title;
   final Color? titleColor;
+  final Color? iconsColor;
   final bool hasSafeArea;
+  final bool extendBodyBehindAppBar;
   final Color? backgroundColor;
   final List<ScaffoldAction>? actions;
   final ScaffoldAction? floatingButton;
 
-  const FalaTuScaffold(
-      {super.key,
-      this.body,
-      this.hasSafeArea = false,
-      this.title,
-      this.backgroundColor,
-      this.actions,
-      this.floatingButton,
-      this.titleColor,
-      this.bottomNavigationBar});
+  const FalaTuScaffold({
+    super.key,
+    this.body,
+    this.hasSafeArea = false,
+    this.title,
+    this.backgroundColor,
+    this.actions,
+    this.floatingButton,
+    this.titleColor,
+    this.bottomNavigationBar,
+    this.extendBodyBehindAppBar = false,
+    this.iconsColor,
+  });
 
   @override
   Widget build(BuildContext context) {
@@ -47,6 +52,7 @@ class FalaTuScaffold extends StatelessWidget {
       child: Scaffold(
         backgroundColor: backgroundColor ?? colors.surface,
         bottomNavigationBar: bottomNavigationBar,
+        extendBodyBehindAppBar: extendBodyBehindAppBar,
         floatingActionButton: floatingButton.let(
           (e) => SafeArea(
             child: Padding(
@@ -68,7 +74,7 @@ class FalaTuScaffold extends StatelessWidget {
                 centerTitle: false,
                 backgroundColor: Colors.transparent,
                 forceMaterialTransparency: true,
-                iconTheme: IconThemeData(color: colors.onSurface, size: 20),
+                iconTheme: IconThemeData(color: iconsColor ?? colors.onSurface, size: 20),
                 leadingWidth: 20,
                 actions: actions.let((list) => list
                     .map((e) => Padding(

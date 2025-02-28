@@ -3,6 +3,7 @@ import "dart:io";
 import "package:falatu_mobile/commons/core/data/services/file_picker_service/file_picker_service.dart";
 import "package:falatu_mobile/commons/ui/components/falatu_button.dart";
 import "package:falatu_mobile/commons/ui/components/falatu_icon.dart";
+import "package:falatu_mobile/commons/ui/components/falatu_user_avatar.dart";
 import "package:falatu_mobile/commons/utils/enums/icons_enum.dart";
 import "package:falatu_mobile/commons/utils/extensions/context_extensions.dart";
 import "package:flutter/material.dart";
@@ -10,6 +11,7 @@ import "package:flutter_modular/flutter_modular.dart";
 
 class FalaTuImageInput extends FormField<File?> {
   final double? size;
+  final String? url;
   final void Function(File? file)? onChanged;
   final bool readOnly;
 
@@ -18,6 +20,7 @@ class FalaTuImageInput extends FormField<File?> {
       this.size,
       this.onChanged,
       this.readOnly = false,
+      this.url,
       super.validator})
       : super(
           initialValue: null,
@@ -32,6 +35,7 @@ class FalaTuImageInput extends FormField<File?> {
                 onChanged?.call(field.value);
               },
               readOnly: readOnly,
+              url: url,
             );
           },
         );
@@ -42,12 +46,14 @@ class _PickImageWidget extends StatefulWidget {
   final void Function(File? file)? onChanged;
   final bool hasError;
   final bool readOnly;
+  final String? url;
 
   const _PickImageWidget({
     required this.readOnly,
     this.size,
     this.onChanged,
     this.hasError = false,
+    this.url,
   });
 
   @override
@@ -112,15 +118,18 @@ class _PickImageWidgetState extends State<_PickImageWidget> {
                     child: ClipOval(
                       child: file != null
                           ? Image.file(file, fit: BoxFit.cover)
-                          : Center(
-                              child: FalaTuIcon(
-                                icon: FalaTuIconsEnum.image,
-                                color: widget.hasError
-                                    ? colors.error
-                                    : colors.primary,
-                                size: _size / 3,
-                              ),
-                            ),
+                          : widget.url != null
+                              ? FalaTuUserAvatar(
+                                  pictureUrl: widget.url, size: _size)
+                              : Center(
+                                  child: FalaTuIcon(
+                                    icon: FalaTuIconsEnum.image,
+                                    color: widget.hasError
+                                        ? colors.error
+                                        : colors.primary,
+                                    size: _size / 3,
+                                  ),
+                                ),
                     ),
                   ),
                 ),
@@ -138,6 +147,7 @@ class _PickImageWidgetState extends State<_PickImageWidget> {
 }
 
 class _HandleErrorWidget extends StatelessWidget {
+  final String? url;
   final double? size;
   final void Function(File? file)? onChanged;
   final bool hasError;
@@ -150,6 +160,7 @@ class _HandleErrorWidget extends StatelessWidget {
     this.errorText,
     this.size,
     this.onChanged,
+    this.url,
   });
 
   @override
@@ -164,6 +175,7 @@ class _HandleErrorWidget extends StatelessWidget {
             hasError: hasError,
             onChanged: onChanged,
             readOnly: readOnly,
+            url: url,
           ),
           if (errorText != null)
             Padding(
@@ -181,6 +193,7 @@ class _HandleErrorWidget extends StatelessWidget {
       hasError: hasError,
       onChanged: onChanged,
       readOnly: readOnly,
+      url: url,
     );
   }
 }

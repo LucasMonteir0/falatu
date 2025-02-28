@@ -28,7 +28,7 @@ class ResourcesManager {
   ResourcesManager._();
 
   final ValueNotifier<Resources> resourcesNotifier = ValueNotifier(
-    const Resources(themeMode: ThemeMode.light, locale: LocalesEnum.english),
+    const Resources(themeMode: ThemeMode.system, locale: LocalesEnum.english),
   );
 
   final Completer<void> _initCompleter = Completer<void>();
@@ -36,7 +36,7 @@ class ResourcesManager {
   Future<void> init() async {
     await _preferences.init();
 
-    final theme = _preferences.getThemeMode() ?? ThemeMode.light;
+    final theme = _preferences.getThemeMode() ?? ThemeMode.system;
     final locale = _preferences.getLocale() ?? LocalesEnum.english;
 
     resourcesNotifier.value = Resources(
@@ -49,11 +49,9 @@ class ResourcesManager {
 
   Future<void> ensureInitialized() => _initCompleter.future;
 
-  void toggleTheme(bool isDarkMode) {
-    final newTheme = isDarkMode ? ThemeMode.dark : ThemeMode.light;
-    _preferences.setThemeMode(newTheme);
-    resourcesNotifier.value =
-        resourcesNotifier.value.copyWith(themeMode: newTheme);
+  void setThemeMode(ThemeMode mode) {
+    _preferences.setThemeMode(mode);
+    resourcesNotifier.value = resourcesNotifier.value.copyWith(themeMode: mode);
   }
 
   void selectLocale(LocalesEnum locale) {

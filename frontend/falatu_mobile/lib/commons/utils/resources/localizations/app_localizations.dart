@@ -388,6 +388,12 @@ abstract class AppLocalizations {
   /// In pt, this message translates to:
   /// **'Prosseguir'**
   String get continueLabel;
+
+  /// No description provided for @settings.
+  ///
+  /// In pt, this message translates to:
+  /// **'Configurações'**
+  String get settings;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
