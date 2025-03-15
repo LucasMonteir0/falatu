@@ -1,7 +1,7 @@
-import "package:falatu_mobile/commons/core/data/services/shared_preferences_services/shared_preferences_services.dart";
+import "package:falatu_mobile/commons/core/domain/services/shared_preferences_services/shared_preferences_services.dart";
 import "package:falatu_mobile/commons/utils/enums/locales_enum.dart";
 import "package:falatu_mobile/commons/utils/extensions/nullable_extensions.dart";
-import "package:flutter/src/material/app.dart";
+import "package:flutter/material.dart";
 import "package:shared_preferences/shared_preferences.dart";
 
 class SharedPreferencesServiceImpl implements SharedPreferencesService {

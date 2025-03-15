@@ -1,7 +1,7 @@
 import "dart:io";
-import "package:falatu_mobile/commons/core/data/services/shared_preferences_services/shared_preferences_services.dart";
-import "package:falatu_mobile/commons/core/data/services/socket_io_service/socket_io_service.dart";
 import "package:falatu_mobile/commons/core/domain/entities/base_error.dart";
+import "package:falatu_mobile/commons/core/domain/services/shared_preferences_services/shared_preferences_services.dart";
+import "package:falatu_mobile/commons/core/domain/services/socket_io_service/socket_io_service.dart";
 import "package:falatu_mobile/commons/utils/errors/errors.dart";
 import "package:flutter/material.dart";
 import "package:socket_io_client/socket_io_client.dart" as io;

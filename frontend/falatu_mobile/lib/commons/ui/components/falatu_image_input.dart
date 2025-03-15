@@ -1,18 +1,19 @@
-import "dart:io";
 
-import "package:falatu_mobile/commons/core/data/services/file_picker_service/file_picker_service.dart";
+import "package:cross_file/cross_file.dart";
+import "package:falatu_mobile/commons/core/domain/services/file_picker_service/file_picker_service.dart";
 import "package:falatu_mobile/commons/ui/components/falatu_button.dart";
 import "package:falatu_mobile/commons/ui/components/falatu_icon.dart";
+import "package:falatu_mobile/commons/ui/components/falatu_image.dart";
 import "package:falatu_mobile/commons/ui/components/falatu_user_avatar.dart";
 import "package:falatu_mobile/commons/utils/enums/icons_enum.dart";
 import "package:falatu_mobile/commons/utils/extensions/context_extensions.dart";
 import "package:flutter/material.dart";
 import "package:flutter_modular/flutter_modular.dart";
 
-class FalaTuImageInput extends FormField<File?> {
+class FalaTuImageInput extends FormField<XFile?> {
   final double? size;
   final String? url;
-  final void Function(File? file)? onChanged;
+  final void Function(XFile? file)? onChanged;
   final bool readOnly;
 
   FalaTuImageInput(
@@ -43,7 +44,7 @@ class FalaTuImageInput extends FormField<File?> {
 
 class _PickImageWidget extends StatefulWidget {
   final double? size;
-  final void Function(File? file)? onChanged;
+  final void Function(XFile? file)? onChanged;
   final bool hasError;
   final bool readOnly;
   final String? url;
@@ -63,7 +64,7 @@ class _PickImageWidget extends StatefulWidget {
 class _PickImageWidgetState extends State<_PickImageWidget> {
   bool _isPressed = false;
 
-  late final ValueNotifier<File?> _notifier = ValueNotifier(null);
+  late final ValueNotifier<XFile?> _notifier = ValueNotifier(null);
 
   Future<void> _pickImage() async {
     final picker = Modular.get<FilePickerService>();
@@ -117,7 +118,7 @@ class _PickImageWidgetState extends State<_PickImageWidget> {
                         )),
                     child: ClipOval(
                       child: file != null
-                          ? Image.file(file, fit: BoxFit.cover)
+                          ? FalaTuImage.xFile(file: file, fit: BoxFit.cover)
                           : widget.url != null
                               ? FalaTuUserAvatar(
                                   pictureUrl: widget.url, size: _size)
@@ -149,7 +150,7 @@ class _PickImageWidgetState extends State<_PickImageWidget> {
 class _HandleErrorWidget extends StatelessWidget {
   final String? url;
   final double? size;
-  final void Function(File? file)? onChanged;
+  final void Function(XFile? file)? onChanged;
   final bool hasError;
   final bool readOnly;
   final String? errorText;

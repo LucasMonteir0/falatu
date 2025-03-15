@@ -1,9 +1,11 @@
 enum FalaTuIconsEnum {
   lightMode("light_mode.svg"),
+  downloadFilled("download_filled.svg"),
   mailFilled("mail_filled.svg"),
   mailOutlined("mail_outlined.svg"),
   systemMode("system_mode.svg"),
   visibilityOnFilled("visibility_on_filled.svg"),
+  download("download.svg"),
   chevronRight("chevron_right.svg"),
   settinsFilled("settins_filled.svg"),
   chevronLeft("chevron_left.svg"),

@@ -24,4 +24,11 @@ export class MessageUtils {
       message.messageReads.some((read) => read.user.id === userId)
     );
   }
+
+  static handleFileMessageName(type: MessageType, originalName?: string) {
+    if (type === MessageType.FILE) {
+      return `${originalName}-fDTIME0:${new Date().toISOString()}`;
+    }
+    return `${type}-${new Date().toISOString()}`;
+  }
 }

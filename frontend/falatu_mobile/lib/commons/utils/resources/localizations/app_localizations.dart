@@ -394,6 +394,42 @@ abstract class AppLocalizations {
   /// In pt, this message translates to:
   /// **'Configurações'**
   String get settings;
+
+  /// No description provided for @gallery.
+  ///
+  /// In pt, this message translates to:
+  /// **'Galeria'**
+  String get gallery;
+
+  /// No description provided for @camera.
+  ///
+  /// In pt, this message translates to:
+  /// **'Câmera'**
+  String get camera;
+
+  /// No description provided for @files.
+  ///
+  /// In pt, this message translates to:
+  /// **'Arquivos'**
+  String get files;
+
+  /// No description provided for @photos.
+  ///
+  /// In pt, this message translates to:
+  /// **'Fotos'**
+  String get photos;
+
+  /// No description provided for @videos.
+  ///
+  /// In pt, this message translates to:
+  /// **'Vídeos'**
+  String get videos;
+
+  /// No description provided for @photo.
+  ///
+  /// In pt, this message translates to:
+  /// **'Foto'**
+  String get photo;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

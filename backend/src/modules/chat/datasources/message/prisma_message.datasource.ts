@@ -2,15 +2,22 @@ import { Injectable } from "@nestjs/common";
 import { PrismaService } from "src/utils/config/database/prisma.service";
 import { ResultWrapper } from "src/utils/result/ResultWrapper";
 import { MessageDatasource } from "./message.datasource";
-import { CreateMessageDto } from "../../dtos/create_message_dto";
+import { CreateMessageDto } from "../../dtos/create_message.dto";
 import { MessageEntity } from "../../entities/message.entity";
 import { UnknownError, NotFoundError } from "src/utils/result/AppError";
 import { QueryHelper } from "src/utils/helpers/query.helper";
-import e from "express";
+import {
+  BucketOptions,
+  BucketService,
+} from "src/utils/config/bucket/bucket.service";
+import { MessageUtils } from "../../utils/message.utils";
 
 @Injectable()
 export class PrismaMessageDatasourceImpl implements MessageDatasource {
-  constructor(private readonly database: PrismaService) {}
+  constructor(
+    private readonly database: PrismaService,
+    private readonly bucket: BucketService
+  ) {}
 
   async readMessagesByChat(
     chatId: string,
@@ -73,7 +80,7 @@ export class PrismaMessageDatasourceImpl implements MessageDatasource {
             type: message.type,
             senderId: message.senderId,
             text: message.text,
-            media_url: null,
+            media_url: message.mediaUrl,
             Chat: { connect: { id: chatId } },
             chatMessages: {
               create: {

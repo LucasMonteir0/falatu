@@ -1,7 +1,7 @@
 import "package:falatu_mobile/app/core/domain/entities/sign_in_entity.dart";
 import "package:falatu_mobile/app/core/domain/usecases/sign_in/sign_in_use_case.dart";
-import "package:falatu_mobile/commons/core/data/services/shared_preferences_services/shared_preferences_services.dart";
 import "package:falatu_mobile/commons/core/domain/entities/auth_credentials_entity.dart";
+import "package:falatu_mobile/commons/core/domain/services/shared_preferences_services/shared_preferences_services.dart";
 import "package:falatu_mobile/commons/utils/errors/errors.dart";
 import "package:falatu_mobile/commons/utils/states/base_state.dart";
 import "package:flutter_bloc/flutter_bloc.dart";

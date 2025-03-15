@@ -155,4 +155,22 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get settings => 'Configurações';
+
+  @override
+  String get gallery => 'Galeria';
+
+  @override
+  String get camera => 'Câmera';
+
+  @override
+  String get files => 'Arquivos';
+
+  @override
+  String get photos => 'Fotos';
+
+  @override
+  String get videos => 'Vídeos';
+
+  @override
+  String get photo => 'Foto';
 }

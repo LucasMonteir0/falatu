@@ -1,3 +1,4 @@
+import "package:cross_file/cross_file.dart";
 import "package:dio/dio.dart";
 
 class ApiResponse<T> {
@@ -57,4 +58,7 @@ abstract class HttpService {
   Future<ApiResponse<T>> delete<T>(String path, {dynamic data});
 
   Future<ApiResponse<T>> patch<T>(String path, {dynamic data});
+
+  Future<ApiResponse<XFile>> download(String url,
+      {required String savePath, Map<String, dynamic>? queryParameters});
 }

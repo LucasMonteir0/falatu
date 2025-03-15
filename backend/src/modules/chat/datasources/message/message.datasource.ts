@@ -1,9 +1,8 @@
 import { ResultWrapper } from "src/utils/result/ResultWrapper";
 import { MessageEntity } from "../../entities/message.entity";
-import { CreateMessageDto } from "../../dtos/create_message_dto";
+import { CreateMessageDto } from "../../dtos/create_message.dto";
 
 export abstract class MessageDatasource {
-
   abstract create(
     message: CreateMessageDto,
     chatId: string

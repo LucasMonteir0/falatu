@@ -8,6 +8,7 @@ export type BucketOptions = {
   fileName: string;
   extension: string;
   file: Express.Multer.File;
+  contentType?: string;
 };
 
 @Injectable()
@@ -28,7 +29,7 @@ export class BucketService {
 
     const storageRef = ref(this.storage, `${options.path}/${file.name}`);
     const metadata = {
-      contentType: options.file.mimetype,
+      contentType: options.contentType ?? options.file.mimetype,
     };
 
     const result = await uploadBytes(storageRef, file, metadata);

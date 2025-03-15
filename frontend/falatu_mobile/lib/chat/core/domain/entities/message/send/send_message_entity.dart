@@ -1,5 +1,4 @@
-import "dart:io";
-
+import "package:cross_file/cross_file.dart";
 import "package:equatable/equatable.dart";
 import "package:falatu_mobile/chat/utils/enums/message_type.dart";
 
@@ -7,7 +6,7 @@ class SendMessageEntity extends Equatable {
   final String senderId;
   final MessageType type;
   final String? text;
-  final File? mediaFile;
+  final XFile? mediaFile;
 
   const SendMessageEntity({
     required this.senderId,

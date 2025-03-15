@@ -1,46 +1,45 @@
-import "dart:io";
-
-import "package:falatu_mobile/commons/core/data/services/file_picker_service/file_picker_service.dart";
+import "package:falatu_mobile/commons/core/domain/services/file_picker_service/file_picker_service.dart";
+import "package:falatu_mobile/commons/utils/extensions/nullable_extensions.dart";
+import "package:file_picker/file_picker.dart";
 import "package:image_picker/image_picker.dart";
 
 class FilePickerServiceImpl implements FilePickerService {
   final ImagePicker _imagePicker = ImagePicker();
+  final FilePicker _filePicker = FilePicker.platform;
 
   FilePickerServiceImpl();
 
   @override
-  Future<File?> document() {
-    // TODO: implement document
-    throw UnimplementedError();
+  Future<XFile?> document() async {
+    FilePickerResult? result = await _filePicker.pickFiles(
+      type: FileType.custom,
+      allowedExtensions: ["pdf", "doc", "xlsx", "xls", "docx", "txt", "csv"],
+    );
+    return result.let((file) => file.xFiles.first);
   }
 
   @override
-  Future<File?> imageFromCamera() async {
-    XFile? image = await _imagePicker.pickImage(source: ImageSource.camera);
-    return image != null ? File(image.path) : null;
+  Future<XFile?> imageFromCamera() async {
+    return await _imagePicker.pickImage(source: ImageSource.camera);
   }
 
   @override
-  Future<File?> imageFromGallery() async {
-    XFile? image = await _imagePicker.pickImage(source: ImageSource.gallery);
-    return image != null ? File(image.path) : null;
+  Future<XFile?> imageFromGallery() async {
+    return await _imagePicker.pickImage(source: ImageSource.gallery);
   }
 
   @override
-  Future<List<File>> multipleImagesFromGallery() async {
-    final result = await _imagePicker.pickMultiImage();
-    return result.map((e) => File(e.path)).toList();
+  Future<List<XFile>> multipleImagesFromGallery() async {
+    return await _imagePicker.pickMultiImage();
   }
 
   @override
-  Future<File?> videoFromCamera() {
-    // TODO: implement videoFromCamera
-    throw UnimplementedError();
+  Future<XFile?> videoFromCamera() async {
+    return await ImagePicker().pickVideo(source: ImageSource.camera);
   }
 
   @override
-  Future<File?> videoFromGallery() {
-    // TODO: implement videoFromGallery
-    throw UnimplementedError();
+  Future<XFile?> videoFromGallery() async {
+    return await ImagePicker().pickVideo(source: ImageSource.gallery);
   }
 }

@@ -14,7 +14,7 @@ import { AuthSocketMiddleware } from "src/modules/commons/middlewares/auth_socke
 import { PrismaService } from "src/utils/config/database/prisma.service";
 import { BadRequestError } from "src/utils/result/AppError";
 import { MessageDatasource } from "../datasources/message/message.datasource";
-import { CreateMessageDto } from "../dtos/create_message_dto";
+import { CreateMessageDto } from "../dtos/create_message.dto";
 import { ChatGateway } from "./chat.gateway";
 import { ChatDatasource } from "../datasources/chat/chat.datasource";
 import { MessageUtils } from "../utils/message.utils";

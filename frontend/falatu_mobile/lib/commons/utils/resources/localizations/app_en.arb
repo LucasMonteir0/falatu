@@ -48,5 +48,12 @@
   "signOut": "Sign Out",
   "welcomeText": "Hello, welcome to FalaTu! Before you get started, let's personalize your experience by setting up a few preferences.",
   "continueLabel": "Continue",
-  "settings": "Settings"
+  "settings": "Settings",
+  "gallery": "Gallery",
+  "camera": "Camera",
+  "files": "Files",
+  "photos": "Photos",
+  "videos": "Videos",
+  "photo": "Photo",
+  "video": "Video"
 }

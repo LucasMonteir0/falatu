@@ -1,4 +1,4 @@
-import "dart:io";
+import "package:cross_file/cross_file.dart";
 import "package:falatu_mobile/app/ui/blocs/sign_up_bloc.dart";
 import "package:falatu_mobile/commons/core/domain/entities/user_entity.dart";
 import "package:falatu_mobile/commons/ui/components/falatu_button.dart";
@@ -34,7 +34,7 @@ class _SignUpPageState extends State<SignUpPage> {
   late final ValueNotifier<String> _passwordNotifier;
 
   late final SignUpBloc _signUpBloc;
-  File? _picture;
+  XFile? _picture;
 
   @override
   void initState() {
@@ -105,7 +105,8 @@ class _SignUpPageState extends State<SignUpPage> {
                       ValidatorsHelper.required(
                           context.i18n.requiredFieldError),
                       ValidatorsHelper.fullName(context.i18n.invalidNameError),
-                      ValidatorsHelper.maxLengthValidator(16, context.i18n.fullNameMaxCharactersError),
+                      ValidatorsHelper.maxLengthValidator(
+                          16, context.i18n.fullNameMaxCharactersError),
                     ]),
                   ),
                 ),
@@ -181,6 +182,7 @@ class _SignUpPageState extends State<SignUpPage> {
                   builder: (context, state) {
                     return FalaTuButton(
                       label: context.i18n.confirm,
+                      isLoading: state is LoadingState,
                       onTap: () {
                         if (_formKey.currentState!.validate()) {
                           _signUpBloc.call(

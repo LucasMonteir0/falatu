@@ -10,6 +10,8 @@ import "package:falatu_mobile/chat/core/domain/usecases/create_chat/create_chat_
 import "package:falatu_mobile/chat/core/domain/usecases/create_chat/create_chat_use_case_impl.dart";
 import "package:falatu_mobile/chat/core/domain/usecases/get_old_messages/add_old_messages_use_case.dart";
 import "package:falatu_mobile/chat/core/domain/usecases/get_old_messages/add_old_messages_use_case_impl.dart";
+import "package:falatu_mobile/chat/core/domain/usecases/leave_chat_use_case/leave_chat_use_case.dart";
+import "package:falatu_mobile/chat/core/domain/usecases/leave_chat_use_case/leave_chat_use_case_impl.dart";
 import "package:falatu_mobile/chat/core/domain/usecases/load_chats/load_chats_use_case.dart";
 import "package:falatu_mobile/chat/core/domain/usecases/load_chats/load_chats_use_case_impl.dart";
 import "package:falatu_mobile/chat/core/domain/usecases/load_messages/load_messages_use_case.dart";
@@ -36,7 +38,7 @@ class ChatModule extends Module {
         //DATASOURCES
         Bind.factory<ChatDatasource>((i) => ChatDatasourceImpl(i(), i())),
         Bind.factory<MessagesDatasource>(
-            (i) => MessagesDatasourceImpl(i(), i())),
+            (i) => MessagesDatasourceImpl(i(), i(), i(), i())),
 
         //REPOSITORIES
         Bind.factory<ChatRepository>((i) => ChatRepositoryImpl(i())),
@@ -51,12 +53,13 @@ class ChatModule extends Module {
         Bind.factory<AddOldMessagesUseCase>(
             (i) => AddOldMessagesUseCaseImpl(i())),
         Bind.factory<CreateChatUseCase>((i) => CreateChatUseCaseImpl(i())),
+        Bind.factory<LeaveChatUseCase>((i) => LeaveChatUseCaseImpl(i())),
 
         //BLOCS
         Bind.lazySingleton<LoadChatsBloc>((i) => LoadChatsBloc(i())),
-        Bind.factory<LoadMessagesBloc>((i) => LoadMessagesBloc(i())),
+        Bind.factory<LoadMessagesBloc>((i) => LoadMessagesBloc(i(), i())),
         Bind.factory<AddOldMessagesBloc>((i) => AddOldMessagesBloc(i())),
-        Bind.factory<SendMessageBloc>((i) => SendMessageBloc(i(), i())),
+        Bind.factory<SendMessageBloc>((i) => SendMessageBloc(i())),
         Bind.factory<CreateChatBloc>((i) => CreateChatBloc(i())),
       ];
 

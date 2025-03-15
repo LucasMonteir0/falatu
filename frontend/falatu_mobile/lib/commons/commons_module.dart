@@ -5,16 +5,20 @@ import "package:falatu_mobile/commons/core/data/datasources/users/users_commons_
 import "package:falatu_mobile/commons/core/data/datasources/users/users_commons_datasource_impl.dart";
 import "package:falatu_mobile/commons/core/data/repositories/auth/auth_commons_repository_impl.dart";
 import "package:falatu_mobile/commons/core/data/repositories/users/users_commons_repository_impl.dart";
-import "package:falatu_mobile/commons/core/data/services/file_picker_service/file_picker_service.dart";
 import "package:falatu_mobile/commons/core/data/services/file_picker_service/file_picker_service_impl.dart";
-import "package:falatu_mobile/commons/core/data/services/http_service/http_service.dart";
+import "package:falatu_mobile/commons/core/data/services/file_service/file_service_impl.dart";
 import "package:falatu_mobile/commons/core/data/services/http_service/http_service_impl.dart";
-import "package:falatu_mobile/commons/core/data/services/shared_preferences_services/shared_preferences_services.dart";
+import "package:falatu_mobile/commons/core/data/services/share_service/share_service_impl.dart";
 import "package:falatu_mobile/commons/core/data/services/shared_preferences_services/shared_preferences_services_impl.dart";
-import "package:falatu_mobile/commons/core/data/services/socket_io_service/socket_io_service.dart";
 import "package:falatu_mobile/commons/core/data/services/socket_io_service/socket_io_service_impl.dart";
 import "package:falatu_mobile/commons/core/domain/repositories/auth/auth_commons_repository.dart";
 import "package:falatu_mobile/commons/core/domain/repositories/users/users_commons_repository.dart";
+import "package:falatu_mobile/commons/core/domain/services/file_picker_service/file_picker_service.dart";
+import "package:falatu_mobile/commons/core/domain/services/file_service/file_service.dart";
+import "package:falatu_mobile/commons/core/domain/services/http_service/http_service.dart";
+import "package:falatu_mobile/commons/core/domain/services/share_service/share_service.dart";
+import "package:falatu_mobile/commons/core/domain/services/shared_preferences_services/shared_preferences_services.dart";
+import "package:falatu_mobile/commons/core/domain/services/socket_io_service/socket_io_service.dart";
 import "package:falatu_mobile/commons/core/domain/usecases/get_non_friends/get_non_friends_use_case.dart";
 import "package:falatu_mobile/commons/core/domain/usecases/get_non_friends/get_non_friends_use_case_impl.dart";
 import "package:falatu_mobile/commons/core/domain/usecases/get_user/get_user_use_case.dart";
@@ -25,6 +29,7 @@ import "package:falatu_mobile/commons/core/domain/usecases/update_access_token/u
 import "package:falatu_mobile/commons/core/domain/usecases/update_access_token/update_access_token_use_case_impl.dart";
 import "package:falatu_mobile/commons/ui/blocs/get_non_friends_bloc.dart";
 import "package:falatu_mobile/commons/ui/blocs/get_user_bloc.dart";
+import "package:falatu_mobile/commons/ui/blocs/share_bloc/share_files_bloc.dart";
 import "package:falatu_mobile/commons/ui/blocs/sign_out_bloc.dart";
 import "package:falatu_mobile/commons/ui/blocs/update_access_token_bloc.dart";
 import "package:flutter_modular/flutter_modular.dart";
@@ -38,6 +43,8 @@ class CommonsModule extends Module {
         Bind.lazySingleton<SharedPreferencesService>(
             (i) => SharedPreferencesServiceImpl(),
             export: true),
+        Bind.factory<FileService>((i) => FileServiceImpl(i()), export: true),
+        Bind.factory<ShareService>((i) => ShareServiceImpl(), export: true),
         Bind.lazySingleton<HttpService>(
             (i) => HttpServiceImpl(
                   Dio(),
@@ -91,5 +98,6 @@ class CommonsModule extends Module {
         Bind.lazySingleton<GetUserBloc>((i) => GetUserBloc(i()), export: true),
         Bind.factory<GetNonFriendsBloc>((i) => GetNonFriendsBloc(i()),
             export: true),
+        Bind.factory<ShareFilesBloc>((i) => ShareFilesBloc(i()), export: true),
       ];
 }

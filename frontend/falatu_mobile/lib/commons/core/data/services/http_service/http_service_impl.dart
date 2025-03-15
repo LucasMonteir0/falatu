@@ -1,6 +1,8 @@
+import "dart:io";
+import "package:cross_file/cross_file.dart";
 import "package:dio/dio.dart";
-import "package:falatu_mobile/commons/core/data/services/http_service/http_service.dart";
-import "package:falatu_mobile/commons/core/data/services/shared_preferences_services/shared_preferences_services.dart";
+import "package:falatu_mobile/commons/core/domain/services/http_service/http_service.dart";
+import "package:falatu_mobile/commons/core/domain/services/shared_preferences_services/shared_preferences_services.dart";
 import "package:flutter/foundation.dart";
 import "package:jwt_decoder/jwt_decoder.dart";
 
@@ -30,7 +32,7 @@ class HttpServiceImpl extends HttpService {
         },
         onResponse: (response, handler) {
           if (kDebugMode) {
-            print("RESPONSE[${response.statusCode}] => DATA: ${response.data}");
+            print("RESPONSE[${response.statusCode}] => DATA: ${response.data is List<int> ? 'BYTES => List<int>' : response.data}");
           }
           handler.next(response);
         },
@@ -52,10 +54,9 @@ class HttpServiceImpl extends HttpService {
           String? access = preferences.getUserAccessToken();
           String? refresh = preferences.getUserRefreshToken();
           if (access != null && access.isNotEmpty) {
-
             //Verifica se o access token está expirado.
-            if (JwtDecoder.isExpired(access) && !options.path.contains("refresh-token")) {
-
+            if (JwtDecoder.isExpired(access) &&
+                !options.path.contains("refresh-token")) {
               //Se o refresh estiver expirado, então deslogará o usuário.
               if (refresh != null &&
                   JwtDecoder.isExpired(refresh) &&
@@ -79,6 +80,36 @@ class HttpServiceImpl extends HttpService {
         },
       ),
     );
+  }
+
+  Future<ApiResponse<XFile>> _fileRequest(
+      Future<Response<dynamic>> futureRequest, final String savePath) async {
+    try {
+      Response response = await futureRequest;
+
+      final Uint8List bytes = Uint8List.fromList(response.data ?? []);
+
+      final File file = File(savePath);
+      await file.writeAsBytes(bytes);
+
+      final ApiResponse<XFile> result = ApiResponse<XFile>(
+        data: XFile(file.path),
+        statusCode: response.statusCode,
+        statusMessage: response.statusMessage,
+        headers: response.headers.map,
+      );
+
+      return result;
+    } catch (e) {
+      if (e is DioException) {
+        throw ApiError.fromDioException(e);
+      } else {
+        throw ApiError(
+          message: e.toString(),
+          errorType: DioExceptionType.unknown,
+        );
+      }
+    }
   }
 
   Future<ApiResponse<T>> _request<T>(Future<Response<T>> futureRequest) async {
@@ -121,5 +152,15 @@ class HttpServiceImpl extends HttpService {
   @override
   Future<ApiResponse<T>> patch<T>(String path, {dynamic data}) async {
     return await _request<T>(_dio.patch(path, data: data));
+  }
+
+  @override
+  Future<ApiResponse<XFile>> download(String url,
+      {required String savePath, Map<String, dynamic>? queryParameters}) async {
+    return await _fileRequest(
+        _dio.get(url,
+            options: Options(responseType: ResponseType.bytes),
+            queryParameters: queryParameters),
+        savePath);
   }
 }

@@ -10,22 +10,22 @@ export class CreateMessageDto {
 
   public text?: string;
 
-  public mediaFile?: Express.Multer.File;
+  public mediaUrl?: string;
 
   constructor({
     senderId,
     type,
     text,
-    mediaFile,
+    mediaUrl,
   }: {
     senderId: string;
     type: MessageType;
     text?: string;
-    mediaFile?: Express.Multer.File;
+    mediaUrl?: string;
   }) {
     this.senderId = senderId;
     this.type = type;
     this.text = text;
-    this.mediaFile = mediaFile;
+    this.mediaUrl = mediaUrl;
   }
 }

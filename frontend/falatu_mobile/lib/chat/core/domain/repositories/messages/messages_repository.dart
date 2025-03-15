@@ -1,5 +1,5 @@
 import "package:falatu_mobile/chat/core/domain/entities/message/message_entity.dart";
-import "package:falatu_mobile/chat/core/domain/entities/message/send_message_entity.dart";
+import "package:falatu_mobile/chat/core/domain/entities/message/send/send_message_entity.dart";
 import "package:falatu_mobile/commons/core/domain/entities/result_wrapper.dart";
 
 abstract class MessagesRepository {
@@ -9,4 +9,6 @@ abstract class MessagesRepository {
   void addOldMessages(String chatId, int page);
 
   void sendMessage(String chatId, SendMessageEntity message);
+
+  void leaveChat();
 }

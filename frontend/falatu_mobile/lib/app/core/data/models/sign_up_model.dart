@@ -21,7 +21,7 @@ class SignUpModel extends SignUpEntity {
 
   Future<FormData> toFormData() async {
     final imageFile = await picture.let((v) async =>
-        await HttpSendFilesHelper.fromBytes(
+        await HttpSendFilesHelper.fromFile(
             v, DioMediaType("image", v.extension)));
 
     return FormData.fromMap({

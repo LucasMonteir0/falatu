@@ -86,7 +86,10 @@ class _MessagesListViewState extends State<MessagesListView>
         itemComparator: (e1, e2) => e1.createdAt.compareTo(e2.createdAt),
         groupComparator: (e1, e2) => e1.compareTo(e2),
         order: GroupedListOrder.DESC,
-        groupHeaderBuilder: (e) => _GroupHeaderChip(message: e),
+        groupHeaderBuilder: (e) => Padding(
+          padding: const EdgeInsets.symmetric(vertical: 16.0),
+          child: _GroupHeaderChip(message: e),
+        ),
         indexedItemBuilder: widget.builder,
       ),
     );

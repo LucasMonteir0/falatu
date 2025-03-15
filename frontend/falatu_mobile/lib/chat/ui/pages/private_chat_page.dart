@@ -1,18 +1,21 @@
 import "package:falatu_mobile/chat/core/domain/entities/chat/private_chat_entity.dart";
+import "package:falatu_mobile/chat/core/domain/entities/message/file_message_entity.dart";
 import "package:falatu_mobile/chat/core/domain/entities/message/message_entity.dart";
-import "package:falatu_mobile/chat/core/domain/entities/message/send_message_entity.dart";
+import "package:falatu_mobile/chat/core/domain/entities/message/send/send_text_message_entity.dart";
 import "package:falatu_mobile/chat/core/domain/entities/message/text_message_entity.dart";
 import "package:falatu_mobile/chat/ui/blocs/add_old_messages/add_old_messages.dart";
 import "package:falatu_mobile/chat/ui/blocs/load_messages/load_messages_bloc.dart";
 import "package:falatu_mobile/chat/ui/blocs/load_messages/message_events.dart";
 import "package:falatu_mobile/chat/ui/blocs/send_message/send_messge_bloc.dart";
 import "package:falatu_mobile/chat/ui/components/chat_app_bar_content.dart";
+import "package:falatu_mobile/chat/ui/components/media/pick_files_bottom_sheet.dart";
 import "package:falatu_mobile/chat/ui/components/message_input.dart";
+import "package:falatu_mobile/chat/ui/components/messages/file_message_card.dart";
 import "package:falatu_mobile/chat/ui/components/messages/messages_list_view.dart";
 import "package:falatu_mobile/chat/ui/components/messages/text_message_card.dart";
 import "package:falatu_mobile/chat/utils/enums/message_type.dart";
 import "package:falatu_mobile/chat/utils/strings/tags.dart";
-import "package:falatu_mobile/commons/core/data/services/shared_preferences_services/shared_preferences_services.dart";
+import "package:falatu_mobile/commons/core/domain/services/shared_preferences_services/shared_preferences_services.dart";
 import "package:falatu_mobile/commons/ui/components/falatu_circular_progress_indicator.dart";
 import "package:falatu_mobile/commons/ui/components/falatu_icon.dart";
 import "package:falatu_mobile/commons/ui/components/falatu_splash_effect.dart";
@@ -57,6 +60,14 @@ class _PrivateChatPageState extends State<PrivateChatPage> {
   }
 
   @override
+  void dispose() {
+    _scrollController.dispose();
+    _loadMessagesBloc.close();
+    _addOldMessagesBloc.close();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Container(
       decoration: BoxDecoration(
@@ -71,7 +82,7 @@ class _PrivateChatPageState extends State<PrivateChatPage> {
         backgroundColor: Colors.transparent,
         appBar: AppBar(
           backgroundColor: Colors.transparent,
-          leadingWidth: 30,
+          // leadingWidth: 30,
           centerTitle: false,
           forceMaterialTransparency: true,
           title: Hero(
@@ -125,10 +136,20 @@ class _PrivateChatPageState extends State<PrivateChatPage> {
                         final bool isMe =
                             message.sender.id == _preferences.getUserId();
 
-                        if (message is TextMessageEntity) {
-                          return TextMessageCard(message: message, isMe: isMe);
+                        switch (message.type) {
+                          case MessageType.text:
+                            return TextMessageCard(
+                              message: message as TextMessageEntity,
+                              isMe: isMe,
+                            );
+                          case MessageType.file:
+                            return FileMessageCard(
+                              message: message as FileMessageEntity,
+                              isMe: isMe,
+                            );
+                          default:
+                            return Text(message.id);
                         }
-                        return Text(message.id);
                       },
                     );
                   }
@@ -155,7 +176,11 @@ class _PrivateChatPageState extends State<PrivateChatPage> {
                 child: Row(
                   children: [
                     Expanded(
-                      child: MessageInput(controller: _textMessageController),
+                      child: MessageInput(
+                        controller: _textMessageController,
+                        onAddTap: () => PickFilesBottomSheet.show(context,
+                            chatId: widget.chat.id),
+                      ),
                     ),
                     4.pw,
                     FalaTuSplashEffect(
@@ -165,9 +190,8 @@ class _PrivateChatPageState extends State<PrivateChatPage> {
                           return;
                         }
                         final userId = _preferences.getUserId();
-                        final message = SendMessageEntity(
+                        final message = SendTextMessageEntity(
                             senderId: userId!,
-                            type: MessageType.text,
                             text: _textMessageController.text.trim());
 
                         _sendMessageBloc.call(widget.chat.id, message);

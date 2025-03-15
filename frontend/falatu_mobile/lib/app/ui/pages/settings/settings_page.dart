@@ -36,7 +36,7 @@ class SettingsPage extends StatelessWidget {
         return Stack(
           children: [
             RoundBackgroundContainer(
-              child: FalatuImage.asset(
+              child: FalaTuImage.asset(
                 image: FalaTuImagesEnum.background,
                 height: containerHeight,
                 width: double.infinity,

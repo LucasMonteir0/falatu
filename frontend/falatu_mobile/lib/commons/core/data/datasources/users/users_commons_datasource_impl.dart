@@ -1,9 +1,9 @@
 import "package:falatu_mobile/commons/core/data/datasources/users/users_commons_datasource.dart";
 import "package:falatu_mobile/commons/core/data/models/user_model.dart";
-import "package:falatu_mobile/commons/core/data/services/http_service/http_service.dart";
-import "package:falatu_mobile/commons/core/data/services/shared_preferences_services/shared_preferences_services.dart";
 import "package:falatu_mobile/commons/core/domain/entities/result_wrapper.dart";
 import "package:falatu_mobile/commons/core/domain/entities/user_entity.dart";
+import "package:falatu_mobile/commons/core/domain/services/http_service/http_service.dart";
+import "package:falatu_mobile/commons/core/domain/services/shared_preferences_services/shared_preferences_services.dart";
 import "package:falatu_mobile/commons/utils/errors/errors.dart";
 import "package:falatu_mobile/commons/utils/errors/handle_error.dart";
 import "package:falatu_mobile/commons/utils/helpers/url_helpers.dart";

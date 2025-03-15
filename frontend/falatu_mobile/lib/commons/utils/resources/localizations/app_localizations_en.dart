@@ -155,4 +155,22 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get settings => 'Settings';
+
+  @override
+  String get gallery => 'Gallery';
+
+  @override
+  String get camera => 'Camera';
+
+  @override
+  String get files => 'Files';
+
+  @override
+  String get photos => 'Photos';
+
+  @override
+  String get videos => 'Videos';
+
+  @override
+  String get photo => 'Photo';
 }

@@ -48,5 +48,12 @@
 "signOut": "Sair da conta",
 "welcomeText": "Olá, seja bem-vindo ao FalaTu! Antes de começar, vamos personalizar sua experiência configurando algumas preferências.",
 "continueLabel": "Prosseguir",
-"settings": "Configurações"
+"settings": "Configurações",
+"gallery": "Galeria",
+"camera": "Câmera",
+"files": "Arquivos",
+"photos": "Fotos",
+"videos": "Vídeos",
+"photo": "Foto",
+"video": "Vídeo"
 }

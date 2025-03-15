@@ -1,3 +1,5 @@
+import "package:cross_file/cross_file.dart";
+import "package:falatu_mobile/chat/core/data/models/message/file_message_model.dart";
 import "package:falatu_mobile/chat/core/data/models/message/text_message_model.dart";
 import "package:falatu_mobile/chat/core/domain/entities/message/message_entity.dart";
 import "package:falatu_mobile/chat/utils/enums/message_type.dart";
@@ -9,7 +11,7 @@ class MessageModel extends MessageEntity {
       required super.type,
       required super.createdAt});
 
-  factory MessageModel.fromJson(Map<String, dynamic> json) {
+  factory MessageModel.fromJson(Map<String, dynamic> json, {XFile? file}) {
     final type = MessageType.fromValue(json["type"]);
 
     switch (type) {
@@ -24,8 +26,8 @@ class MessageModel extends MessageEntity {
         // TODO: Handle this case.
         throw UnimplementedError();
       case MessageType.file:
-        // TODO: Handle this case.
-        throw UnimplementedError();
+        return FileMessageModel.fromJson(json, file);
+
     }
   }
 
@@ -42,8 +44,7 @@ class MessageModel extends MessageEntity {
         // TODO: Handle this case.
         throw UnimplementedError();
       case MessageType.file:
-        // TODO: Handle this case.
-        throw UnimplementedError();
+        return (this as FileMessageModel).toEntity();
     }
   }
 }

@@ -8,9 +8,14 @@ class MessageInput extends StatelessWidget {
   final TextEditingController? controller;
   final FocusNode? focusNode;
   final void Function(String)? onSubmitted;
+  final void Function()? onAddTap;
 
   const MessageInput(
-      {super.key, this.controller, this.focusNode, this.onSubmitted});
+      {super.key,
+      this.controller,
+      this.focusNode,
+      this.onSubmitted,
+      this.onAddTap});
 
   @override
   Widget build(BuildContext context) {
@@ -34,7 +39,7 @@ class MessageInput extends StatelessWidget {
           children: [
             FalaTuSplashEffect(
               size: 36,
-              onTap: () {},
+              onTap: onAddTap,
               backgroundColor: colors.primary,
               borderRadius: BorderRadius.circular(100),
               padding: const EdgeInsets.all(4),

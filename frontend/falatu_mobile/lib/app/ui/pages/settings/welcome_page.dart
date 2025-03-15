@@ -1,5 +1,5 @@
 import "package:falatu_mobile/app/ui/components/resources_config_card.dart";
-import "package:falatu_mobile/commons/core/data/services/shared_preferences_services/shared_preferences_services.dart";
+import "package:falatu_mobile/commons/core/domain/services/shared_preferences_services/shared_preferences_services.dart";
 import "package:falatu_mobile/commons/ui/components/falatu_button.dart";
 import "package:falatu_mobile/commons/ui/components/falatu_icon.dart";
 import "package:falatu_mobile/commons/ui/components/falatu_image.dart";
@@ -26,7 +26,7 @@ class WelcomePage extends StatelessWidget {
       body: Stack(
         children: [
           RoundBackgroundContainer(
-            child: FalatuImage.asset(
+            child: FalaTuImage.asset(
               image: FalaTuImagesEnum.background,
               height: containerHeight,
               width: double.infinity,

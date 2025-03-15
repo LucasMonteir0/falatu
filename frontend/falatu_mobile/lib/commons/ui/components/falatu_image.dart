@@ -5,14 +5,14 @@ import "package:falatu_mobile/commons/utils/enums/images_enum.dart";
 import "package:flutter/foundation.dart";
 import "package:flutter/material.dart";
 
-class FalatuImage extends StatelessWidget {
+class FalaTuImage extends StatelessWidget {
   final double? height;
   final double? width;
   final BoxFit fit;
   static const String _path = "assets/images/";
   final Widget image;
 
-  FalatuImage.network(
+  FalaTuImage.network(
       {required String url,
       super.key,
       this.width,
@@ -21,7 +21,7 @@ class FalatuImage extends StatelessWidget {
       : image = FalaTuNetworkImage(
             url: url, fit: fit, width: width, height: height);
 
-  FalatuImage.asset(
+  FalaTuImage.asset(
       {required FalaTuImagesEnum image,
       super.key,
       this.width,
@@ -30,7 +30,7 @@ class FalatuImage extends StatelessWidget {
       : image = Image.asset(_path + image.value,
             height: height, width: width, fit: fit);
 
-  FalatuImage.memory(
+  FalaTuImage.memory(
       {required Uint8List bytes,
       super.key,
       this.width,
@@ -38,7 +38,7 @@ class FalatuImage extends StatelessWidget {
       this.fit = BoxFit.contain})
       : image = Image.memory(bytes, height: height, width: width, fit: fit);
 
-  FalatuImage.xFile({
+  FalaTuImage.xFile({
     required XFile file,
     super.key,
     this.width,

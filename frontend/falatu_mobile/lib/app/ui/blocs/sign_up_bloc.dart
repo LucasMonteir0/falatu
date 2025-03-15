@@ -1,4 +1,4 @@
-import "dart:io";
+import "package:cross_file/cross_file.dart";
 import "package:falatu_mobile/app/core/domain/entities/sign_up_entity.dart";
 import "package:falatu_mobile/app/core/domain/usecases/sign_up/sign_up_use_case.dart";
 import "package:falatu_mobile/commons/core/domain/entities/user_entity.dart";
@@ -16,7 +16,7 @@ class SignUpBloc extends Cubit<BaseState> {
     required String email,
     required String password,
     required String confirmPassword,
-    File? picture,
+    XFile? picture,
   }) async {
     emit(LoadingState());
     final result = await _useCase.call(SignUpEntity(
