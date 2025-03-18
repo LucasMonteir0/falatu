@@ -125,6 +125,7 @@ class _SendMessagesSectionState extends State<SendMessagesSection> {
                       ),
                     ),
                   BlocListener<SendMessageBloc, BaseState>(
+                    bloc: widget.bloc,
                     listener: (context, state) {
                       if (state is SuccessState) {
                         _recordedFile?.deleteSync();

@@ -175,14 +175,10 @@ class _PrivateChatPageState extends State<PrivateChatPage> {
               child: Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                child: BlocBuilder<SendMessageBloc, BaseState>(
-                  builder: (context, state) {
-                    return SendMessagesSection(
-                      textController: _textMessageController,
-                      chatId: widget.chat.id,
-                      bloc: _sendMessageBloc,
-                    );
-                  },
+                child: SendMessagesSection(
+                  textController: _textMessageController,
+                  chatId: widget.chat.id,
+                  bloc: _sendMessageBloc,
                 ),
               ),
             )
