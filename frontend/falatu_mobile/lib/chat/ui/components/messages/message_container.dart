@@ -6,6 +6,7 @@ class MessageContainer extends StatelessWidget {
   final bool isMe;
   final DateTime createdAt;
   final bool wasSeen;
+  final double? maxWidth;
 
   const MessageContainer({
     required this.content,
@@ -13,6 +14,7 @@ class MessageContainer extends StatelessWidget {
     required this.wasSeen,
     required this.isMe,
     super.key,
+    this.maxWidth,
   });
 
   static const Radius _radius = Radius.circular(24);
@@ -25,8 +27,8 @@ class MessageContainer extends StatelessWidget {
     return Align(
       alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
       child: ConstrainedBox(
-        constraints:
-            BoxConstraints(maxWidth: MediaQuery.of(context).size.width * 0.7),
+        constraints: BoxConstraints(
+            maxWidth: maxWidth ?? MediaQuery.of(context).size.width * 0.7),
         child: IntrinsicWidth(
           child: Column(
             crossAxisAlignment:

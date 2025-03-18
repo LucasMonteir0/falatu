@@ -44,7 +44,7 @@ class _FileMessageCardState extends State<FileMessageCard> {
         isMe: widget.isMe,
         content: Builder(builder: (context) {
           if (widget.message.file == null) {
-            return const Text("NULOOOOOOOO");
+            return const SizedBox.shrink();
           }
           return SizedBox(
             height: 46,
@@ -83,18 +83,18 @@ class _FileMessageCardState extends State<FileMessageCard> {
                     if (state is ShareLoadingState) {
                       return SizedBox.square(
                         dimension: 40,
-                        child:
-                            Padding(
-                              padding: const EdgeInsets.all(5.0),
-                              child: CircularProgressIndicator(color: colors.onSurface),
-                            ),
+                        child: Padding(
+                          padding: const EdgeInsets.all(5.0),
+                          child: CircularProgressIndicator(
+                              color: colors.onSurface),
+                        ),
                       );
                     }
                     return SizedBox.square(
                       dimension: 40,
                       child: FalaTuIcon(
                         icon: FalaTuIconsEnum.downloadFilled,
-                        onTap: () => _share.call(files: [widget.message.file!]),
+                        onTap: () => _share.call(file: widget.message.file!),
                         color: colors.onSurface,
                       ),
                     );

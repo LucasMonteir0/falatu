@@ -2,6 +2,7 @@ import "dart:async";
 import "package:cross_file/cross_file.dart";
 import "package:dio/dio.dart";
 import "package:falatu_mobile/chat/core/data/datasources/messages/messages_datasource.dart";
+import "package:falatu_mobile/chat/core/data/models/message/audio_message_model.dart";
 import "package:falatu_mobile/chat/core/data/models/message/file_message_model.dart";
 import "package:falatu_mobile/chat/core/data/models/message/message_model.dart";
 import "package:falatu_mobile/chat/core/data/models/message/send/send_message_model.dart";
@@ -62,6 +63,10 @@ class MessagesDatasourceImpl implements MessagesDatasource {
         if (e["type"] == MessageType.file.name) {
           final file = await _file.fileFromUrl(e["mediaUrl"]);
           return FileMessageModel.fromJson(e, file).toEntity();
+        }
+        if (e["type"] == MessageType.audio.name) {
+          final file = await _file.fileFromUrl(e["mediaUrl"]);
+          return AudioMessageModel.fromJson(e, file).toEntity();
         }
         return MessageModel.fromJson(e).toEntity();
       }).toList();

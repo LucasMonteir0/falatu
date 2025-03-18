@@ -18,12 +18,11 @@ class ShareServiceResult {
   ShareServiceResult({required this.raw, required this.status});
 }
 
-
 abstract class ShareService {
   Future<ShareServiceResult> files({
-    required List<XFile> files,
+    required XFile file,
     String? subject,
     String? text,
-    List<String>? fileNameOverrides,
+    String? fileNameOverrides,
   });
 }

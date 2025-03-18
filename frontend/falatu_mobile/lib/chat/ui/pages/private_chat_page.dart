@@ -1,27 +1,23 @@
 import "package:falatu_mobile/chat/core/domain/entities/chat/private_chat_entity.dart";
+import "package:falatu_mobile/chat/core/domain/entities/message/audio_message_entity.dart";
 import "package:falatu_mobile/chat/core/domain/entities/message/file_message_entity.dart";
 import "package:falatu_mobile/chat/core/domain/entities/message/message_entity.dart";
-import "package:falatu_mobile/chat/core/domain/entities/message/send/send_text_message_entity.dart";
 import "package:falatu_mobile/chat/core/domain/entities/message/text_message_entity.dart";
 import "package:falatu_mobile/chat/ui/blocs/add_old_messages/add_old_messages.dart";
 import "package:falatu_mobile/chat/ui/blocs/load_messages/load_messages_bloc.dart";
 import "package:falatu_mobile/chat/ui/blocs/load_messages/message_events.dart";
 import "package:falatu_mobile/chat/ui/blocs/send_message/send_messge_bloc.dart";
 import "package:falatu_mobile/chat/ui/components/chat_app_bar_content.dart";
-import "package:falatu_mobile/chat/ui/components/media/pick_files_bottom_sheet.dart";
-import "package:falatu_mobile/chat/ui/components/message_input.dart";
+import "package:falatu_mobile/chat/ui/components/messages/audio_message_card.dart";
 import "package:falatu_mobile/chat/ui/components/messages/file_message_card.dart";
 import "package:falatu_mobile/chat/ui/components/messages/messages_list_view.dart";
 import "package:falatu_mobile/chat/ui/components/messages/text_message_card.dart";
+import "package:falatu_mobile/chat/ui/components/send_message/send_messages_section.dart";
 import "package:falatu_mobile/chat/utils/enums/message_type.dart";
 import "package:falatu_mobile/chat/utils/strings/tags.dart";
 import "package:falatu_mobile/commons/core/domain/services/shared_preferences_services/shared_preferences_services.dart";
 import "package:falatu_mobile/commons/ui/components/falatu_circular_progress_indicator.dart";
-import "package:falatu_mobile/commons/ui/components/falatu_icon.dart";
-import "package:falatu_mobile/commons/ui/components/falatu_splash_effect.dart";
-import "package:falatu_mobile/commons/utils/enums/icons_enum.dart";
 import "package:falatu_mobile/commons/utils/enums/images_enum.dart";
-import "package:falatu_mobile/commons/utils/extensions/num_extensions.dart";
 import "package:falatu_mobile/commons/utils/states/base_state.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
@@ -147,6 +143,12 @@ class _PrivateChatPageState extends State<PrivateChatPage> {
                               message: message as FileMessageEntity,
                               isMe: isMe,
                             );
+                          case MessageType.audio:
+                            return AudioMessageCard(
+                              key: ValueKey(message.id),
+                              message: message as AudioMessageEntity,
+                              isMe: isMe,
+                            );
                           default:
                             return Text(message.id);
                         }
@@ -173,36 +175,14 @@ class _PrivateChatPageState extends State<PrivateChatPage> {
               child: Padding(
                 padding:
                     const EdgeInsets.symmetric(horizontal: 16.0, vertical: 8.0),
-                child: Row(
-                  children: [
-                    Expanded(
-                      child: MessageInput(
-                        controller: _textMessageController,
-                        onAddTap: () => PickFilesBottomSheet.show(context,
-                            chatId: widget.chat.id),
-                      ),
-                    ),
-                    4.pw,
-                    FalaTuSplashEffect(
-                      borderRadius: BorderRadius.circular(100),
-                      onTap: () {
-                        if (_textMessageController.text.trim().isEmpty) {
-                          return;
-                        }
-                        final userId = _preferences.getUserId();
-                        final message = SendTextMessageEntity(
-                            senderId: userId!,
-                            text: _textMessageController.text.trim());
-
-                        _sendMessageBloc.call(widget.chat.id, message);
-
-                        _textMessageController.clear();
-                      },
-                      child: const FalaTuIcon(
-                        icon: FalaTuIconsEnum.sendFilled,
-                      ),
-                    ),
-                  ],
+                child: BlocBuilder<SendMessageBloc, BaseState>(
+                  builder: (context, state) {
+                    return SendMessagesSection(
+                      textController: _textMessageController,
+                      chatId: widget.chat.id,
+                      bloc: _sendMessageBloc,
+                    );
+                  },
                 ),
               ),
             )

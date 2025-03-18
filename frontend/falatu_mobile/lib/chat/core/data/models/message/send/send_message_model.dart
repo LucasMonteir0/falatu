@@ -1,5 +1,7 @@
+import "package:falatu_mobile/chat/core/data/models/message/send/send_audio_message_model.dart";
 import "package:falatu_mobile/chat/core/data/models/message/send/send_file_message_model.dart";
 import "package:falatu_mobile/chat/core/data/models/message/send/send_text_message_model.dart";
+import "package:falatu_mobile/chat/core/domain/entities/message/send/send_audio_message_entity.dart";
 import "package:falatu_mobile/chat/core/domain/entities/message/send/send_file_message_entity.dart";
 import "package:falatu_mobile/chat/core/domain/entities/message/send/send_message_entity.dart";
 import "package:falatu_mobile/chat/core/domain/entities/message/send/send_text_message_entity.dart";
@@ -17,7 +19,8 @@ class SendMessageModel extends SendMessageEntity {
       case MessageType.text:
         return SendTextMessageModel.fromObject(object as SendTextMessageEntity);
       case MessageType.audio:
-        throw UnimplementedError();
+        return SendAudioMessageModel.fromObject(
+            object as SendAudioMessageEntity);
       case MessageType.video:
         // TODO: Handle this case.
         throw UnimplementedError();
@@ -34,7 +37,7 @@ class SendMessageModel extends SendMessageEntity {
       case MessageType.text:
         return (this as SendTextMessageModel).toJson();
       case MessageType.audio:
-        throw UnimplementedError();
+        return (this as SendAudioMessageModel).toJson();
       case MessageType.video:
         // TODO: Handle this case.
         throw UnimplementedError();

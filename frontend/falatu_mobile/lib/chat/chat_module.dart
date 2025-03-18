@@ -1,11 +1,16 @@
+import "package:audio_waveforms/audio_waveforms.dart";
 import "package:falatu_mobile/chat/core/data/datasources/chat/chat_datasource.dart";
 import "package:falatu_mobile/chat/core/data/datasources/chat/chat_datasource_impl.dart";
 import "package:falatu_mobile/chat/core/data/datasources/messages/messages_datasource.dart";
 import "package:falatu_mobile/chat/core/data/datasources/messages/messages_datasource_impl.dart";
 import "package:falatu_mobile/chat/core/data/repositories/chat/chat_repository_impl.dart";
 import "package:falatu_mobile/chat/core/data/repositories/messages/messages_repository_impl.dart";
+import "package:falatu_mobile/chat/core/data/services/audio_player_service_impl.dart";
+import "package:falatu_mobile/chat/core/data/services/audio_recorder_service_impl.dart";
 import "package:falatu_mobile/chat/core/domain/repositories/chat/chat_repository.dart";
 import "package:falatu_mobile/chat/core/domain/repositories/messages/messages_repository.dart";
+import "package:falatu_mobile/chat/core/domain/services/audio_player_service.dart";
+import "package:falatu_mobile/chat/core/domain/services/audio_recorder_service.dart";
 import "package:falatu_mobile/chat/core/domain/usecases/create_chat/create_chat_use_case.dart";
 import "package:falatu_mobile/chat/core/domain/usecases/create_chat/create_chat_use_case_impl.dart";
 import "package:falatu_mobile/chat/core/domain/usecases/get_old_messages/add_old_messages_use_case.dart";
@@ -35,6 +40,11 @@ import "core/domain/usecases/send_message/send_message_use_case_impl.dart";
 class ChatModule extends Module {
   @override
   List<Bind<Object>> get binds => [
+        //SERVICES
+        Bind.factory<AudioRecorderService>((i) => AudioRecorderServiceImpl()),
+        Bind.factory<AudioPlayerService>(
+            (i) => AudioPlayerServiceImpl(PlayerController())),
+
         //DATASOURCES
         Bind.factory<ChatDatasource>((i) => ChatDatasourceImpl(i(), i())),
         Bind.factory<MessagesDatasource>(

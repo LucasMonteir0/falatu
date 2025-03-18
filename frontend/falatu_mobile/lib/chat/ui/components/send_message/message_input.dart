@@ -9,13 +9,15 @@ class MessageInput extends StatelessWidget {
   final FocusNode? focusNode;
   final void Function(String)? onSubmitted;
   final void Function()? onAddTap;
+  final void Function(String text)? onChanged;
 
   const MessageInput(
       {super.key,
       this.controller,
       this.focusNode,
       this.onSubmitted,
-      this.onAddTap});
+      this.onAddTap,
+      this.onChanged});
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +59,7 @@ class MessageInput extends StatelessWidget {
                   maxLines: 3,
                   minLines: 1,
                   textCapitalization: TextCapitalization.sentences,
+                  onChanged: onChanged,
                   decoration: _inputDecoration(context),
                   style: typography.bodyMedium,
                   textAlignVertical: TextAlignVertical.center,

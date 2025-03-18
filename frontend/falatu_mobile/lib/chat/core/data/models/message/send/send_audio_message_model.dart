@@ -17,8 +17,7 @@ class SendAudioMessageModel extends SendMessageModel {
 
   @override
   Map<String, dynamic> toJson() => {
-    "type": type.name,
-    "senderId": senderId,
-    "mediaFile": mediaFile,
-  };
+        "type": type.name,
+        "senderId": senderId,
+      };
 }

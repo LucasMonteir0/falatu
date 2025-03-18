@@ -12,13 +12,17 @@ enum FalaTuIconsEnum {
   darkMode("dark_mode.svg"),
   lockFilled("lock_filled.svg"),
   add("add.svg"),
+  mic("mic.svg"),
+  deleteFilled("delete_filled.svg"),
   personFilled("person_filled.svg"),
   image("image.svg"),
+  play("play.svg"),
   chatFilled("chat_filled.svg"),
   falatuLogomarca("falatu_logomarca.svg"),
   checkCircleOutlined("check_circle_outlined.svg"),
   closeCircleOutlined("close_circle_outlined.svg"),
   sendFilled("send_filled.svg"),
+  pause("pause.svg"),
   personAdd("person_add.svg"),
   visibilityOffFilled("visibility_off_filled.svg");
     

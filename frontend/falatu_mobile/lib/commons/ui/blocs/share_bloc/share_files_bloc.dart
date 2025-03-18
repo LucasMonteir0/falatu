@@ -9,14 +9,14 @@ class ShareFilesBloc extends Cubit<ShareState> {
   ShareFilesBloc(this._share) : super(ShareInitialState());
 
   void call({
-    required List<XFile> files,
+    required XFile file,
     String? subject,
     String? text,
-    List<String>? fileNameOverrides,
+    String? fileNameOverrides,
   }) async {
     emit(ShareLoadingState());
     final result = await _share.files(
-        files: files,
+        file: file,
         subject: subject,
         text: text,
         fileNameOverrides: fileNameOverrides);

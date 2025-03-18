@@ -1,4 +1,5 @@
 import "package:cross_file/cross_file.dart";
+import "package:falatu_mobile/chat/core/data/models/message/audio_message_model.dart";
 import "package:falatu_mobile/chat/core/data/models/message/file_message_model.dart";
 import "package:falatu_mobile/chat/core/data/models/message/text_message_model.dart";
 import "package:falatu_mobile/chat/core/domain/entities/message/message_entity.dart";
@@ -18,7 +19,7 @@ class MessageModel extends MessageEntity {
       case MessageType.text:
         return TextMessageModel.fromJson(json);
       case MessageType.audio:
-        throw UnimplementedError();
+        return AudioMessageModel.fromJson(json, file);
       case MessageType.video:
         // TODO: Handle this case.
         throw UnimplementedError();

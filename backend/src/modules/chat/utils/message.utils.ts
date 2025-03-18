@@ -28,6 +28,8 @@ export class MessageUtils {
   static handleFileMessageName(type: MessageType, originalName?: string) {
     if (type === MessageType.FILE) {
       return `${originalName}-fDTIME0:${new Date().toISOString()}`;
+    } else if (type === MessageType.AUDIO) {
+      return `AUDIO:${new Date().toISOString()}`;
     }
     return `${type}-${new Date().toISOString()}`;
   }

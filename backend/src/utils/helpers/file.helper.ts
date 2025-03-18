@@ -40,6 +40,7 @@ export class FileHelper {
     "midi": "audio/midi",
     "mjs": "text/javascript",
     "mp3": "audio/mpeg",
+    "m4a": "audio/mp4",
     "mp4": "video/mp4",
     "mpeg": "video/mpeg",
     "mpkg": "application/vnd.apple.installer+xml",

@@ -14,6 +14,11 @@ extension XFileExtensions on XFile {
 
   String get extension => path.split(".").last;
 
+  void deleteSync() {
+    final dir = Directory(path);
+    dir.deleteSync(recursive: true);
+  }
+
   int lengthSync() {
     return File(path).lengthSync();
   }
