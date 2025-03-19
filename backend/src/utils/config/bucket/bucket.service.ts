@@ -2,6 +2,9 @@ import { initializeApp } from "firebase/app";
 import { Injectable } from "@nestjs/common";
 import { firebaseConfig } from "../firebase.config";
 import { getDownloadURL, getStorage, ref, uploadBytes } from "firebase/storage";
+import { dotEnvConfig } from "../dotenv.config";
+
+dotEnvConfig();
 
 export type BucketOptions = {
   path: string;
@@ -22,17 +25,14 @@ export class BucketService {
   async uploadFile(options: BucketOptions): Promise<string> {
     const extParts = options.extension.split(".");
     const extension = extParts[extParts.length - 1];
-    const file = new File(
-      [options.file.buffer],
-      `${options.fileName}.${extension}`
-    );
+    const fileName = `${options.fileName}.${extension}`;
 
-    const storageRef = ref(this.storage, `${options.path}/${file.name}`);
+    const storageRef = ref(this.storage, `${options.path}/${fileName}`);
     const metadata = {
       contentType: options.contentType ?? options.file.mimetype,
     };
 
-    const result = await uploadBytes(storageRef, file, metadata);
+    const result = await uploadBytes(storageRef, options.file.buffer, metadata);
     return await getDownloadURL(result.ref);
   }
 

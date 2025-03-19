@@ -1,3 +1,8 @@
+import * as dotenv from "dotenv";
+import { dotEnvConfig } from "./dotenv.config";
+
+dotEnvConfig();
+
 export const firebaseConfig = {
   apiKey: process.env.FIREBASE_API_KEY,
   authDomain: process.env.FIREBASE_AUTH_DOMAIN,

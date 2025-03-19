@@ -2,18 +2,21 @@ version: '3.8'
 
 services:
   api:
-    build: .
+    build: 
+      context: .
     container_name: falatu-api
     depends_on:
       - postgres
-    env_file:
-      - .env
+    environment:
+      APP_ENV: docker
     ports:
       - "3333:3333"
       - "80:80"
       - "81:81"
     networks:
       - falatu-backend
+    env_file:
+      - .env.docker
 
   postgres:
     image: postgres:latest
@@ -21,9 +24,9 @@ services:
     volumes:
       - ./containers/database/postgres/volumes:/var/lib/postgresql/data
     environment:
-      POSTGRES_PASSWORD: postgres
-      POSTGRES_USER: postgres
-      POSTGRES_DB: postgres
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
     ports:
       - "5432:5432"
     expose:

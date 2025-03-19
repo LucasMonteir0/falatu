@@ -4,7 +4,7 @@ WORKDIR /usr/src/api
 
 COPY package*.json ./
 
-RUN npm install --quiet --no-optional --no-fund --loglevel=error
+RUN npm install --quiet --no-optional --no-fund
 
 COPY . .
 
