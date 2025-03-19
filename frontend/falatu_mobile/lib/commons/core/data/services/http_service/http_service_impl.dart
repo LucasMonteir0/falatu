@@ -32,7 +32,8 @@ class HttpServiceImpl extends HttpService {
         },
         onResponse: (response, handler) {
           if (kDebugMode) {
-            print("RESPONSE[${response.statusCode}] => DATA: ${response.data is List<int> ? 'BYTES => List<int>' : response.data}");
+            print(
+                "RESPONSE[${response.statusCode}] => DATA: ${response.data is List<int> ? 'BYTES => List<int>' : response.data}");
           }
           handler.next(response);
         },
@@ -58,10 +59,8 @@ class HttpServiceImpl extends HttpService {
             if (JwtDecoder.isExpired(access) &&
                 !options.path.contains("refresh-token")) {
               //Se o refresh estiver expirado, então deslogará o usuário.
-              if (refresh != null &&
-                  JwtDecoder.isExpired(refresh) &&
-                  onSignOut != null) {
-                await onSignOut!();
+              if (refresh != null && JwtDecoder.isExpired(refresh)) {
+                await onSignOut?.call();
               }
 
               // Se o access estiver expirado ele acessa recupera outro access pelo refresh.
@@ -76,6 +75,12 @@ class HttpServiceImpl extends HttpService {
           return handler.next(options);
         },
         onResponse: (options, handler) async {
+          if (options.data is Map<String, dynamic>) {
+            final data = options.data as Map<String, dynamic>;
+            if (data["message"] == "invalid signature") {
+              onSignOut?.call();
+            }
+          }
           return handler.next(options);
         },
       ),
