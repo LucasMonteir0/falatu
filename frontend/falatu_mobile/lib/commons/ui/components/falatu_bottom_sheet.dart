@@ -13,6 +13,7 @@ class FalaTuBottomSheet extends StatelessWidget {
       context: context,
       clipBehavior: Clip.antiAlias,
       backgroundColor: Theme.of(context).colorScheme.surfaceContainerLowest,
+      useSafeArea: true,
       shape: const RoundedRectangleBorder(
         borderRadius: BorderRadius.vertical(
           top: Radius.circular(30),

@@ -24,6 +24,7 @@ class FalaTu extends StatelessWidget {
             themeMode: resources.themeMode,
             theme: MaterialTheme.light(),
             darkTheme: MaterialTheme.dark(),
+            debugShowCheckedModeBanner: false,
             locale: resources.locale.getLocale,
             localizationsDelegates: AppLocalizations.localizationsDelegates,
             supportedLocales: AppLocalizations.supportedLocales,

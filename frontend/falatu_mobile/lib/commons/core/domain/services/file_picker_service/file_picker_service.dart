@@ -11,5 +11,5 @@ abstract class FilePickerService {
 
   Future<List<XFile>> multipleImagesFromGallery();
 
-  Future<XFile?> document();
+  Future<XFile?> document({List<String>? allowedExtensions});
 }

@@ -430,6 +430,12 @@ abstract class AppLocalizations {
   /// In pt, this message translates to:
   /// **'Foto'**
   String get photo;
+
+  /// No description provided for @cancel.
+  ///
+  /// In pt, this message translates to:
+  /// **'Cancelar'**
+  String get cancel;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

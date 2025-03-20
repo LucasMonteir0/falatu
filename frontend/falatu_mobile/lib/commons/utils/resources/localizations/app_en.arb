@@ -55,5 +55,6 @@
   "photos": "Photos",
   "videos": "Videos",
   "photo": "Photo",
-  "video": "Video"
+  "video": "Video",
+  "cancel": "Cancel"
 }

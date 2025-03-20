@@ -10,10 +10,10 @@ class FilePickerServiceImpl implements FilePickerService {
   FilePickerServiceImpl();
 
   @override
-  Future<XFile?> document() async {
+  Future<XFile?> document({List<String>? allowedExtensions}) async {
     FilePickerResult? result = await _filePicker.pickFiles(
       type: FileType.custom,
-      allowedExtensions: ["pdf", "doc", "xlsx", "xls", "docx", "txt", "csv"],
+      allowedExtensions: allowedExtensions,
     );
     return result.let((file) => file.xFiles.first);
   }

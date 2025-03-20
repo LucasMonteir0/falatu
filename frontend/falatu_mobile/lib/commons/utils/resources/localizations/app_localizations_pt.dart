@@ -173,4 +173,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get photo => 'Foto';
+
+  @override
+  String get cancel => 'Cancelar';
 }
