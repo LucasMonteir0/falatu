@@ -436,6 +436,12 @@ abstract class AppLocalizations {
   /// In pt, this message translates to:
   /// **'Cancelar'**
   String get cancel;
+
+  /// No description provided for @fileNotFoundError.
+  ///
+  /// In pt, this message translates to:
+  /// **'Arquivo não encontrado'**
+  String get fileNotFoundError;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {
