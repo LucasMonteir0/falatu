@@ -62,7 +62,7 @@ class _MessagesListViewState extends State<MessagesListView>
     final maxScroll = widget.controller!.position.maxScrollExtent;
     final currentScroll = widget.controller!.offset;
 
-    if (currentScroll >= (maxScroll * 0.9)) {
+    if (currentScroll >= (maxScroll * 0.99)) {
       _isScrollLoading = true;
       widget.onMaxExtent?.call();
       await Future.delayed(const Duration(seconds: 2));
@@ -75,6 +75,7 @@ class _MessagesListViewState extends State<MessagesListView>
     return FadeTransition(
       opacity: _animation,
       child: GroupedListView<MessageEntity, DateTime>(
+        shrinkWrap: true,
         elements: widget.data,
         reverse: true,
         controller: widget.controller,
@@ -91,6 +92,7 @@ class _MessagesListViewState extends State<MessagesListView>
           child: _GroupHeaderChip(message: e),
         ),
         indexedItemBuilder: widget.builder,
+
       ),
     );
   }

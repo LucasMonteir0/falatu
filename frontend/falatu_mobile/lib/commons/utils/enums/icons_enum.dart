@@ -25,6 +25,7 @@ enum FalaTuIconsEnum {
   closeCircleOutlined("close_circle_outlined.svg"),
   sendFilled("send_filled.svg"),
   videoCamera("video_camera.svg"),
+  error("error.svg"),
   pause("pause.svg"),
   photoLibrary("photo_library.svg"),
   personAdd("person_add.svg"),

@@ -2,8 +2,6 @@ import "dart:async";
 import "package:cross_file/cross_file.dart";
 import "package:dio/dio.dart";
 import "package:falatu_mobile/chat/core/data/datasources/messages/messages_datasource.dart";
-import "package:falatu_mobile/chat/core/data/models/message/audio_message_model.dart";
-import "package:falatu_mobile/chat/core/data/models/message/file_message_model.dart";
 import "package:falatu_mobile/chat/core/data/models/message/message_model.dart";
 import "package:falatu_mobile/chat/core/data/models/message/send/send_message_model.dart";
 import "package:falatu_mobile/chat/core/domain/entities/message/message_entity.dart";
@@ -11,7 +9,6 @@ import "package:falatu_mobile/chat/core/domain/entities/message/send/send_messag
 import "package:falatu_mobile/chat/utils/enums/message_type.dart";
 import "package:falatu_mobile/commons/core/domain/entities/base_error.dart";
 import "package:falatu_mobile/commons/core/domain/entities/result_wrapper.dart";
-import "package:falatu_mobile/commons/core/domain/services/file_service/file_service.dart";
 import "package:falatu_mobile/commons/core/domain/services/http_service/http_service.dart";
 import "package:falatu_mobile/commons/core/domain/services/shared_preferences_services/shared_preferences_services.dart";
 import "package:falatu_mobile/commons/core/domain/services/socket_io_service/socket_io_service.dart";
@@ -24,11 +21,10 @@ class MessagesDatasourceImpl implements MessagesDatasource {
   final SharedPreferencesService _preferences;
   final SocketIoService _socket;
   final HttpService _http;
-  final FileService _file;
   late final String? _userId;
 
   MessagesDatasourceImpl(
-      this._preferences, this._socket, this._http, this._file) {
+      this._preferences, this._socket, this._http) {
     _userId = _preferences.getUserId();
   }
 
@@ -57,21 +53,10 @@ class MessagesDatasourceImpl implements MessagesDatasource {
       return ResultWrapper.error(connectionError);
     }
 
-    _socket.on("messages", (data) async {
-      List<Future<MessageEntity>> futures =
-          (data as List<dynamic>).map((e) async {
-        if (e["type"] == MessageType.file.name) {
-          final file = await _file.fileFromUrl(e["mediaUrl"]);
-          return FileMessageModel.fromJson(e, file).toEntity();
-        }
-        if (e["type"] == MessageType.audio.name) {
-          final file = await _file.fileFromUrl(e["mediaUrl"]);
-          return AudioMessageModel.fromJson(e, file).toEntity();
-        }
-        return MessageModel.fromJson(e).toEntity();
-      }).toList();
-
-      _controller.add(await Future.wait(futures));
+    _socket.on("messages", (data) {
+      _controller.add((data as List<dynamic>)
+          .map((e) => MessageModel.fromJson(e).toEntity())
+          .toList());
     });
     return ResultWrapper.success(_controller.stream);
   }

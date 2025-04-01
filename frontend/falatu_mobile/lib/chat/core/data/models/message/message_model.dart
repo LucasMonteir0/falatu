@@ -19,7 +19,7 @@ class MessageModel extends MessageEntity {
       case MessageType.text:
         return TextMessageModel.fromJson(json);
       case MessageType.audio:
-        return AudioMessageModel.fromJson(json, file);
+        return AudioMessageModel.fromJson(json);
       case MessageType.video:
         // TODO: Handle this case.
         throw UnimplementedError();
@@ -27,7 +27,7 @@ class MessageModel extends MessageEntity {
         // TODO: Handle this case.
         throw UnimplementedError();
       case MessageType.file:
-        return FileMessageModel.fromJson(json, file);
+        return FileMessageModel.fromJson(json);
 
     }
   }

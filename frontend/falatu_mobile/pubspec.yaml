@@ -57,7 +57,7 @@ dependencies:
   animated_custom_dropdown: ^3.1.1
   animated_toggle_switch: ^0.8.4
   file_picker: ^9.0.2
-  chewie: ^1.10.0
+  chewie: ^1.11.0
   video_player: ^2.9.3
   video_thumbnail: ^0.5.3
   path_provider: ^2.1.5

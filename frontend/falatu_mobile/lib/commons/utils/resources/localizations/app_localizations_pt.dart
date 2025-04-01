@@ -176,4 +176,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get cancel => 'Cancelar';
+
+  @override
+  String get fileNotFoundError => 'Arquivo não encontrado';
 }

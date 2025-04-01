@@ -140,6 +140,7 @@ class _PrivateChatPageState extends State<PrivateChatPage> {
                             );
                           case MessageType.file:
                             return FileMessageCard(
+                              key: ValueKey(message.id),
                               message: message as FileMessageEntity,
                               isMe: isMe,
                             );

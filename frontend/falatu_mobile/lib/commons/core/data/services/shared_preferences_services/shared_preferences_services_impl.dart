@@ -1,3 +1,4 @@
+import "package:cross_file/cross_file.dart";
 import "package:falatu_mobile/commons/core/domain/services/shared_preferences_services/shared_preferences_services.dart";
 import "package:falatu_mobile/commons/utils/enums/locales_enum.dart";
 import "package:falatu_mobile/commons/utils/extensions/nullable_extensions.dart";
@@ -18,55 +19,37 @@ class SharedPreferencesServiceImpl implements SharedPreferencesService {
 
   @override
   String? getUserAccessToken() {
-    if (_prefs == null) {
-      return null;
-    }
-    final token = _prefs!.getString("accessToken");
+    final token = _prefs?.getString("accessToken");
     return token;
   }
 
   @override
   String? getUserRefreshToken() {
-    if (_prefs == null) {
-      return null;
-    }
-    final token = _prefs!.getString("refreshToken");
+    final token = _prefs?.getString("refreshToken");
     return token;
   }
 
   @override
   Future<bool> setUserAccessToken(String token) async {
-    if (_prefs == null) {
-      return false;
-    }
-    final isSaved = await _prefs!.setString("accessToken", token);
-    return isSaved;
+    final isSaved = await _prefs?.setString("accessToken", token);
+    return isSaved ?? false;
   }
 
   @override
   Future<bool> setUserRefreshToken(String token) async {
-    if (_prefs == null) {
-      return false;
-    }
-    final isSaved = await _prefs!.setString("refreshToken", token);
+    final isSaved = await _prefs?.setString("refreshToken", token) ?? false;
     return isSaved;
   }
 
   @override
   String? getUserId() {
-    if (_prefs == null) {
-      return null;
-    }
-    final token = _prefs!.getString("userId");
+    final token = _prefs?.getString("userId");
     return token;
   }
 
   @override
   Future<bool> setUserId(String id) async {
-    if (_prefs == null) {
-      return false;
-    }
-    final isSaved = await _prefs!.setString("userId", id);
+    final isSaved = await _prefs?.setString("userId", id) ?? false;
     return isSaved;
   }
 
@@ -86,35 +69,33 @@ class SharedPreferencesServiceImpl implements SharedPreferencesService {
 
   @override
   ThemeMode? getThemeMode() {
-    if (_prefs == null) {
-      return null;
-    }
-    final String? mode = _prefs!.getString("themeMode");
+    final String? mode = _prefs?.getString("themeMode");
     return mode.let((m) => ThemeMode.values.firstWhere((e) => e.name == m));
   }
 
   @override
   Future<bool> setThemeMode(ThemeMode mode) async {
-    if (_prefs == null) {
-      return false;
-    }
-    return await _prefs!.setString("themeMode", mode.name);
+    return await _prefs?.setString("themeMode", mode.name) ?? false;
   }
 
   @override
   LocalesEnum? getLocale() {
-    if (_prefs == null) {
-      return null;
-    }
-    final String? locale = _prefs!.getString("locale");
+    final String? locale = _prefs?.getString("locale");
     return locale.let((m) => LocalesEnum.values.firstWhere((e) => e.name == m));
   }
 
   @override
   Future<bool> setLocale(LocalesEnum locale) async {
-    if (_prefs == null) {
-      return false;
-    }
-    return await _prefs!.setString("locale", locale.name);
+    return await _prefs?.setString("locale", locale.name) ?? false;
+  }
+
+  @override
+  XFile? getFile(String key) {
+    return _prefs?.getString(key).let((p) => XFile(p));
+  }
+
+  @override
+  Future<bool> setFile(String key, String path) async {
+    return await _prefs?.setString(key, path) ?? false;
   }
 }

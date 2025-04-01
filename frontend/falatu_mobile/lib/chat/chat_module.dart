@@ -30,6 +30,7 @@ import "package:falatu_mobile/chat/ui/blocs/load_chats/load_chats_bloc.dart";
 import "package:falatu_mobile/chat/ui/blocs/load_messages/load_messages_bloc.dart";
 import "package:falatu_mobile/chat/ui/blocs/send_message/send_messge_bloc.dart";
 import "package:falatu_mobile/chat/ui/pages/chats_page.dart";
+import "package:falatu_mobile/chat/ui/pages/media_editor_page.dart";
 import "package:falatu_mobile/chat/ui/pages/non_friends_page.dart";
 import "package:falatu_mobile/chat/ui/pages/private_chat_page.dart";
 import "package:falatu_mobile/commons/utils/routes.dart";
@@ -48,7 +49,7 @@ class ChatModule extends Module {
         //DATASOURCES
         Bind.factory<ChatDatasource>((i) => ChatDatasourceImpl(i(), i())),
         Bind.factory<MessagesDatasource>(
-            (i) => MessagesDatasourceImpl(i(), i(), i(), i())),
+            (i) => MessagesDatasourceImpl(i(), i(), i())),
 
         //REPOSITORIES
         Bind.factory<ChatRepository>((i) => ChatRepositoryImpl(i())),
@@ -79,5 +80,7 @@ class ChatModule extends Module {
         ChildRoute(Routes.nonFriends, child: (_, __) => const NonFriendsPage()),
         ChildRoute(Routes.privateChat,
             child: (_, args) => PrivateChatPage(chat: args.data)),
+        ChildRoute(Routes.mediaEditor,
+            child: (_, args) => MediaEditorPage(params: args.data)),
       ];
 }

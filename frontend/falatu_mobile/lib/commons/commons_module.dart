@@ -27,6 +27,7 @@ import "package:falatu_mobile/commons/core/domain/usecases/sign_out/sign_out_use
 import "package:falatu_mobile/commons/core/domain/usecases/sign_out/sign_out_use_case_impl.dart";
 import "package:falatu_mobile/commons/core/domain/usecases/update_access_token/update_access_token_use_case.dart";
 import "package:falatu_mobile/commons/core/domain/usecases/update_access_token/update_access_token_use_case_impl.dart";
+import "package:falatu_mobile/commons/ui/blocs/download_file_bloc.dart";
 import "package:falatu_mobile/commons/ui/blocs/get_non_friends_bloc.dart";
 import "package:falatu_mobile/commons/ui/blocs/get_user_bloc.dart";
 import "package:falatu_mobile/commons/ui/blocs/share_bloc/share_files_bloc.dart";
@@ -99,5 +100,7 @@ class CommonsModule extends Module {
         Bind.factory<GetNonFriendsBloc>((i) => GetNonFriendsBloc(i()),
             export: true),
         Bind.factory<ShareFilesBloc>((i) => ShareFilesBloc(i()), export: true),
+        Bind.factory<DownloadFileBloc>((i) => DownloadFileBloc(i(), i()),
+            export: true),
       ];
 }

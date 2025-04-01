@@ -10,7 +10,7 @@ import "package:falatu_mobile/commons/core/domain/services/shared_preferences_se
 import "package:falatu_mobile/commons/core/domain/services/socket_io_service/socket_io_service.dart";
 import "package:falatu_mobile/commons/utils/helpers/url_helpers.dart";
 
-class ChatDatasourceImpl extends ChatDatasource {
+class ChatDatasourceImpl implements ChatDatasource {
   final SharedPreferencesService _preferences;
   final SocketIoService _socket;
   late final String? _userId;

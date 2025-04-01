@@ -56,5 +56,6 @@
 "videos": "Vídeos",
 "photo": "Foto",
 "video": "Vídeo",
-"cancel": "Cancelar"
+"cancel": "Cancelar",
+"fileNotFoundError": "Arquivo não encontrado"
 }

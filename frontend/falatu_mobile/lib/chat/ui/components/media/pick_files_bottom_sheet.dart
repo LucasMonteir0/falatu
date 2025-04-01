@@ -1,5 +1,7 @@
+import "package:cross_file/cross_file.dart";
 import "package:falatu_mobile/chat/core/domain/entities/message/send/send_file_message_entity.dart";
 import "package:falatu_mobile/chat/ui/blocs/send_message/send_messge_bloc.dart";
+import "package:falatu_mobile/chat/ui/pages/media_editor_page.dart";
 import "package:falatu_mobile/commons/core/domain/services/file_picker_service/file_picker_service.dart";
 import "package:falatu_mobile/commons/core/domain/services/shared_preferences_services/shared_preferences_services.dart";
 import "package:falatu_mobile/commons/ui/components/falatu_bottom_sheet.dart";
@@ -10,6 +12,7 @@ import "package:falatu_mobile/commons/utils/enums/file_extension_enum.dart";
 import "package:falatu_mobile/commons/utils/enums/icons_enum.dart";
 import "package:falatu_mobile/commons/utils/extensions/context_extensions.dart";
 import "package:falatu_mobile/commons/utils/extensions/num_extensions.dart";
+import "package:falatu_mobile/commons/utils/routes.dart";
 import "package:flutter/material.dart";
 import "package:flutter_modular/flutter_modular.dart";
 
@@ -51,6 +54,12 @@ class _PickFilesBottomSheetState extends State<PickFilesBottomSheet> {
   late final String _userId =
       Modular.get<SharedPreferencesService>().getUserId()!;
 
+  void _handleFiles(List<XFile> files, MediaType type) {
+    final params =
+        MediaEditorPageParams(medias: files, type: type, chatId: widget.chatId);
+    Modular.to.pushNamed(Routes.chats + Routes.mediaEditor, arguments: params);
+  }
+
   @override
   Widget build(BuildContext context) {
     final colors = Theme.of(context).colorScheme;
@@ -63,6 +72,7 @@ class _PickFilesBottomSheetState extends State<PickFilesBottomSheet> {
               _Header(title: _handleTitle(context, selectedIndex)),
               AnimatedContainer(
                 duration: const Duration(milliseconds: 100),
+                curve: Curves.easeIn,
                 height: _handleHeight(selectedIndex),
                 child: PageView(
                   controller: _controller,
@@ -73,8 +83,11 @@ class _PickFilesBottomSheetState extends State<PickFilesBottomSheet> {
                         label: "Selecione fotos",
                         icon: FalaTuIconsEnum.image,
                         onTap: () async {
-                          final file = await _picker.imageFromGallery();
-                          if (file != null) {}
+                          final files =
+                              await _picker.multipleImagesFromGallery();
+                          if (files.isNotEmpty) {
+                            _handleFiles(files, MediaType.image);
+                          }
                         },
                       ),
                       _PageItem(
@@ -82,7 +95,9 @@ class _PickFilesBottomSheetState extends State<PickFilesBottomSheet> {
                         icon: FalaTuIconsEnum.videoCamera,
                         onTap: () async {
                           final file = await _picker.videoFromGallery();
-                          if (file != null) {}
+                          if (file != null) {
+                            _handleFiles([file], MediaType.video);
+                          }
                         },
                       ),
                     ]),
@@ -92,7 +107,9 @@ class _PickFilesBottomSheetState extends State<PickFilesBottomSheet> {
                         icon: FalaTuIconsEnum.image,
                         onTap: () async {
                           final file = await _picker.imageFromCamera();
-                          if (file != null) {}
+                          if (file != null) {
+                            _handleFiles([file], MediaType.image);
+                          }
                         },
                       ),
                       _PageItem(
@@ -100,7 +117,9 @@ class _PickFilesBottomSheetState extends State<PickFilesBottomSheet> {
                         icon: FalaTuIconsEnum.videoCamera,
                         onTap: () async {
                           final file = await _picker.videoFromCamera();
-                          if (file != null) {}
+                          if (file != null) {
+                            _handleFiles([file], MediaType.video);
+                          }
                         },
                       ),
                     ]),
@@ -235,7 +254,7 @@ class _PageCardState extends State<_PageCard> {
             Container(
               height: _handleHeight(),
               decoration: BoxDecoration(
-                color: colors.surfaceContainer,
+                color: colors.surfaceContainerLow,
                 borderRadius: BorderRadius.circular(8),
               ),
               child: ListView.separated(
