@@ -19,10 +19,8 @@ class SendImageMessageModel extends SendMessageModel {
 
   @override
   Map<String, dynamic> toJson() => {
-    "type": type.name,
-    "senderId": senderId,
-    "mediaFile": mediaFile,
-    "text": text,
-  };
+        "type": type.name,
+        "senderId": senderId,
+        if (text != null) "text": text,
+      };
 }
-

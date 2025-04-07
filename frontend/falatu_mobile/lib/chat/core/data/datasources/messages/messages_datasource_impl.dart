@@ -4,6 +4,7 @@ import "package:dio/dio.dart";
 import "package:falatu_mobile/chat/core/data/datasources/messages/messages_datasource.dart";
 import "package:falatu_mobile/chat/core/data/models/message/message_model.dart";
 import "package:falatu_mobile/chat/core/data/models/message/send/send_message_model.dart";
+import "package:falatu_mobile/chat/core/data/models/message/send/send_video_message_model.dart";
 import "package:falatu_mobile/chat/core/domain/entities/message/message_entity.dart";
 import "package:falatu_mobile/chat/core/domain/entities/message/send/send_message_entity.dart";
 import "package:falatu_mobile/chat/utils/enums/message_type.dart";
@@ -14,6 +15,7 @@ import "package:falatu_mobile/commons/core/domain/services/shared_preferences_se
 import "package:falatu_mobile/commons/core/domain/services/socket_io_service/socket_io_service.dart";
 import "package:falatu_mobile/commons/utils/errors/errors.dart";
 import "package:falatu_mobile/commons/utils/errors/handle_error.dart";
+import "package:falatu_mobile/commons/utils/extensions/nullable_extensions.dart";
 import "package:falatu_mobile/commons/utils/helpers/http_send_file_helper.dart";
 import "package:falatu_mobile/commons/utils/helpers/url_helpers.dart";
 
@@ -23,8 +25,7 @@ class MessagesDatasourceImpl implements MessagesDatasource {
   final HttpService _http;
   late final String? _userId;
 
-  MessagesDatasourceImpl(
-      this._preferences, this._socket, this._http) {
+  MessagesDatasourceImpl(this._preferences, this._socket, this._http) {
     _userId = _preferences.getUserId();
   }
 
@@ -65,18 +66,27 @@ class MessagesDatasourceImpl implements MessagesDatasource {
   void sendMessage(String chatId, SendMessageEntity message) async {
     final model = SendMessageModel.fromObject(message);
 
-    if (model.mediaFile != null) {
-      final url =
-          await uploadMessageFile(chatId, model.mediaFile!, message.type);
-      if (url.success) {
-        final json = {...model.toJson(), "mediaUrl": url.data!};
-        _socket.emit("sendMessage", {"chatId": chatId, "message": json});
-        return;
-      }
-      return;
+    String? mediaUrl;
+    String? thumbUrl;
+
+    if (message.mediaFile != null || model is SendVideoMessageModel) {
+      final futures = await Future.wait([
+        if (model.mediaFile != null)
+          uploadMessageFile(chatId, model.mediaFile!, message.type),
+        if (model is SendVideoMessageModel)
+          uploadMessageFile(chatId, model.thumbFile, MessageType.image)
+      ]);
+
+      mediaUrl = message.mediaFile.let((_) => futures[0].data!);
+      thumbUrl = model is SendVideoMessageModel ? futures[1].data : null;
     }
 
-    _socket.emit("sendMessage", {"chatId": chatId, "message": model.toJson()});
+    final json = {
+      ...model.toJson(),
+      if (mediaUrl != null) "mediaUrl": mediaUrl,
+      if (thumbUrl != null) "thumbUrl": thumbUrl
+    };
+    _socket.emit("sendMessage", {"chatId": chatId, "message": json});
   }
 
   @override
@@ -111,5 +121,25 @@ class MessagesDatasourceImpl implements MessagesDatasource {
   @override
   void leaveChat() {
     _socket.disconnect();
+  }
+
+  @override
+  Future<ResultWrapper<List<MessageEntity>>> getMessages(
+      {required String chatId, required int page}) async {
+    try {
+      final url = UrlHelpers.getApiBaseUrl(moduleName: "messages");
+
+      final response = await _http
+          .get(url, queryParameters: {"chatId": chatId, "page": page});
+      final data = response.data["data"] as List<dynamic>;
+      final messages =
+          data.map((e) => MessageModel.fromJson(e).toEntity()).toList();
+      return ResultWrapper.success(messages);
+    } on ApiError catch (e) {
+      final error = handleError(e.statusCode);
+      return ResultWrapper.error(error);
+    } catch (e) {
+      return ResultWrapper.error(UnknownError(message: e.toString()));
+    }
   }
 }

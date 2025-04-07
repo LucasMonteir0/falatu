@@ -8,6 +8,9 @@ abstract class MessagesDatasource {
   Future<ResultWrapper<Stream<List<MessageEntity>>>> loadMessages(
       String chatId);
 
+  Future<ResultWrapper<List<MessageEntity>>> getMessages(
+      {required String chatId, required int page});
+
   void addOldMessages(String chatId, int page);
 
   void sendMessage(String chatId, SendMessageEntity message);

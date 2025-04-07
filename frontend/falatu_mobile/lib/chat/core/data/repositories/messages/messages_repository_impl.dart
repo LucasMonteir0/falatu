@@ -29,4 +29,10 @@ class MessagesRepositoryImpl implements MessagesRepository {
   void leaveChat() {
     return _datasource.leaveChat();
   }
+
+  @override
+  Future<ResultWrapper<List<MessageEntity>>> getMessages(
+      {required String chatId, required int page}) {
+    return _datasource.getMessages(chatId: chatId, page: page);
+  }
 }

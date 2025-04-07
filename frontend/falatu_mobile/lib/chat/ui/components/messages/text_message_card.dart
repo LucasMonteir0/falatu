@@ -12,6 +12,7 @@ class TextMessageCard extends StatelessWidget {
   Widget build(BuildContext context) {
     final typography = Theme.of(context).textTheme;
     final colors = Theme.of(context).colorScheme;
+
     return Align(
       alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
       child: MessageContainer(

@@ -1,6 +1,7 @@
 import "package:falatu_mobile/chat/core/domain/entities/chat/private_chat_entity.dart";
 import "package:falatu_mobile/chat/core/domain/entities/message/audio_message_entity.dart";
 import "package:falatu_mobile/chat/core/domain/entities/message/file_message_entity.dart";
+import "package:falatu_mobile/chat/core/domain/entities/message/image_message_entity.dart";
 import "package:falatu_mobile/chat/core/domain/entities/message/message_entity.dart";
 import "package:falatu_mobile/chat/core/domain/entities/message/text_message_entity.dart";
 import "package:falatu_mobile/chat/ui/blocs/add_old_messages/add_old_messages.dart";
@@ -10,6 +11,7 @@ import "package:falatu_mobile/chat/ui/blocs/send_message/send_messge_bloc.dart";
 import "package:falatu_mobile/chat/ui/components/chat_app_bar_content.dart";
 import "package:falatu_mobile/chat/ui/components/messages/audio_message_card.dart";
 import "package:falatu_mobile/chat/ui/components/messages/file_message_card.dart";
+import "package:falatu_mobile/chat/ui/components/messages/image_message_card.dart";
 import "package:falatu_mobile/chat/ui/components/messages/messages_list_view.dart";
 import "package:falatu_mobile/chat/ui/components/messages/text_message_card.dart";
 import "package:falatu_mobile/chat/ui/components/send_message/send_messages_section.dart";
@@ -148,6 +150,12 @@ class _PrivateChatPageState extends State<PrivateChatPage> {
                             return AudioMessageCard(
                               key: ValueKey(message.id),
                               message: message as AudioMessageEntity,
+                              isMe: isMe,
+                            );
+                          case MessageType.image:
+                            return ImageMessageCard(
+                              key: ValueKey(message.id),
+                              message: message as ImageMessageEntity,
                               isMe: isMe,
                             );
                           default:

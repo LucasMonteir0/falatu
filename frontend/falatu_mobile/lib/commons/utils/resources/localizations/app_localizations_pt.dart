@@ -179,4 +179,7 @@ class AppLocalizationsPt extends AppLocalizations {
 
   @override
   String get fileNotFoundError => 'Arquivo não encontrado';
+
+  @override
+  String get invalidFile => 'Arquivo inválido';
 }

@@ -442,6 +442,12 @@ abstract class AppLocalizations {
   /// In pt, this message translates to:
   /// **'Arquivo não encontrado'**
   String get fileNotFoundError;
+
+  /// No description provided for @invalidFile.
+  ///
+  /// In pt, this message translates to:
+  /// **'Arquivo inválido'**
+  String get invalidFile;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

@@ -1,5 +1,6 @@
 import "package:cross_file/cross_file.dart";
 import "package:falatu_mobile/chat/core/domain/entities/message/send/send_image_message_entity.dart";
+import "package:falatu_mobile/chat/core/domain/entities/message/send/send_message_entity.dart";
 import "package:falatu_mobile/chat/core/domain/entities/message/send/send_video_message_entity.dart";
 import "package:falatu_mobile/chat/ui/blocs/send_message/send_messge_bloc.dart";
 import "package:falatu_mobile/chat/ui/components/media/falatu_video_player.dart";
@@ -9,6 +10,7 @@ import "package:falatu_mobile/commons/ui/components/falatu_icon.dart";
 import "package:falatu_mobile/commons/ui/components/falatu_image.dart";
 import "package:falatu_mobile/commons/ui/components/falatu_splash_effect.dart";
 import "package:falatu_mobile/commons/utils/enums/icons_enum.dart";
+import "package:falatu_mobile/commons/utils/extensions/context_extensions.dart";
 import "package:falatu_mobile/commons/utils/extensions/num_extensions.dart";
 import "package:falatu_mobile/commons/utils/helpers/file_helper.dart";
 import "package:falatu_mobile/commons/utils/states/base_state.dart";
@@ -52,6 +54,7 @@ class _MediaEditorPageState extends State<MediaEditorPage> {
   late final ValueNotifier<List<XFile>> _selectedFiles;
 
   late final PageController _pageController;
+  late final TextEditingController _textController;
 
   final ValueNotifier<int> _currentIndex = ValueNotifier(0);
   final ScrollController _scrollController = ScrollController();
@@ -64,6 +67,7 @@ class _MediaEditorPageState extends State<MediaEditorPage> {
     super.initState();
     _selectedFiles = ValueNotifier<List<XFile>>(widget.params.medias);
     _pageController = PageController();
+    _textController = TextEditingController();
 
     _sendMessageBloc = Modular.get<SendMessageBloc>();
     _picker = Modular.get<FilePickerService>();
@@ -77,6 +81,7 @@ class _MediaEditorPageState extends State<MediaEditorPage> {
     _pageController.dispose();
     _currentIndex.dispose();
     _scrollController.dispose();
+    _textController.dispose();
     super.dispose();
   }
 
@@ -98,20 +103,29 @@ class _MediaEditorPageState extends State<MediaEditorPage> {
     }
   }
 
+  String? _handleText() =>
+      _textController.text.trim().isEmpty ? null : _textController.text;
+
   void _sendMessage() async {
     for (var e in _selectedFiles.value) {
-      dynamic message;
+      SendMessageEntity? message;
+      String? text = _handleText();
       if (widget.params.type.isImage) {
-        message = SendImageMessageEntity(mediaFile: e, senderId: _userId);
+        message =
+            SendImageMessageEntity(mediaFile: e, senderId: _userId, text: text);
       }
       if (widget.params.type.isVideo) {
         message = SendVideoMessageEntity(
           mediaFile: e,
-          thumbFile: await FileHelper.getVideoThumbnail(e.path),
+          text: text,
+          thumbFile: (await FileHelper.getVideoThumbnail(e.path))!,
           senderId: _userId,
         );
       }
-      // _sendMessageBloc.call(widget.params.chatId, message);
+      if (message == null) {
+        return;
+      }
+      _sendMessageBloc.call(widget.params.chatId, message);
     }
   }
 
@@ -166,7 +180,7 @@ class _MediaEditorPageState extends State<MediaEditorPage> {
                         } else if (widget.params.type.isVideo) {
                           return FalaTuVideoPlayer.file(file: medias.first);
                         }
-                        return const Text("Erro ao carregar o arquivo");
+                        return Text(context.i18n.invalidFile);
                       },
                     ),
                     Positioned(
@@ -193,6 +207,7 @@ class _MediaEditorPageState extends State<MediaEditorPage> {
                               child: Row(
                                 mainAxisAlignment:
                                     MainAxisAlignment.spaceBetween,
+                                crossAxisAlignment: CrossAxisAlignment.end,
                                 children: [
                                   widget.params.type.isImage
                                       ? FalaTuSplashEffect(
@@ -218,12 +233,18 @@ class _MediaEditorPageState extends State<MediaEditorPage> {
                                           ),
                                         )
                                       : const SizedBox.square(dimension: 30.0),
+                                  Expanded(
+                                      child: Padding(
+                                    padding: const EdgeInsets.symmetric(
+                                        horizontal: 8.0),
+                                    child: _TextField(
+                                        controller: TextEditingController()),
+                                  )),
                                   BlocConsumer<SendMessageBloc, BaseState>(
                                       bloc: _sendMessageBloc,
                                       listener: (context, state) {
                                         if (state is SuccessState) {
                                           Modular.to.pop();
-                                          Navigator.pop(context);
                                           Navigator.pop(context);
                                         }
                                       },
@@ -275,11 +296,12 @@ class _SelectedItemsCard extends StatefulWidget {
   final int selectedIndex;
   final ScrollController controller;
 
-  const _SelectedItemsCard(
-      {required this.medias,
-      required this.onItemTap,
-      required this.selectedIndex,
-      required this.controller,});
+  const _SelectedItemsCard({
+    required this.medias,
+    required this.onItemTap,
+    required this.selectedIndex,
+    required this.controller,
+  });
 
   @override
   State<_SelectedItemsCard> createState() => _SelectedItemsCardState();
@@ -320,6 +342,41 @@ class _SelectedItemsCardState extends State<_SelectedItemsCard> {
                 )),
           );
         },
+      ),
+    );
+  }
+}
+
+class _TextField extends StatelessWidget {
+  final TextEditingController controller;
+
+  const _TextField({required this.controller});
+
+  @override
+  Widget build(BuildContext context) {
+    final colors = Theme.of(context).colorScheme;
+    return Container(
+      clipBehavior: Clip.antiAlias,
+      padding: const EdgeInsets.all(4),
+      decoration: BoxDecoration(
+        color: colors.surface,
+        border: Border.all(
+          color: colors.primaryContainer.withValues(alpha: 0.5),
+          width: 2,
+        ),
+        borderRadius: BorderRadius.circular(30.0),
+      ),
+      child: TextField(
+        controller: controller,
+        decoration: InputDecoration(
+            isCollapsed: true,
+            filled: false,
+            contentPadding:
+                const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4),
+            hintText: context.i18n.writeYourMessage,
+            border: InputBorder.none),
+        minLines: 1,
+        maxLines: 3,
       ),
     );
   }

@@ -178,5 +178,8 @@ class AppLocalizationsEn extends AppLocalizations {
   String get cancel => 'Cancel';
 
   @override
-  String get fileNotFoundError => 'Arquivo não encontrado';
+  String get fileNotFoundError => 'File not found';
+
+  @override
+  String get invalidFile => 'Arquivo inválido';
 }
