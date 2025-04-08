@@ -1,8 +1,10 @@
 import "package:falatu_mobile/chat/core/domain/entities/message/message_entity.dart";
 import "package:falatu_mobile/chat/core/domain/entities/message/text_message_entity.dart";
 import "package:falatu_mobile/chat/utils/enums/message_type.dart";
+import "package:falatu_mobile/commons/core/domain/services/shared_preferences_services/shared_preferences_services.dart";
 import "package:falatu_mobile/commons/utils/extensions/context_extensions.dart";
 import "package:flutter/cupertino.dart";
+import "package:flutter_modular/flutter_modular.dart";
 
 extension MessageExtensions on MessageEntity {
   String getLastMessageText(BuildContext context) {
@@ -18,5 +20,9 @@ extension MessageExtensions on MessageEntity {
       case MessageType.file:
         return "📄 ${context.i18n.file}";
     }
+  }
+
+  bool iSent() {
+    return sender.id == Modular.get<SharedPreferencesService>().getUserId();
   }
 }

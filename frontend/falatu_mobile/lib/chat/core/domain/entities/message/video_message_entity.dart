@@ -3,6 +3,7 @@ import "package:falatu_mobile/chat/core/domain/entities/message/message_entity.d
 class VideoMessageEntity extends MessageEntity {
   final String mediaUrl;
   final String thumbUrl;
+  final String? text;
 
   const VideoMessageEntity({
     required super.id,
@@ -11,5 +12,6 @@ class VideoMessageEntity extends MessageEntity {
     required super.createdAt,
     required this.mediaUrl,
     required this.thumbUrl,
+    required this.text,
   });
 }

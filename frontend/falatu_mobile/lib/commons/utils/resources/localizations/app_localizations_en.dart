@@ -181,5 +181,5 @@ class AppLocalizationsEn extends AppLocalizations {
   String get fileNotFoundError => 'File not found';
 
   @override
-  String get invalidFile => 'Arquivo inválido';
+  String get invalidFile => 'Ivalid file';
 }

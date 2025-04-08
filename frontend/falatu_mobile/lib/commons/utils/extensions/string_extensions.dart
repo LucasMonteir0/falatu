@@ -12,3 +12,15 @@ extension PathExtensions on String {
     return "$fileName.$extension";
   }
 }
+
+extension StringExtensions on String {
+  String toFirstAndLastName() {
+    List<String> splittedName = split(" ");
+    if (splittedName.length <= 1) {
+      return this;
+    }
+    String firstName = splittedName.first;
+    String secondName = splittedName.last;
+    return "$firstName $secondName";
+  }
+}

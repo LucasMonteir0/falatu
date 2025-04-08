@@ -10,6 +10,7 @@ import "package:falatu_mobile/commons/ui/components/falatu_icon.dart";
 import "package:falatu_mobile/commons/ui/components/falatu_image.dart";
 import "package:falatu_mobile/commons/ui/components/falatu_splash_effect.dart";
 import "package:falatu_mobile/commons/utils/enums/icons_enum.dart";
+import "package:falatu_mobile/commons/utils/enums/media_type_enum.dart";
 import "package:falatu_mobile/commons/utils/extensions/context_extensions.dart";
 import "package:falatu_mobile/commons/utils/extensions/num_extensions.dart";
 import "package:falatu_mobile/commons/utils/helpers/file_helper.dart";
@@ -18,18 +19,9 @@ import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
 import "package:flutter_modular/flutter_modular.dart";
 
-enum MediaType {
-  image,
-  video;
-
-  bool get isImage => this == MediaType.image;
-
-  bool get isVideo => this == MediaType.video;
-}
-
 class MediaEditorPageParams {
   final List<XFile> medias;
-  final MediaType type;
+  final MediaTypeEnum type;
   final String chatId;
   final bool isVideoFromCamera;
 
@@ -107,18 +99,19 @@ class _MediaEditorPageState extends State<MediaEditorPage> {
       _textController.text.trim().isEmpty ? null : _textController.text;
 
   void _sendMessage() async {
-    for (var e in _selectedFiles.value) {
+    for (int i = 0, len = _selectedFiles.value.length; i < len; i++) {
+      final file = _selectedFiles.value[i];
       SendMessageEntity? message;
-      String? text = _handleText();
+      String? text = i == 0 ? _handleText() : null;
       if (widget.params.type.isImage) {
-        message =
-            SendImageMessageEntity(mediaFile: e, senderId: _userId, text: text);
+        message = SendImageMessageEntity(
+            mediaFile: file, senderId: _userId, text: text);
       }
       if (widget.params.type.isVideo) {
         message = SendVideoMessageEntity(
-          mediaFile: e,
+          mediaFile: file,
           text: text,
-          thumbFile: (await FileHelper.getVideoThumbnail(e.path))!,
+          thumbFile: (await FileHelper.getVideoThumbnail(file.path))!,
           senderId: _userId,
         );
       }
@@ -127,6 +120,8 @@ class _MediaEditorPageState extends State<MediaEditorPage> {
       }
       _sendMessageBloc.call(widget.params.chatId, message);
     }
+    Modular.to.pop();
+    Navigator.pop(context);
   }
 
   @override
@@ -238,15 +233,14 @@ class _MediaEditorPageState extends State<MediaEditorPage> {
                                     padding: const EdgeInsets.symmetric(
                                         horizontal: 8.0),
                                     child: _TextField(
-                                        controller: TextEditingController()),
+                                        controller: _textController),
                                   )),
                                   BlocConsumer<SendMessageBloc, BaseState>(
                                       bloc: _sendMessageBloc,
                                       listener: (context, state) {
-                                        if (state is SuccessState) {
-                                          Modular.to.pop();
-                                          Navigator.pop(context);
-                                        }
+                                        // if (state is SuccessState) {
+                                        //   Modular.to.pop();
+                                        // }
                                       },
                                       builder: (context, state) {
                                         if (state is LoadingState) {
@@ -368,6 +362,7 @@ class _TextField extends StatelessWidget {
       ),
       child: TextField(
         controller: controller,
+        onChanged: (value) {},
         decoration: InputDecoration(
             isCollapsed: true,
             filled: false,

@@ -6,6 +6,7 @@ import "package:falatu_mobile/commons/core/data/models/user_model.dart";
 class VideoMessageModel extends MessageModel {
   final String mediaUrl;
   final String thumbUrl;
+  final String? text;
 
   const VideoMessageModel({
     required this.mediaUrl,
@@ -14,6 +15,7 @@ class VideoMessageModel extends MessageModel {
     required super.sender,
     required super.type,
     required super.createdAt,
+    this.text,
   });
 
   factory VideoMessageModel.fromJson(Map<String, dynamic> json) {
@@ -24,6 +26,7 @@ class VideoMessageModel extends MessageModel {
       thumbUrl: json["thumbUrl"],
       sender: UserModel.fromJson(json["sender"]),
       type: MessageType.fromValue(json["type"]),
+      text: json["text"],
       createdAt: createdAt,
     );
   }
@@ -36,5 +39,6 @@ class VideoMessageModel extends MessageModel {
         createdAt: createdAt,
         mediaUrl: mediaUrl,
         thumbUrl: thumbUrl,
+        text: text,
       );
 }

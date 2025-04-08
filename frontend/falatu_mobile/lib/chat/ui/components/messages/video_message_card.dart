@@ -1,19 +1,20 @@
-import "package:falatu_mobile/chat/core/domain/entities/message/image_message_entity.dart";
+import "package:falatu_mobile/chat/core/domain/entities/message/video_message_entity.dart";
 import "package:falatu_mobile/chat/ui/components/messages/message_container.dart";
 import "package:falatu_mobile/chat/ui/pages/media_display_page.dart";
 import "package:falatu_mobile/commons/ui/components/falatu_cached_image.dart";
+import "package:falatu_mobile/commons/ui/components/falatu_icon.dart";
+import "package:falatu_mobile/commons/utils/enums/icons_enum.dart";
 import "package:falatu_mobile/commons/utils/enums/media_type_enum.dart";
+import "package:falatu_mobile/commons/utils/extensions/message_extensions.dart";
 import "package:falatu_mobile/commons/utils/extensions/string_extensions.dart";
 import "package:falatu_mobile/commons/utils/routes.dart";
 import "package:flutter/material.dart";
 import "package:flutter_modular/flutter_modular.dart";
 
-class ImageMessageCard extends StatelessWidget {
-  final ImageMessageEntity message;
-  final bool isMe;
+class VideoMessageCard extends StatelessWidget {
+  final VideoMessageEntity message;
 
-  const ImageMessageCard(
-      {required this.message, required this.isMe, super.key});
+  const VideoMessageCard({required this.message, super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -21,11 +22,11 @@ class ImageMessageCard extends StatelessWidget {
     final colors = Theme.of(context).colorScheme;
 
     return Align(
-      alignment: isMe ? Alignment.centerRight : Alignment.centerLeft,
+      alignment: message.iSent() ? Alignment.centerRight : Alignment.centerLeft,
       child: MessageContainer(
         createdAt: message.createdAt,
         wasSeen: false,
-        isMe: isMe,
+        isMe: message.iSent(),
         content: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -34,7 +35,7 @@ class ImageMessageCard extends StatelessWidget {
                 final params = MediaDisplayParams(
                   tag: message.id,
                   url: message.mediaUrl,
-                  type: MediaTypeEnum.image,
+                  type: MediaTypeEnum.video,
                   senderName: message.sender.name.toFirstAndLastName(),
                   sentAt: message.createdAt,
                 );
@@ -47,9 +48,21 @@ class ImageMessageCard extends StatelessWidget {
                   constraints: const BoxConstraints(maxHeight: 250),
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(18),
-                    child: FalaTuNetworkImage(
-                      url: message.mediaUrl,
-                      fit: BoxFit.cover,
+                    child: Stack(
+                      alignment: Alignment.center,
+                      children: [
+                        FalaTuNetworkImage(
+                          url: message.thumbUrl,
+                          fit: BoxFit.cover,
+                        ),
+                        Container(
+                            decoration: const BoxDecoration(
+                                color: Colors.black45, shape: BoxShape.circle),
+                            child: const FalaTuIcon(
+                              icon: FalaTuIconsEnum.play,
+                              size: 36,
+                            )),
+                      ],
                     ),
                   ),
                 ),
@@ -61,7 +74,9 @@ class ImageMessageCard extends StatelessWidget {
                 child: Text(
                   message.text!,
                   style: typography.bodyMedium!.copyWith(
-                    color: isMe ? colors.onSurface : colors.surfaceBright,
+                    color: message.iSent()
+                        ? colors.onSurface
+                        : colors.surfaceBright,
                   ),
                 ),
               )

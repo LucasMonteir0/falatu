@@ -10,6 +10,7 @@ import "package:falatu_mobile/commons/ui/components/falatu_icon.dart";
 import "package:falatu_mobile/commons/ui/components/falatu_splash_effect.dart";
 import "package:falatu_mobile/commons/utils/enums/file_extension_enum.dart";
 import "package:falatu_mobile/commons/utils/enums/icons_enum.dart";
+import "package:falatu_mobile/commons/utils/enums/media_type_enum.dart";
 import "package:falatu_mobile/commons/utils/extensions/context_extensions.dart";
 import "package:falatu_mobile/commons/utils/extensions/num_extensions.dart";
 import "package:falatu_mobile/commons/utils/routes.dart";
@@ -54,7 +55,7 @@ class _PickFilesBottomSheetState extends State<PickFilesBottomSheet> {
   late final String _userId =
       Modular.get<SharedPreferencesService>().getUserId()!;
 
-  void _handleFiles(List<XFile> files, MediaType type) {
+  void _handleFiles(List<XFile> files, MediaTypeEnum type) {
     final params =
         MediaEditorPageParams(medias: files, type: type, chatId: widget.chatId);
     Modular.to.pushNamed(Routes.chats + Routes.mediaEditor, arguments: params);
@@ -86,7 +87,7 @@ class _PickFilesBottomSheetState extends State<PickFilesBottomSheet> {
                           final files =
                               await _picker.multipleImagesFromGallery();
                           if (files.isNotEmpty) {
-                            _handleFiles(files, MediaType.image);
+                            _handleFiles(files, MediaTypeEnum.image);
                           }
                         },
                       ),
@@ -96,7 +97,7 @@ class _PickFilesBottomSheetState extends State<PickFilesBottomSheet> {
                         onTap: () async {
                           final file = await _picker.videoFromGallery();
                           if (file != null) {
-                            _handleFiles([file], MediaType.video);
+                            _handleFiles([file], MediaTypeEnum.video);
                           }
                         },
                       ),
@@ -108,7 +109,7 @@ class _PickFilesBottomSheetState extends State<PickFilesBottomSheet> {
                         onTap: () async {
                           final file = await _picker.imageFromCamera();
                           if (file != null) {
-                            _handleFiles([file], MediaType.image);
+                            _handleFiles([file], MediaTypeEnum.image);
                           }
                         },
                       ),
@@ -118,7 +119,7 @@ class _PickFilesBottomSheetState extends State<PickFilesBottomSheet> {
                         onTap: () async {
                           final file = await _picker.videoFromCamera();
                           if (file != null) {
-                            _handleFiles([file], MediaType.video);
+                            _handleFiles([file], MediaTypeEnum.video);
                           }
                         },
                       ),

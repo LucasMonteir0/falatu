@@ -4,6 +4,7 @@ import "package:falatu_mobile/chat/core/domain/entities/message/file_message_ent
 import "package:falatu_mobile/chat/core/domain/entities/message/image_message_entity.dart";
 import "package:falatu_mobile/chat/core/domain/entities/message/message_entity.dart";
 import "package:falatu_mobile/chat/core/domain/entities/message/text_message_entity.dart";
+import "package:falatu_mobile/chat/core/domain/entities/message/video_message_entity.dart";
 import "package:falatu_mobile/chat/ui/blocs/add_old_messages/add_old_messages.dart";
 import "package:falatu_mobile/chat/ui/blocs/load_messages/load_messages_bloc.dart";
 import "package:falatu_mobile/chat/ui/blocs/load_messages/message_events.dart";
@@ -14,6 +15,7 @@ import "package:falatu_mobile/chat/ui/components/messages/file_message_card.dart
 import "package:falatu_mobile/chat/ui/components/messages/image_message_card.dart";
 import "package:falatu_mobile/chat/ui/components/messages/messages_list_view.dart";
 import "package:falatu_mobile/chat/ui/components/messages/text_message_card.dart";
+import "package:falatu_mobile/chat/ui/components/messages/video_message_card.dart";
 import "package:falatu_mobile/chat/ui/components/send_message/send_messages_section.dart";
 import "package:falatu_mobile/chat/utils/enums/message_type.dart";
 import "package:falatu_mobile/chat/utils/strings/tags.dart";
@@ -158,8 +160,11 @@ class _PrivateChatPageState extends State<PrivateChatPage> {
                               message: message as ImageMessageEntity,
                               isMe: isMe,
                             );
-                          default:
-                            return Text(message.id);
+                          case MessageType.video:
+                            return VideoMessageCard(
+                              key: ValueKey(message.id),
+                              message: message as VideoMessageEntity,
+                            );
                         }
                       },
                     );

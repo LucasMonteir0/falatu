@@ -41,6 +41,10 @@ extension DateTimeFormatter on DateTime {
     return DateFormat("HH:mm").format(this);
   }
 
+  String toDateAndTime() {
+    return DateFormat("dd/MM/yyyy HH:mm").format(this);
+  }
+
   DateTime subtractHours(int hours) {
     return subtract(Duration(hours: hours));
   }

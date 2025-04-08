@@ -11,4 +11,5 @@ class Routes {
   static const String groupChat = "/group-chat";
   static const String nonFriends = "/non-friends";
   static const String mediaEditor = "/media-editor";
+  static const String mediaDisplay = "/media-display";
 }
