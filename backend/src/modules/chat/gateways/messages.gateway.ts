@@ -17,7 +17,6 @@ import { MessageDatasource } from "../datasources/message/message.datasource";
 import { CreateMessageDto } from "../dtos/create_message.dto";
 import { ChatGateway } from "./chat.gateway";
 import { ChatDatasource } from "../datasources/chat/chat.datasource";
-import { MessageUtils } from "../utils/message.utils";
 import { MessageEntity } from "../entities/message.entity";
 
 @WebSocketGateway(81, { namespace: "/messages" })
@@ -113,7 +112,7 @@ export class MessageGateway
 
     const { page } = data;
     if (!chatId || !page) {
-      return new BadRequestError("chatId and message are required.");
+      return new BadRequestError("chatId and page are required.");
     }
 
     return this.emitMessagesToChat(this.server, chatId, userId, page);

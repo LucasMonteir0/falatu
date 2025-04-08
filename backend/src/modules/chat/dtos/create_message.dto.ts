@@ -12,6 +12,8 @@ export class CreateMessageDto {
 
   public mediaUrl?: string;
 
+  public thumbUrl?: string;
+
   constructor({
     senderId,
     type,

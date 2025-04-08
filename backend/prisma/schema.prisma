@@ -48,6 +48,7 @@ model Message {
   type         String
   text         String?
   media_url    String?
+  thumb_url    String?
   sender       User          @relation(fields: [senderId], references: [id], onDelete: Cascade)
   chatMessages ChatMessage[]
   messageReads MessageRead[]

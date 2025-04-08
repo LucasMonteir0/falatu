@@ -1,11 +1,6 @@
 import { compare } from "bcryptjs";
 import { ResultWrapper } from "../../../utils/result/ResultWrapper";
-
-import {
-  NotFoundError,
-  UnauthorizedError,
-  UnknownError,
-} from "../../../utils/result/AppError";
+import { NotFoundError, UnknownError } from "../../../utils/result/AppError";
 import { Injectable } from "@nestjs/common";
 import { AuthDatasource } from "./auth.datasource";
 import { SignInDTO } from "../dtos/sign_in.dto";
@@ -27,11 +22,15 @@ export class PrismaAuthDatasourceImpl implements AuthDatasource {
       where: { email: credentials.email },
     });
 
+    if (!user) {
+      const e = new NotFoundError("invalid e-mail or password");
+      return ResultWrapper.error(e);
+    }
 
     const { password, id } = user;
     const isPasswordValid = await compare(credentials.password, password);
 
-    if (!user || !isPasswordValid) {
+    if (!isPasswordValid) {
       const e = new NotFoundError("invalid e-mail or password");
       return ResultWrapper.error(e);
     }
@@ -59,9 +58,12 @@ export class PrismaAuthDatasourceImpl implements AuthDatasource {
       const { userId } = payload;
 
       const access = await this.jwtService.signAsync({ userId });
-      const refresh = await this.jwtService.signAsync({ userId }, {
-        expiresIn: "7d",
-      });
+      const refresh = await this.jwtService.signAsync(
+        { userId },
+        {
+          expiresIn: "7d",
+        }
+      );
 
       return ResultWrapper.success<AuthResponseDTO>({
         uid: payload.userId,

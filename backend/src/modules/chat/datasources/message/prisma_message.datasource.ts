@@ -81,6 +81,7 @@ export class PrismaMessageDatasourceImpl implements MessageDatasource {
             senderId: message.senderId,
             text: message.text,
             media_url: message.mediaUrl,
+            thumb_url: message.thumbUrl,
             Chat: { connect: { id: chatId } },
             chatMessages: {
               create: {
