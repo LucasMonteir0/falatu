@@ -20,9 +20,4 @@ class ChatRepositoryImpl implements ChatRepository {
   Future<ResultWrapper<Stream<List<ChatEntity>>>> loadChats() {
     return _datasource.loadChats();
   }
-
-  @override
-  void updateLastMessage({required String chatId, required String messageId}) {
-    return _datasource.updateLastMessage(chatId: chatId, messageId: messageId);
-  }
 }

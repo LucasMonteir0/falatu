@@ -7,6 +7,4 @@ abstract class ChatDatasource {
 
   ResultWrapper<Stream<ChatEntity>> createChat(CreateChatModel params);
 
-  void updateLastMessage({required String chatId, required String messageId});
-
 }

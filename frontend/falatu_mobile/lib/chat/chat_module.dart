@@ -22,8 +22,6 @@ import "package:falatu_mobile/chat/core/domain/usecases/load_chats/load_chats_us
 import "package:falatu_mobile/chat/core/domain/usecases/load_messages/load_messages_use_case.dart";
 import "package:falatu_mobile/chat/core/domain/usecases/load_messages/load_messages_use_case_impl.dart";
 import "package:falatu_mobile/chat/core/domain/usecases/send_message/send_message_use_case.dart";
-import "package:falatu_mobile/chat/core/domain/usecases/update_last_message/update_last_message_use_case.dart";
-import "package:falatu_mobile/chat/core/domain/usecases/update_last_message/update_last_message_use_case_impl.dart";
 import "package:falatu_mobile/chat/ui/blocs/add_old_messages/add_old_messages.dart";
 import "package:falatu_mobile/chat/ui/blocs/create_chat/create_chat_bloc.dart";
 import "package:falatu_mobile/chat/ui/blocs/load_chats/load_chats_bloc.dart";
@@ -60,8 +58,6 @@ class ChatModule extends Module {
         Bind.factory<LoadChatsUseCase>((i) => LoadChatsUseCaseImpl(i())),
         Bind.factory<LoadMessagesUseCase>((i) => LoadMessagesUseCaseImpl(i())),
         Bind.factory<SendMessageUseCase>((i) => SendMessageUseCaseImpl(i())),
-        Bind.factory<UpdateLastMessageUseCase>(
-            (i) => UpdateLastMessageUseCaseImpl(i())),
         Bind.factory<AddOldMessagesUseCase>(
             (i) => AddOldMessagesUseCaseImpl(i())),
         Bind.factory<CreateChatUseCase>((i) => CreateChatUseCaseImpl(i())),

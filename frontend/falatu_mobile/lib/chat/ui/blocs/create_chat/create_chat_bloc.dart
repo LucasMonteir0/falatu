@@ -17,7 +17,10 @@ class CreateChatBloc extends Bloc<CreateChatEvents, BaseState> {
     final result = _useCase
         .call(CreateChatEntity(type: event.type, usersIds: event.usersIds));
     if (result.success) {
-      await emit.forEach(result.data!, onData: SuccessState<ChatEntity>.new);
+      await emit.forEach(result.data!, onData: (data) {
+        print(data);
+        return SuccessState<ChatEntity>(data);
+      },);
     } else {
       emit(ErrorState(result.error));
     }

@@ -8,6 +8,7 @@ import "package:falatu_mobile/commons/core/domain/entities/base_error.dart";
 import "package:falatu_mobile/commons/core/domain/entities/result_wrapper.dart";
 import "package:falatu_mobile/commons/core/domain/services/shared_preferences_services/shared_preferences_services.dart";
 import "package:falatu_mobile/commons/core/domain/services/socket_io_service/socket_io_service.dart";
+import "package:falatu_mobile/commons/utils/errors/errors.dart";
 import "package:falatu_mobile/commons/utils/helpers/url_helpers.dart";
 
 class ChatDatasourceImpl implements ChatDatasource {
@@ -56,15 +57,19 @@ class ChatDatasourceImpl implements ChatDatasource {
 
   @override
   ResultWrapper<Stream<ChatEntity>> createChat(CreateChatModel params) {
-    _socket.emit("create", params.toJson());
-    _socket.on(
-      "createdChat",
-      (e) {
-        _createdChatStream
-            .add(ChatModel.fromJson(e, _extractOtherUser(e)).toEntity());
-      },
-    );
-    return ResultWrapper.success(_createdChatStream.stream);
+    try {
+      _socket.emit("create", params.toJson());
+      _socket.on(
+        "createdChat",
+        (e) {
+          _createdChatStream
+              .add(ChatModel.fromJson(e, _extractOtherUser(e)).toEntity());
+        },
+      );
+      return ResultWrapper.success(_createdChatStream.stream);
+    } catch (e) {
+      return ResultWrapper.error(UnknownError(message: e.toString()));
+    }
   }
 
   Map<String, dynamic> _extractOtherUser(Map<String, dynamic> json) {
@@ -73,11 +78,5 @@ class ChatDatasourceImpl implements ChatDatasource {
           .firstWhere((e) => e["id"] != _userId);
     }
     return {};
-  }
-
-  @override
-  void updateLastMessage({required String chatId, required String messageId}) {
-    _socket
-        .emit("updateLastMessage", {"chatId": chatId, "messageId": messageId});
   }
 }

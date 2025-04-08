@@ -218,22 +218,24 @@ class _PasswordCriteria extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      spacing: 4,
-      children: [
-        _PasswordTile(
-            label: context.i18n.atLeastSixCharacters,
-            validation: password.length >= 6),
-        _PasswordTile(
-            label: context.i18n.shouldHaveAtLeastOneDigit,
-            validation: _digitRegex.hasMatch(password)),
-        _PasswordTile(
-            label: context.i18n.shouldHaveBothUpperAndLowerCaseLetters,
-            validation: _upperAndLowCaseLetterRegex.hasMatch(password)),
-        _PasswordTile(
-            label: context.i18n.shouldHaveAtLeastOneSpecialCharacter,
-            validation: _specialCharacterRegex.hasMatch(password)),
-      ],
+    return IntrinsicHeight(
+      child: Column(
+        spacing: 4,
+        children: [
+          _PasswordTile(
+              label: context.i18n.atLeastSixCharacters,
+              validation: password.length >= 6),
+          _PasswordTile(
+              label: context.i18n.shouldHaveAtLeastOneDigit,
+              validation: _digitRegex.hasMatch(password)),
+          _PasswordTile(
+              label: context.i18n.shouldHaveBothUpperAndLowerCaseLetters,
+              validation: _upperAndLowCaseLetterRegex.hasMatch(password)),
+          _PasswordTile(
+              label: context.i18n.shouldHaveAtLeastOneSpecialCharacter,
+              validation: _specialCharacterRegex.hasMatch(password)),
+        ],
+      ),
     );
   }
 }
@@ -269,7 +271,7 @@ class _PasswordTile extends StatelessWidget {
           color: _getColor(context),
           size: 18,
         ),
-        Text(label),
+        Flexible(child: Text(label, maxLines: 2)),
       ],
     );
   }
