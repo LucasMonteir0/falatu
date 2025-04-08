@@ -9,10 +9,10 @@ import {
   ConnectedSocket,
 } from "@nestjs/websockets";
 import { Server, Socket } from "socket.io";
-import { BadRequestError } from "src/utils/result/AppError";
+import { BadRequestError } from "src/modules/commons/utils/result/AppError";
 import { ChatDatasource } from "../datasources/chat/chat.datasource";
 import { JwtService } from "@nestjs/jwt";
-import { PrismaService } from "src/utils/config/database/prisma.service";
+import { PrismaService } from "src/modules/commons/utils/config/database/prisma.service";
 import { AuthSocketMiddleware } from "src/modules/commons/middlewares/auth_socket.middleware";
 import { CreateChatDTO } from "../dtos/create_chat.dto";
 

@@ -1,7 +1,7 @@
 import { Message, MessageRead, User } from "@prisma/client";
-import { MessageType } from "../enums/message_type.enum";
+import { MessageType } from "../utils/enums/message_type.enum";
 import { UserEntity } from "../../commons/entities/user.entity";
-import { MessageUtils } from "../utils/message.utils";
+import { MessageHelper } from "../utils/message.helper";
 import { MessageReadEntity } from "./message_read.entity";
 
 export type MessageEntityParams = {
@@ -45,7 +45,7 @@ export class MessageEntity {
     return new MessageEntity({
       id: message.id,
       sender: UserEntity.fromPrisma(message.sender),
-      type: MessageUtils.fromValue(message.type),
+      type: MessageHelper.fromValue(message.type),
       createdAt: message.createdAt,
       text: message.text,
       mediaUrl: message.media_url,

@@ -2,18 +2,18 @@ import { Injectable } from "@nestjs/common";
 import { CreateChatDTO } from "../../dtos/create_chat.dto";
 import { ChatEntity } from "../../entities/chat.entity";
 import { ChatDatasource } from "./chat.datasource";
-import { PrismaService } from "src/utils/config/database/prisma.service";
+import { PrismaService } from "src/modules/commons/utils/config/database/prisma.service";
 import {
   BadRequestError,
   ConflictError,
   NotFoundError,
   UnknownError,
-} from "src/utils/result/AppError";
-import { ResultWrapper } from "src/utils/result/ResultWrapper";
+} from "src/modules/commons/utils/result/AppError";
+import { ResultWrapper } from "src/modules/commons/utils/result/ResultWrapper";
 import { ChatUserEntity } from "../../entities/chat_user.entity";
-import { ChatUtils } from "../../utils/chat.utils";
-import { ChatRole } from "../../enums/chat_role.enum";
-import { QueryHelper } from "src/utils/helpers/query.helper";
+import { ChatHelper } from "../../utils/chat.helper";
+import { ChatRole } from "../../utils/enums/chat_role.enum";
+import { QueryHelper } from "src/modules/commons/utils/helpers/query.helper";
 
 @Injectable()
 export class PrismaChatDatasourceImpl implements ChatDatasource {
@@ -59,7 +59,7 @@ export class PrismaChatDatasourceImpl implements ChatDatasource {
 
       return ResultWrapper.success(
         chat.userChats.map((c) =>
-          ChatUserEntity.fromPrisma(c.user, ChatUtils.roleFromValue(c.role))
+          ChatUserEntity.fromPrisma(c.user, ChatHelper.roleFromValue(c.role))
         )
       );
     } catch (e) {

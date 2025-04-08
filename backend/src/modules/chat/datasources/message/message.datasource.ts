@@ -1,4 +1,4 @@
-import { ResultWrapper } from "src/utils/result/ResultWrapper";
+import { ResultWrapper } from "src/modules/commons/utils/result/ResultWrapper";
 import { MessageEntity } from "../../entities/message.entity";
 import { CreateMessageDto } from "../../dtos/create_message.dto";
 

@@ -11,8 +11,8 @@ import {
 } from "@nestjs/websockets";
 import { Server, Socket } from "socket.io";
 import { AuthSocketMiddleware } from "src/modules/commons/middlewares/auth_socket.middleware";
-import { PrismaService } from "src/utils/config/database/prisma.service";
-import { BadRequestError } from "src/utils/result/AppError";
+import { PrismaService } from "src/modules/commons/utils/config/database/prisma.service";
+import { BadRequestError } from "src/modules/commons/utils/result/AppError";
 import { MessageDatasource } from "../datasources/message/message.datasource";
 import { CreateMessageDto } from "../dtos/create_message.dto";
 import { ChatGateway } from "./chat.gateway";

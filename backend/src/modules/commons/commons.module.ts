@@ -1,5 +1,5 @@
 import { Global, Module } from "@nestjs/common";
-import { jwtSecret } from "../../utils/constants";
+import { jwtSecret } from "./utils/constants";
 import { JwtModule } from "@nestjs/jwt";
 
 @Global()

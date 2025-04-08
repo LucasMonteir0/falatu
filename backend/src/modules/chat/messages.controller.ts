@@ -11,11 +11,11 @@ import { MessageDatasource } from "./datasources/message/message.datasource";
 import {
   BucketOptions,
   BucketService,
-} from "src/utils/config/bucket/bucket.service";
+} from "src/modules/commons/utils/config/bucket/bucket.service";
 import { FileInterceptor } from "@nestjs/platform-express";
 import { UploadMessageFileDTO } from "./dtos/upload_message_file.dto";
-import { MessageUtils } from "./utils/message.utils";
-import { FileHelper } from "src/utils/helpers/file.helper";
+import { MessageHelper } from "./utils/message.helper";
+import { FileHelper } from "src/modules/commons/utils/helpers/file.helper";
 
 @Controller("messages")
 export class MessageController {
@@ -48,7 +48,7 @@ export class MessageController {
 
     const bucketOptions: BucketOptions = {
       path: `chats/${chatId}`,
-      fileName: MessageUtils.handleFileMessageName(type, fileParts[0]),
+      fileName: MessageHelper.handleFileMessageName(type, fileParts[0]),
       extension: extension,
       file: file,
       contentType: FileHelper.getContentTypeFromExtension(extension),

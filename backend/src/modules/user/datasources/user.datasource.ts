@@ -1,4 +1,4 @@
-import { ResultWrapper } from "../../../utils/result/ResultWrapper";
+import { ResultWrapper } from "../../commons/utils/result/ResultWrapper";
 import { UserEntity } from "../../commons/entities/user.entity";
 import { CreateUserDTO } from "../dtos/create_user.dto";
 

@@ -1,16 +1,15 @@
 import { Injectable } from "@nestjs/common";
-import { PrismaService } from "src/utils/config/database/prisma.service";
-import { ResultWrapper } from "src/utils/result/ResultWrapper";
+import { PrismaService } from "src/modules/commons/utils/config/database/prisma.service";
+import { ResultWrapper } from "src/modules/commons/utils/result/ResultWrapper";
 import { MessageDatasource } from "./message.datasource";
 import { CreateMessageDto } from "../../dtos/create_message.dto";
 import { MessageEntity } from "../../entities/message.entity";
-import { UnknownError, NotFoundError } from "src/utils/result/AppError";
-import { QueryHelper } from "src/utils/helpers/query.helper";
 import {
-  BucketOptions,
-  BucketService,
-} from "src/utils/config/bucket/bucket.service";
-import { MessageUtils } from "../../utils/message.utils";
+  UnknownError,
+  NotFoundError,
+} from "src/modules/commons/utils/result/AppError";
+import { QueryHelper } from "src/modules/commons/utils/helpers/query.helper";
+import { BucketService } from "src/modules/commons/utils/config/bucket/bucket.service";
 
 @Injectable()
 export class PrismaMessageDatasourceImpl implements MessageDatasource {

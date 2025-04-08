@@ -1,12 +1,12 @@
 import { JwtService } from "@nestjs/jwt";
 import { Socket } from "socket.io";
-import { PrismaService } from "src/utils/config/database/prisma.service";
-import { QueryHelper } from "src/utils/helpers/query.helper";
+import { PrismaService } from "src/modules/commons/utils/config/database/prisma.service";
+import { QueryHelper } from "src/modules/commons/utils/helpers/query.helper";
 import {
   ConflictError,
   NotFoundError,
   UnauthorizedError,
-} from "src/utils/result/AppError";
+} from "src/modules/commons/utils/result/AppError";
 
 type SocketMiddleware = (socket: Socket, next: (err?: Error) => void) => void;
 

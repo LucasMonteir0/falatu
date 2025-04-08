@@ -1,7 +1,7 @@
-import { ChatRole } from "../enums/chat_role.enum";
-import { ChatType } from "../enums/chat_type.enum";
+import { ChatRole } from "./enums/chat_role.enum";
+import { ChatType } from "./enums/chat_type.enum";
 
-export class ChatUtils {
+export class ChatHelper {
   static typeFromValue(value: string): ChatType {
     switch (value) {
       case "private":
@@ -23,6 +23,4 @@ export class ChatUtils {
         return ChatRole.MEMBER;
     }
   }
-
-
 }

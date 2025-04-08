@@ -1,4 +1,3 @@
-import * as dotenv from "dotenv";
 import { dotEnvConfig } from "./dotenv.config";
 
 dotEnvConfig();

@@ -1,7 +1,7 @@
 import { Body, Controller, Post } from "@nestjs/common";
 import { AuthDatasource } from "./datasources/auth.datasource";
 import { SignInDTO } from "./dtos/sign_in.dto";
-import { Public } from "../../utils/constants";
+import { Public } from "../commons/utils/constants";
 
 @Controller("auth")
 export class AuthController {

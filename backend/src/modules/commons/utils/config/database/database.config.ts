@@ -1,5 +1,6 @@
 import { dotEnvConfig } from "../dotenv.config";
 
+
 dotEnvConfig();
 
 const dbUser = process.env.DB_USER;

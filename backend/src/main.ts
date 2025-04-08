@@ -1,8 +1,8 @@
 import { NestFactory } from "@nestjs/core";
 import { AppModule } from "./app.module";
-import { CustomValidationPipe } from "./utils/pipes/custom_validation.pipe";
-import { processDatabaseUrl } from "./utils/config/database/database.config";
-import { dotEnvConfig } from "./utils/config/dotenv.config";
+import { CustomValidationPipe } from "./modules/commons/utils/pipes/custom_validation.pipe";
+import { processDatabaseUrl } from "./modules/commons/utils/config/database/database.config";
+import { dotEnvConfig } from "./modules/commons/utils/config/dotenv.config";
 
 dotEnvConfig();
 

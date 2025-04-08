@@ -1,9 +1,5 @@
-import {
-  IsEmail,
-  IsStrongPassword,
-  Length,
-} from "class-validator";
-import { Match } from "src/utils/validators/match";
+import { IsEmail, IsStrongPassword, Length } from "class-validator";
+import { Match } from "src/modules/commons/utils/validators/match";
 
 export class CreateUserDTO {
   @IsEmail()

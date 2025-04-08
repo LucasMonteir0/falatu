@@ -1,4 +1,4 @@
-import { ChatRole } from "../enums/chat_role.enum";
+import { ChatRole } from "../utils/enums/chat_role.enum";
 import { User } from "@prisma/client";
 
 export class ChatUserEntity {

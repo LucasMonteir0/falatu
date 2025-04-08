@@ -1,15 +1,18 @@
 import { UserDatasource } from "./user.datasource";
 import { hash } from "bcryptjs";
-import { ResultWrapper } from "../../../utils/result/ResultWrapper";
-import { ConflictError, NotFoundError } from "../../../utils/result/AppError";
-import { PrismaService } from "src/utils/config/database/prisma.service";
+import { ResultWrapper } from "../../commons/utils/result/ResultWrapper";
+import {
+  ConflictError,
+  NotFoundError,
+} from "../../commons/utils/result/AppError";
+import { PrismaService } from "src/modules/commons/utils/config/database/prisma.service";
 import { UserEntity } from "../../commons/entities/user.entity";
 import { CreateUserDTO } from "../dtos/create_user.dto";
 import { Inject } from "@nestjs/common";
 import {
   BucketOptions,
   BucketService,
-} from "src/utils/config/bucket/bucket.service";
+} from "src/modules/commons/utils/config/bucket/bucket.service";
 
 export class PrismaUserDatasourceImpl implements UserDatasource {
   @Inject()

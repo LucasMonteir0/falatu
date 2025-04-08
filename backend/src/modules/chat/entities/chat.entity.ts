@@ -1,6 +1,6 @@
 import { Chat, Message, MessageRead, User, UserChat } from "@prisma/client";
-import { ChatType } from "../enums/chat_type.enum";
-import { ChatUtils } from "../utils/chat.utils";
+import { ChatType } from "../utils/enums/chat_type.enum";
+import { ChatHelper } from "../utils/chat.helper";
 import { ChatUserEntity } from "./chat_user.entity";
 import { MessageEntity } from "./message.entity";
 
@@ -48,11 +48,11 @@ export class ChatEntity {
   ): ChatEntity {
     return new ChatEntity(
       chat.id,
-      ChatUtils.typeFromValue(chat.type),
+      ChatHelper.typeFromValue(chat.type),
       chat.title,
       chat.picture_url,
       chat.userChats.map((e) =>
-        ChatUserEntity.fromPrisma(e.user, ChatUtils.roleFromValue(e.role))
+        ChatUserEntity.fromPrisma(e.user, ChatHelper.roleFromValue(e.role))
       ),
       chat.lastMessage ? MessageEntity.fromPrisma(chat.lastMessage) : null,
       unreadCount,

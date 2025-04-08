@@ -1,7 +1,7 @@
 import { MessageEntity } from "../entities/message.entity";
-import { MessageType } from "../enums/message_type.enum";
+import { MessageType } from "./enums/message_type.enum";
 
-export class MessageUtils {
+export class MessageHelper {
   static fromValue(value: string): MessageType {
     switch (value) {
       case "text":
