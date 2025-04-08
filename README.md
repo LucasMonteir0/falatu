@@ -12,8 +12,8 @@ imagem e vídeo**.
 
 ### 🛠️ Backend
 
-O backend foi desenvolvido com **Node.js v20.10.0** utilizando o ecossistema **NestJS**, com banco de dados **PostgreSQL
-**, **Firebase Storage** para armazenamento de arquivos e **WebSockets** nativos do NestJS para comunicação em tempo
+O backend foi desenvolvido com **Node.js v20.10.0** utilizando o ecossistema **NestJS**, com banco de dados **PostgreSQL**,
+**Firebase Storage** para armazenamento de arquivos e **WebSockets** nativos do NestJS para comunicação em tempo
 real.
 
 #### 🔧 Tecnologias:
@@ -127,8 +127,8 @@ creation of chats with new contacts, and sending messages in various formats: **
 
 ### 🛠️ Backend
 
-The backend is built with **Node.js v20.10.0** using the **NestJS** ecosystem, with a **PostgreSQL** database, *
-*Firebase Storage** for file storage, and **NestJS WebSocket Gateway** for real-time communication.
+The backend is built with **Node.js v20.10.0** using the **NestJS** ecosystem, with a **PostgreSQL** database, 
+**Firebase Storage** for file storage, and **NestJS WebSocket Gateway** for real-time communication.
 
 #### 🔧 Technologies:
 
